@@ -121,6 +121,5 @@ STATIC_URL = '/static/'
 
 ALLOWED_HOSTS = [
     'partisan-env.eba-rpuwtsbm.us-west-2.elasticbeanstalk.com',
-    '127.0.0.1',
-    '52.26.5.96'
+    '127.0.0.1'
 ]
