@@ -1,0 +1,29 @@
+version: 0.1
+os: linux
+files:
+ - source: '*'
+   destination: /opt/python/bundle/3/app
+
+permissions:
+  - object: /opt/python/bundle/3/app/manage.py
+    owner: ec2-user
+    mode: 644
+    type:
+      - file
+
+hooks:
+  AfterInstall:
+    - location: scripts/install_dependencies
+      timeout: 300
+      runas: root
+    - location: scripts/codestar_remote_access
+      timeout: 300
+      runas: root
+    - location: scripts/start_server
+      timeout: 300
+      runas: root
+
+  ApplicationStop:
+    - location: scripts/stop_server
+      timeout: 300
+      runas: root
