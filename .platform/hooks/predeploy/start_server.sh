@@ -1,4 +1,4 @@
-command source /var/app/venv/staging-LQM1lest/bin/activate
-command cd /var/app/current
-command gunicorn django_project.wsgi
-command mkdir /home/ec2-user/helloworld
+source /var/app/venv/staging-LQM1lest/bin/activate
+cd /var/app/current
+gunicorn django_project.wsgi
+mkdir /home/ec2-user/helloworld

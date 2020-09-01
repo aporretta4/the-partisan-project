@@ -1,1 +1,1 @@
-command pip install -r /var/app/current/requirements.txt
+pip install -r /var/app/current/requirements.txt
