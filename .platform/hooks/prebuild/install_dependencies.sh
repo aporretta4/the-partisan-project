@@ -1,2 +1,2 @@
-# pip install -r /var/app/current/requirements.txt
-echo "hello world"
+#!/bin/bash
+pip install -r /var/app/current/requirements.txt
