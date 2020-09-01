@@ -1,4 +1,3 @@
-cd /opt/python/current
-python3 -m venv partisanproject-env
-source /opt/python/current/partisanproject-env
-python manage.py runserver
+source /var/app/venv/staging-LQM1lest/bin/activate
+cd /var/app/current
+python3 manage.py runserver

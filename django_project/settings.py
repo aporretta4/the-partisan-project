@@ -120,7 +120,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 ALLOWED_HOSTS = [
-    'PartisanProject-stage.eba-d2vjkx3p.us-west-2.elasticbeanstalk.com',
     '127.0.0.1',
-    'ThePartisanProject-test2.us-west-2.elasticbeanstalk.com'
+    'ThePartisanProject-test2.us-west-2.elasticbeanstalk.com',
+    '*'
 ]
