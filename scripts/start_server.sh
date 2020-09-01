@@ -1,4 +1,4 @@
-source /var/app/venv/staging-LQM1lest/bin/activate
-cd /var/app/current
-python3 manage.py runserver
-mkdir /home/ec2-user/helloworld
+command source /var/app/venv/staging-LQM1lest/bin/activate
+command cd /var/app/current
+command gunicorn django_project.wsgi
+command mkdir /home/ec2-user/helloworld
