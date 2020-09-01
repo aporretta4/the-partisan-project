@@ -2,10 +2,10 @@ version: 0.1
 os: linux
 files:
  - source: '*'
-   destination: /opt/python/bundle/3/app
+   destination: /var/app/current
 
 permissions:
-  - object: /opt/python/bundle/3/app/manage.py
+  - object: /var/app/current/manage.py
     owner: ec2-user
     mode: 644
     type:
