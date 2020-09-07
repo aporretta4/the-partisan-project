@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
+from django_project.custom_aws.secrets import secrets_interactor
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,7 +22,13 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+i!hnk^i)73yg@w%s#1rps9b5miie(s6ooru1bsug)4bbkidq8'
+if "env" in os.environ:
+    if os.environ["env"] == "prod":
+        SECRET_KEY = "prodkey"
+    elif os.environ["env"] == "test":
+        SECRET_KEY = secrets_interactor.getSecret('pp_test_secret_key')
+else:
+    SECRET_KEY = "+i!hnk^i)73yg@w%s#1rps9b5miie(s6ooru1bsug)4bbkidq8"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
