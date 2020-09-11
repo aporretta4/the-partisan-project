@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+import subprocess
 from django_project.custom_aws.secrets import secrets_interactor
 from pathlib import Path
 
@@ -22,19 +23,24 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if "env" in os.environ:
-    if os.environ["env"] == "prod":
-        SECRET_KEY = "prodkey"
-    elif os.environ["env"] == "test":
-        SECRET_KEY = secrets_interactor.getSecret('pp_test_secret_key')
+ENVORNMENT = "local"
+
+try:
+    env_conv = subprocess.Popen(["/opt/elasticbeanstalk/bin/get-config", "environment", "-k", "env"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    ENVORNMENT = env_conv.stdout.read().decode("UTF-8").replace("'b", "").replace("'", "")
+except:
+    ENVORNMENT = "local"
+
+if ENVORNMENT == "prod":
+    SECRET_KEY = "prodkey"
+elif ENVORNMENT == "test":
+    SECRET_KEY = secrets_interactor.getSecret('pp_test_secret_key')
 else:
     SECRET_KEY = "+i!hnk^i)73yg@w%s#1rps9b5miie(s6ooru1bsug)4bbkidq8"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+if ENVORNMENT != "prod":
+    DEBUG = True
 
 # Application definition
 
@@ -112,15 +118,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
