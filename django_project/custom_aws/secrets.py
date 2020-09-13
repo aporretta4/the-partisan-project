@@ -11,15 +11,11 @@ class secrets_interactor:
     @staticmethod
     def getSecret(secret_name, region_name = 'us-west-2'):
         secret = ""
-        # Create a Secrets Manager client
         session = boto3.session.Session()
         client = session.client(
             service_name='secretsmanager',
             region_name=region_name
         )
-        # In this sample we only handle the specific exceptions for the 'GetSecretValue' API.
-        # See https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
-        # We rethrow the exception by default.
         try:
             get_secret_value_response = client.get_secret_value(
                 SecretId=secret_name
@@ -53,4 +49,4 @@ class secrets_interactor:
             else:
                 secret = base64.b64decode(get_secret_value_response['SecretBinary'])
         decoded_json = json.loads(secret)
-        return decoded_json['secret_key']
+        return decoded_json
