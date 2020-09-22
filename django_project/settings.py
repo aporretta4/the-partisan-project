@@ -103,7 +103,7 @@ if ENVORNMENT != 'local':
     DATABASES['default']['NAME'] = db_creds['dbname']
     DATABASES['default']['USER'] = db_creds['username']
     DATABASES['default']['PASSWORD'] = db_creds['password']
-    DATABASES['default']['HOST'] = getEnvVariable('RDS_HOSTNAME')
+    DATABASES['default']['HOST'] = db_creds['host']
 else:
     DATABASES['default']['NAME'] = 'partisan'
     DATABASES['default']['USER'] = 'root'
