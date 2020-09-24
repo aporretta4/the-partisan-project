@@ -1,1 +1,1 @@
-#comment
+echo 'hello world'
