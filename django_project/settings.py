@@ -103,7 +103,7 @@ if ENVORNMENT != 'local':
     DATABASES['default']['NAME'] = db_creds['dbname']
     DATABASES['default']['USER'] = db_creds['username']
     DATABASES['default']['PASSWORD'] = db_creds['password']
-    DATABASES['default']['HOST'] = db_creds['host']
+    DATABASES['default']['HOST'] = db_creds['host'] #comment included
 else:
     DATABASES['default']['NAME'] = 'partisan'
     DATABASES['default']['USER'] = 'root'
