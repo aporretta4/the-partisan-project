@@ -1,2 +1,2 @@
 #!/bin/bash
-pip install -r /var/app/current/requirements.txt
+pip install -r /var/app/staging/requirements.txt

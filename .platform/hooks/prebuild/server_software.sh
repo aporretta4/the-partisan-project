@@ -13,5 +13,5 @@ easy_install supervisor
 if [ ! -d "/etc/supervisor" ]; then
   mkdir /etc/supervisor
 fi
-cp /var/app/current/.platform/hooks/prebuild/copy_files/supervisor.conf /etc/supervisor/supervisor.conf
-cp /var/app/current/.platform/hooks/prebuild/copy_files/supervisord /usr/bin/supervisord
+cp /var/app/staging/.platform/hooks/prebuild/copy_files/supervisor.conf /etc/supervisor/supervisor.conf
+cp /var/app/staging/.platform/hooks/prebuild/copy_files/supervisord /usr/bin/supervisord
