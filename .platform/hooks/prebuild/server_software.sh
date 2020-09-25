@@ -15,3 +15,6 @@ if [ ! -d "/etc/supervisor" ]; then
 fi
 cp /var/app/staging/.platform/hooks/prebuild/copy_files/supervisor.conf /etc/supervisor/supervisor.conf
 cp /var/app/staging/.platform/hooks/prebuild/copy_files/supervisord /usr/bin/supervisord
+
+# Pip dependencies for app.
+pip install -r /var/app/staging/requirements.txt
