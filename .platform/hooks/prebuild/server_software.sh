@@ -6,6 +6,7 @@ yum -y update
 mysqltest=`yum list installed bind`
 if [ "$mysqltest"="Error: No matching Packages to list" ]; then
   yum install -y mysql
+  sudo easy_install mysql-python
 fi
 
 #Supervisor
