@@ -7,10 +7,6 @@
             "Description": "VpcId of your existing Virtual Private Cloud (VPC)",
             "ConstraintDescription": "must be the VPC Id of an existing Virtual Private Cloud."
         },
-        "DjangoSecretKey": {
-            "Type": "String",
-            "Description": "Provides Cryptographic Signing for Django"
-        },
         "Subnets": {
             "Type": "List<AWS::EC2::Subnet::Id>",
             "Description": "The list of SubnetIds in your Virtual Private Cloud (VPC)",
@@ -1070,8 +1066,8 @@
                 "Name": {
                     "Fn::Sub": "${AWS::StackName}-PPSecretKey"
                 },
-                "SecretString": {
-                    "Ref": "DjangoSecretKey"
+                "GenerateSecretString": {
+                    "PasswordLength": 32
                 }
             },
             "Metadata": {
