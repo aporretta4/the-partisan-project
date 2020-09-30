@@ -11,6 +11,5 @@ phases:
       # - python manage.py test
 artifacts:
   files:
-    # - my-web-app.war
     - '*'
     - '**/*'
