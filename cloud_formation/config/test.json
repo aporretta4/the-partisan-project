@@ -1,5 +1,5 @@
 {
-  "parameters": {
+  "Parameters": {
     "KeyName": "EC2CAN",
     "OperatorEMail": "angelocp4@gmail.com",
     "Subnets": [
