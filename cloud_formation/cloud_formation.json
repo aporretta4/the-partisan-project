@@ -635,7 +635,9 @@
                                 "nginx": [],
                                 "python34": [],
                                 "python34-pip": [],
-                                "mysql": []
+                                "mysql": [],
+                                "ruby": [],
+                                "wget": []
                             }
                         },
                         "files": {
@@ -844,6 +846,12 @@
                                 "yum update -y aws-cfn-bootstrap\n",
                                 "yum update -y aws-cli\n",
                                 "yum update -y\n",
+                                "yum install ruby",
+                                "cd /home/ec2-user",
+                                "wget https://aws-codedeploy-us-west-2.s3.us-west-2.amazonaws.com/latest/install",
+                                "chmod +x ./install",
+                                "service codedeploy-agent start",
+                                "./install auto",
                                 "/opt/aws/bin/cfn-init -v ",
                                 "         --stack ",
                                 {
@@ -1120,6 +1128,28 @@
                                     "Effect": "Allow",
                                     "Action": "secretsmanager:ListSecrets",
                                     "Resource": "*"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "PolicyName": "S3DeploymentGrab",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Sid": "VisualEditor0",
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "s3:GetObject",
+                                        "s3:GetObjectVersionTagging",
+                                        "s3:ListBucket",
+                                        "s3:GetObjectVersion"
+                                    ],
+                                    "Resource": [
+                                        "arn:aws:s3:::elasticbeanstalk-us-west-2-054058811484",
+                                        "arn:aws:s3:::elasticbeanstalk-us-west-2-054058811484/*"
+                                    ]
                                 }
                             ]
                         }
