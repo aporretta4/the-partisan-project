@@ -1,6 +1,12 @@
 version: 0.0
 os: linux
 files:
- - source: '*'
+ - source: '/'
    destination: /var/app/current
 
+permissions:
+  - object: /var/app/current/manage.py
+    owner: ec2-user
+    mode: 644
+    type:
+      - file
