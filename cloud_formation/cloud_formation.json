@@ -636,11 +636,16 @@
                                 "python34": [],
                                 "python34-pip": [],
                                 "mysql": [],
-                                "ruby": [],
-                                "wget": []
+                                "ruby" : []
                             }
                         },
                         "files": {
+                            "/home/ec2-user/install" : {
+                                "source" : {"Fn::Join" : ["", ["https://aws-codedeploy-", {"Ref" : "AWS::Region"}, ".s3.amazonaws.com/latest/install"]]},
+                                "mode" : "000755",
+                                "owner": "ec2-user",
+                                "group": "ec2-user"
+                            },
                             "/usr/bin/supervisord": {
                                 "content": {
                                     "Fn::Join": [
@@ -798,6 +803,12 @@
                                     ]
                                 }
                             }
+                        },
+                        "commands" : {
+                            "00-install-agent" : {
+                                "command" : "./install auto",
+                                "cwd" : "/home/ec2-user/"
+                            }
                         }
                     }
                 },
@@ -846,12 +857,6 @@
                                 "yum update -y aws-cfn-bootstrap\n",
                                 "yum update -y aws-cli\n",
                                 "yum update -y\n",
-                                "yum install ruby",
-                                "cd /home/ec2-user",
-                                "wget https://aws-codedeploy-us-west-2.s3.us-west-2.amazonaws.com/latest/install",
-                                "chmod +x ./install",
-                                "service codedeploy-agent start",
-                                "./install auto",
                                 "/opt/aws/bin/cfn-init -v ",
                                 "         --stack ",
                                 {
