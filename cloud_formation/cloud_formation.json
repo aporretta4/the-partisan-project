@@ -636,13 +636,24 @@
                                 "python34": [],
                                 "python34-pip": [],
                                 "mysql": [],
-                                "ruby" : []
+                                "ruby": []
                             }
                         },
                         "files": {
-                            "/home/ec2-user/install" : {
-                                "source" : {"Fn::Join" : ["", ["https://aws-codedeploy-", {"Ref" : "AWS::Region"}, ".s3.amazonaws.com/latest/install"]]},
-                                "mode" : "000755",
+                            "/home/ec2-user/install": {
+                                "source": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "https://aws-codedeploy-",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            ".s3.amazonaws.com/latest/install"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000755",
                                 "owner": "ec2-user",
                                 "group": "ec2-user"
                             },
@@ -804,10 +815,10 @@
                                 }
                             }
                         },
-                        "commands" : {
-                            "00-install-agent" : {
-                                "command" : "./install auto",
-                                "cwd" : "/home/ec2-user/"
+                        "commands": {
+                            "00-install-agent": {
+                                "command": "./install auto",
+                                "cwd": "/home/ec2-user/"
                             }
                         }
                     }
@@ -1182,6 +1193,40 @@
                     "id": "87f011c5-f81f-48f0-9f17-e6ba6f0fe7d9"
                 }
             }
+        },
+        "AppDeploymentGroup": {
+            "Type": "AWS::CodeDeploy::DeploymentGroup",
+            "Properties": {
+                "ApplicationName": "PartisanProject",
+                "DeploymentGroupName": {
+                    "Fn::Sub": "PartisanProject-${AWS::StackName}"
+                },
+                "ServiceRoleArn": "arn:aws:iam::054058811484:role/service-role/AWSCodePipelineServiceRole-us-west-2-PartisanProjectBeanstalk",
+                "DeploymentStyle": {
+                    "DeploymentType": "IN_PLACE",
+                    "DeploymentOption": "WITH_TRAFFIC_CONTROL"
+                },
+                "AutoScalingGroups": [
+                    {
+                        "Ref": "WebServerGroup"
+                    }
+                ],
+                "DeploymentConfigName": "CodeDeployDefault.AllAtOnce",
+                "LoadBalancerInfo": {
+                    "TargetGroupInfoList": [
+                        {
+                            "Name": {
+                                "Fn::GetAtt": ["ALBTargetGroup", "TargetGroupName"]
+                            }
+                        }
+                    ]
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "84365e62-2aa9-4397-812d-be397d122afe"
+                }
+            }
         }
     },
     "Outputs": {
@@ -1390,6 +1435,21 @@
                 "embeds": [],
                 "isassociatedwith": [
                     "02ebc714-6ff7-4bc5-b4ce-af2c1086b9be"
+                ]
+            },
+            "84365e62-2aa9-4397-812d-be397d122afe": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -690,
+                    "y": 270
+                },
+                "z": 0,
+                "embeds": [],
+                "isassociatedwith": [
+                    "e2241520-9bc1-4cdd-9a05-9c8203b6b3ee"
                 ]
             }
         }
