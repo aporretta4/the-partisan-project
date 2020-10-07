@@ -635,7 +635,9 @@
                                 "nginx": [],
                                 "python36": [],
                                 "python36-pip": [],
-                                "mysql": [],
+                                "python36-devel": [],
+                                "mysql57-devel": [],
+                                "gcc": [],
                                 "ruby": []
                             }
                         },
@@ -818,6 +820,20 @@
                         "commands": {
                             "00-install-agent": {
                                 "command": "./install auto",
+                                "cwd": "/home/ec2-user/"
+                            },
+                            "01-venv-setup": {
+                                "command": {
+                                    "Fn:Join": [
+                                        "",
+                                        [
+                                            "python3 -m pip install --user virtualenv;\n",
+                                            "mkdir /var/app;\n",
+                                            "mkdir /var/app/venv;\n",
+                                            "python3 -m venv /var/app/venv;\n"
+                                        ]
+                                    ]
+                                },
                                 "cwd": "/home/ec2-user/"
                             }
                         }

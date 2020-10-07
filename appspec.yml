@@ -10,3 +10,8 @@ permissions:
     mode: 644
     type:
       - file
+
+hooks:
+  AfterInstall:
+    - location: appspec/after_install.sh
+      runas: ec2-user
