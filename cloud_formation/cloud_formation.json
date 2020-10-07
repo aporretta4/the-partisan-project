@@ -801,6 +801,10 @@
                         },
                         "services": {
                             "sysvinit": {
+                                "httpd": {
+                                    "enabled": "true",
+                                    "ensureRunning": "true"
+                                },
                                 "cfn-hup": {
                                     "enabled": "true",
                                     "ensureRunning": "true",
@@ -812,10 +816,6 @@
                             }
                         },
                         "commands": {
-                            "httpd": {
-                                "enabled": "true",
-                                "ensureRunning": "true"
-                            },
                             "00-install-agent": {
                                 "command": "./install auto",
                                 "cwd": "/home/ec2-user/"
