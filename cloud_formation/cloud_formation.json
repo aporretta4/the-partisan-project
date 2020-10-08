@@ -827,10 +827,7 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "python3 -m pip install --user virtualenv;\n",
-                                            "mkdir /var/app;\n",
-                                            "mkdir /var/app/venv;\n",
-                                            "python3 -m venv /var/app/venv;\n"
+                                            "python3 -m pip install --user virtualenv;\n"
                                         ]
                                     ]
                                 },
