@@ -14,3 +14,4 @@ permissions:
 hooks:
   AfterInstall:
     - location: appspec/after_install.sh
+      runas: ec2-user
