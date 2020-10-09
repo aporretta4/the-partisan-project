@@ -1,7 +1,6 @@
 #!/bin/bash
 ENVDIR="/home/ec2-user/venv/"
 if [ ! -d "$ENVDIR" ]; then
-  mkdir /home/ec2-user/venv
   python3 -m venv /home/ec2-user/venv
 fi
 . /home/ec2-user/venv/bin/activate
