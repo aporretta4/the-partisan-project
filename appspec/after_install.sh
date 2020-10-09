@@ -5,4 +5,4 @@ if [ ! -d "$ENVDIR" ]; then
   chown -R ec2-user /home/ec2-user/venv
 fi
 . /home/ec2-user/venv/bin/activate
-pip install -r /var/app/current/requirements.txt --user
+pip install -r /var/app/current/requirements.txt
