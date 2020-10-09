@@ -1,9 +1,8 @@
 #!/bin/bash
-ENVDIR="/var/app/venv/"
+ENVDIR="/home/ec2-user/venv/"
 if [ ! -d "$ENVDIR" ]; then
-  mkdir /var/app
-  mkdir /var/app/venv
-  python3 -m venv /var/app/venv
+  mkdir /home/ec2-user/venv
+  python3 -m venv /home/ec2-user/venv
 fi
-. /var/app/venv/bin/activate
+. /home/ec2-user/venv/bin/activate
 pip install -r /var/app/current/requirements.txt --user
