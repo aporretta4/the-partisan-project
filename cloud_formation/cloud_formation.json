@@ -632,7 +632,6 @@
                         "packages": {
                             "yum": {
                                 "httpd": [],
-                                "nginx": [],
                                 "python36": [],
                                 "python36-pip": [],
                                 "python36-devel": [],
@@ -659,26 +658,6 @@
                                 "owner": "ec2-user",
                                 "group": "ec2-user"
                             },
-                            "/usr/bin/supervisord": {
-                                "content": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "#!/usr/bin/python3\n",
-                                            "# EASY-INSTALL-ENTRY-SCRIPT: 'supervisor==4.2.1','console_scripts','supervisord'\n",
-                                            "__requires__ = 'supervisor==4.2.1''\n",
-                                            "import re\n",
-                                            "import sys\n",
-                                            "from pkg_resources import load_entry_point\n",
-                                            "if __name__ == '__main__':\n",
-                                            "sys.exit(load_entry_point('supervisor==4.2.1', 'console_scripts', 'supervisord')())"
-                                        ]
-                                    ]
-                                },
-                                "mode": "000644",
-                                "owner": "root",
-                                "group": "root"
-                            },
                             "/etc/profile.d/custom-envs.sh": {
                                 "content": {
                                     "Fn::Join": [
@@ -690,41 +669,6 @@
                                         ]
                                     ]
                                 }
-                            },
-                            "/etc/supervisor/supervisor.conf": {
-                                "content": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "[unix_http_server]\n",
-                                            "file=/tmp/supervisor.sock ; (the path to the socket file)\n",
-                                            "[supervisord]\n",
-                                            "logfile=/tmp/supervisord.log ; (main log file;default $CWD/supervisord.log)\n",
-                                            "logfile_maxbytes=50MB ; (max main logfile bytes b4 rotation;default 50MB)\n",
-                                            "logfile_backups=10 ; (num of main logfile rotation backups;default 10)\n",
-                                            "loglevel=info ; (log level;default info; others: debug,warn,trace)\n",
-                                            "pidfile=/var/run/supervisord.pid ; (supervisord pidfile;default supervisord.pid)\n",
-                                            "nodaemon=false ; (start in foreground if true;default false)\n",
-                                            "minfds=1024 ; (min. avail startup file descriptors;default 1024)\n",
-                                            "minprocs=200 ; (min. avail process descriptors;default 200)\n",
-                                            "[rpcinterface:supervisor]\n",
-                                            "supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface\n",
-                                            "[supervisorctl]\n",
-                                            "serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL for a unix socket\n",
-                                            "[program:pp_gunicorn]\n",
-                                            "user=root\n",
-                                            "/var/app/current\n",
-                                            "command=/var/app/venv/staging-LQM1lest/bin/gunicorn --bind 0.0.0.0:80 django_project.wsgi\n",
-                                            "autostart=true\n",
-                                            "autorestart=true\n",
-                                            "stdout_logfile=/var/log/nginx/gunicorn.log\n",
-                                            "stderr_logfile=/var/log/nginx/gunicorn.err.log\n"
-                                        ]
-                                    ]
-                                },
-                                "mode": "000644",
-                                "owner": "root",
-                                "group": "root"
                             },
                             "/var/www/html/index.html": {
                                 "content": {
@@ -832,6 +776,17 @@
                                     ]
                                 },
                                 "cwd": "/home/ec2-user/"
+                            },
+                            "02-get-apache-conf": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "rm /etc/httpd/conf/httpd.conf\n",
+                                            "aws s3 cp s3://elasticbeanstalk-us-west-2-054058811484/CloudformationConfig/httpd.conf /etc/httpd/conf/httpd.conf\n"
+                                        ]
+                                    ]
+                                }
                             }
                         }
                     }
