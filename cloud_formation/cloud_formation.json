@@ -670,30 +670,6 @@
                                     ]
                                 }
                             },
-                            "/var/www/html/index.html": {
-                                "content": {
-                                    "Fn::Join": [
-                                        "\n",
-                                        [
-                                            "<img src=\"",
-                                            {
-                                                "Fn::FindInMap": [
-                                                    "Region2Examples",
-                                                    {
-                                                        "Ref": "AWS::Region"
-                                                    },
-                                                    "Examples"
-                                                ]
-                                            },
-                                            "/cloudformation_graphic.png\" alt=\"AWS CloudFormation Logo\"/>",
-                                            "<h1>Congratulations, you have successfully launched the AWS CloudFormation sample.</h1>"
-                                        ]
-                                    ]
-                                },
-                                "mode": "000644",
-                                "owner": "root",
-                                "group": "root"
-                            },
                             "/etc/cfn/cfn-hup.conf": {
                                 "content": {
                                     "Fn::Join": [
