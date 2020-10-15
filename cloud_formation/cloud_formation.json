@@ -1057,9 +1057,7 @@
                             "Effect": "Allow",
                             "Principal": {
                                 "Service": [
-                                    "ec2.amazonaws.com",
-                                    "cloudformation.amazonaws.com",
-                                    "codepipeline.amazonaws.com"
+                                    "ec2.amazonaws.com"
                                 ]
                             },
                             "Action": [
