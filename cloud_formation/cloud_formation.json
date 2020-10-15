@@ -664,7 +664,10 @@
                                         "",
                                         [
                                             {
-                                                "Fn::Sub": "export DJANGO_KEY=\"${AWS::StackName}-PPSecretKey\"\n"
+                                                "Fn::Sub": "export DJANGO_KEY_SECRET_NAME=\"${AWS::StackName}-PPSecretKey\"\n"
+                                            },
+                                            {
+                                                "Fn::Sub": "export DB_PASS_SECRET_NAME=\"${AWS::StackName}-PPDBPass\"\n"
                                             }
                                         ]
                                     ]
@@ -1027,6 +1030,95 @@
                 }
             }
         },
+        "DBSecurityGroup": {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription": {
+                    "Fn::Sub": "Databases-${AWS::StackName}"
+                },
+                "GroupName": {
+                    "Fn::Sub": "Databases-${AWS::StackName}"
+                },
+                "SecurityGroupEgress": [{
+                    "IpProtocol" : "tcp",
+                    "FromPort" : "3306",
+                    "ToPort" : "3306",
+                    "SourceSecurityGroupId" : {
+                        "Ref": "InstanceSecurityGroup"
+                    }
+                 }],
+                 "SecurityGroupIngress": [{
+                    "IpProtocol" : "tcp",
+                    "FromPort" : "3306",
+                    "ToPort" : "3306",
+                    "SourceSecurityGroupId" : {
+                        "Ref": "InstanceSecurityGroup"
+                    }
+                 }],
+                "VpcId": {
+                    "Ref": "VpcId"
+                }
+            }
+        },
+        "SecretsManagerDBPass": {
+            "Type": "AWS::SecretsManager::Secret",
+            "Properties": {
+                "Description": {
+                    "Fn::Sub": "The password for the following stack: ${AWS::StackName}"
+                },
+                "Name": {
+                    "Fn::Sub": "${AWS::StackName}-PPDBPass"
+                },
+                "GenerateSecretString": {
+                    "SecretStringTemplate": "{\"username\": \"admin\"}",
+                    "GenerateStringKey": "password",
+                    "PasswordLength": 32,
+                    "ExcludeCharacters": "\"@/\\"
+                }
+            }
+        },
+        "DBCluster": {
+            "Type" : "AWS::RDS::DBCluster",
+            "Properties" : {
+                "BackupRetentionPeriod": 5,
+                "DatabaseName": {
+                    "Fn::Sub": "${AWS::StackName}DBCluster"
+                },
+                "DBClusterIdentifier": {
+                    "Fn::Sub": "${AWS::StackName}DBCluster"
+                },
+                "DeletionProtection": false,
+                "Engine": "aurora",
+                "MasterUsername": {"Fn::Join": ["", ["{{resolve:secretsmanager:",{"Ref": "SecretsManagerDBPass"},":SecretString:username}}"] ] },
+                "MasterUserPassword": {"Fn::Join": ["", ["{{resolve:secretsmanager:",{"Ref": "SecretsManagerDBPass"},":SecretString:password}}"] ] },
+                "PreferredBackupWindow": "00:00-03:30",
+                "PreferredMaintenanceWindow": "Tue:04:00-Tue:06:00",
+                "RestoreType": "full-copy",
+                "SourceRegion": "us-west-2",
+                "VpcSecurityGroupIds": [{
+                    "Ref": "DBSecurityGroup"
+                }]
+            }
+        },
+        "RDSDBInstance1": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "Engine": "aurora",
+                "DBClusterIdentifier": {
+                    "Ref": "DBCluster"
+                },
+                "PubliclyAccessible": false,
+                "DBInstanceClass": "db.t2.small"
+            }
+        },
+        "SecretRDSInstanceAttachment": {
+            "Type": "AWS::SecretsManager::SecretTargetAttachment",
+            "Properties": {
+              "SecretId": {"Ref": "SecretsManagerDBPass"},
+              "TargetId": {"Ref": "DBCluster"},
+              "TargetType": "AWS::RDS::DBCluster"
+            }
+        },
         "SecretsManagerDjangoSecretKey": {
             "Type": "AWS::SecretsManager::Secret",
             "Properties": {
@@ -1071,7 +1163,6 @@
                             "Version": "2012-10-17",
                             "Statement": [
                                 {
-                                    "Sid": "VisualEditor0",
                                     "Effect": "Allow",
                                     "Action": [
                                         "secretsmanager:GetResourcePolicy",
@@ -1081,6 +1172,18 @@
                                     ],
                                     "Resource": {
                                         "Ref": "SecretsManagerDjangoSecretKey"
+                                    }
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "secretsmanager:GetResourcePolicy",
+                                        "secretsmanager:GetSecretValue",
+                                        "secretsmanager:DescribeSecret",
+                                        "secretsmanager:ListSecretVersionIds"
+                                    ],
+                                    "Resource": {
+                                        "Ref": "SecretsManagerDBPass"
                                     }
                                 },
                                 {
