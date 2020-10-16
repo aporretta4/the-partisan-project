@@ -7,6 +7,12 @@
             "Description": "VpcId of your existing Virtual Private Cloud (VPC)",
             "ConstraintDescription": "must be the VPC Id of an existing Virtual Private Cloud."
         },
+        "DatabaseName": {
+            "Type": "String",
+            "Description": "The name of the database.",
+            "AllowedPattern": "(^[a-zA-Z0-9]*$)",
+            "ConstraintDescription": "Must be alphanumeric characters only."
+        },
         "Subnets": {
             "Type": "List<AWS::EC2::Subnet::Id>",
             "Description": "The list of SubnetIds in your Virtual Private Cloud (VPC)",
@@ -1171,10 +1177,10 @@
             "Properties" : {
                 "BackupRetentionPeriod": 5,
                 "DatabaseName": {
-                    "Fn::Sub": "${AWS::StackName}DBCluster"
+                    "Ref": "DatabaseName"
                 },
                 "DBClusterIdentifier": {
-                    "Fn::Sub": "${AWS::StackName}DBCluster"
+                    "Fn::Sub": "${DatabaseName}DBCluster"
                 },
                 "DeletionProtection": false,
                 "Engine": "aurora",
