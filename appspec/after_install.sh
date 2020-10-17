@@ -8,4 +8,5 @@ fi
 . /home/ec2-user/venv/bin/activate
 pip3 install -r /var/app/current/requirements.txt
 cd /var/app/current
+python3 manage.py migrate
 /home/ec2-user/venv/bin/gunicorn --bind 127.0.0.1:8000 django_project.wsgi --daemon
