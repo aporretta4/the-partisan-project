@@ -674,6 +674,9 @@
                                             },
                                             {
                                                 "Fn::Sub": "export DB_PASS_SECRET_NAME=\"${AWS::StackName}-PPDBPass\"\n"
+                                            },
+                                            {
+                                                "Fn::Sub": "export PP_ENVIRONMENT=\"${AWS::StackName}\"\n"
                                             }
                                         ]
                                     ]
@@ -1222,6 +1225,8 @@
                     "Fn::Sub": "${AWS::StackName}-PPSecretKey"
                 },
                 "GenerateSecretString": {
+                    "SecretStringTemplate": "{}",
+                    "GenerateStringKey": "secret_key",
                     "PasswordLength": 32
                 }
             },
