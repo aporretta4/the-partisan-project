@@ -29,20 +29,39 @@ def getEnvVariable(var_key: str):
     env_conv = subprocess.Popen(["/opt/elasticbeanstalk/bin/get-config", "environment", "-k", var_key], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     return env_conv.stdout.read().decode("UTF-8").replace("'b", "").replace("'", "")
 
-try:
-    ENVORNMENT = getEnvVariable('env')
-except:
-    ENVORNMENT = "local"
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'PORT': '3306'
+    }
+}
 
-if ENVORNMENT == "prod":
-    SECRET_KEY = "prodkey"
-elif ENVORNMENT == "test":
-    SECRET_KEY = secrets_interactor.getSecret('pp_test_secret_key')['secret_key']
-else:
-    SECRET_KEY = "+i!hnk^i)73yg@w%s#1rps9b5miie(s6ooru1bsug)4bbkidq8"
+try:
+    ENVORNMENT = getEnvVariable('PP_ENVIRONMENT')
+    SECRET_KEY = secrets_interactor.getSecret(getEnvVariable('DJANGO_KEY_SECRET_NAME'))['secret_key']
+    db_creds = secrets_interactor.getSecret(getEnvVariable('DB_PASS_SECRET_NAME'))
+    DATABASES['default']['NAME'] = db_creds['dbname']
+    DATABASES['default']['USER'] = db_creds['username']
+    DATABASES['default']['PASSWORD'] = db_creds['password']
+    DATABASES['default']['HOST'] = db_creds['host']
+except:
+    from django_project.local_settings import LOCAL_SECRET_KEY
+    from django_project.local_settings import LOCAL_ENVIRONMENT
+    ENVORNMENT = LOCAL_ENVIRONMENT
+    SECRET_KEY = LOCAL_SECRET_KEY
+    from django_project.local_settings import LOCAL_DB_NAME
+    from django_project.local_settings import LOCAL_DB_USER
+    from django_project.local_settings import LOCAL_DB_PASS
+    from django_project.local_settings import LOCAL_DB_HOST
+    DATABASES['default']['NAME'] = LOCAL_DB_NAME
+    DATABASES['default']['USER'] = LOCAL_DB_USER
+    DATABASES['default']['PASSWORD'] = LOCAL_DB_PASS
+    DATABASES['default']['HOST'] = LOCAL_DB_HOST
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if ENVORNMENT != "prod":
+if ENVORNMENT != "Production":
     DEBUG = True
 
 # Application definition
@@ -86,30 +105,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'django_project.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'PORT': '3306'
-    }
-}
-
-if ENVORNMENT != 'local':
-    db_creds = secrets_interactor.getSecret('pp_' + ENVORNMENT + '_db')
-    DATABASES['default']['NAME'] = db_creds['dbname']
-    DATABASES['default']['USER'] = db_creds['username']
-    DATABASES['default']['PASSWORD'] = db_creds['password']
-    DATABASES['default']['HOST'] = db_creds['host'] #comment included
-else:
-    DATABASES['default']['NAME'] = 'partisan'
-    DATABASES['default']['USER'] = 'root'
-    DATABASES['default']['PASSWORD'] = 'root'
-    DATABASES['default']['HOST'] = 'localhost'
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
