@@ -22,13 +22,6 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-ENVORNMENT = "local"
-
-def getEnvVariable(var_key: str):
-    env_conv = subprocess.Popen(["/opt/elasticbeanstalk/bin/get-config", "environment", "-k", var_key], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    return env_conv.stdout.read().decode("UTF-8").replace("'b", "").replace("'", "")
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
@@ -39,9 +32,9 @@ DATABASES = {
 }
 
 try:
-    ENVORNMENT = getEnvVariable('PP_ENVIRONMENT')
-    SECRET_KEY = secrets_interactor.getSecret(getEnvVariable('DJANGO_KEY_SECRET_NAME'))['secret_key']
-    db_creds = secrets_interactor.getSecret(getEnvVariable('DB_PASS_SECRET_NAME'))
+    ENVORNMENT = os.getenv('PP_ENVIRONMENT')
+    SECRET_KEY = secrets_interactor.getSecret(os.getenv('DJANGO_KEY_SECRET_NAME'))['secret_key']
+    db_creds = secrets_interactor.getSecret(os.getenv('DB_PASS_SECRET_NAME'))
     DATABASES['default']['NAME'] = db_creds['dbname']
     DATABASES['default']['USER'] = db_creds['username']
     DATABASES['default']['PASSWORD'] = db_creds['password']
