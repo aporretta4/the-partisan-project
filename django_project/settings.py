@@ -34,6 +34,7 @@ DATABASES = {
 try:
     ENVORNMENT = os.getenv('PP_ENVIRONMENT')
     SECRET_KEY = secrets_interactor.getSecret(os.getenv('DJANGO_KEY_SECRET_NAME'))['secret_key']
+    TW_BEARER_TOKEN = secrets_interactor.getSecret('pp_twitter_api')['bearer_token']
     db_creds = secrets_interactor.getSecret(os.getenv('DB_PASS_SECRET_NAME'))
     DATABASES['default']['NAME'] = db_creds['dbname']
     DATABASES['default']['USER'] = db_creds['username']
@@ -41,9 +42,11 @@ try:
     DATABASES['default']['HOST'] = db_creds['host']
 except:
     from django_project.local_settings import LOCAL_SECRET_KEY
+    from django_project.local_settings import LOCAL_TW_BEARER_TOKEN
     from django_project.local_settings import LOCAL_ENVIRONMENT
     ENVORNMENT = LOCAL_ENVIRONMENT
     SECRET_KEY = LOCAL_SECRET_KEY
+    TW_BEARER_TOKEN = LOCAL_TW_BEARER_TOKEN
     from django_project.local_settings import LOCAL_DB_NAME
     from django_project.local_settings import LOCAL_DB_USER
     from django_project.local_settings import LOCAL_DB_PASS
