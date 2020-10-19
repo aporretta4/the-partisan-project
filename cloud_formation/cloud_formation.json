@@ -1107,6 +1107,16 @@
                                     }
                                 },
                                 {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "secretsmanager:GetResourcePolicy",
+                                        "secretsmanager:GetSecretValue",
+                                        "secretsmanager:DescribeSecret",
+                                        "secretsmanager:ListSecretVersionIds"
+                                    ],
+                                    "Resource": "arn:aws:secretsmanager:us-west-2:054058811484:secret:pp_twitter_api-niAqZm"
+                                },
+                                {
                                     "Sid": "VisualEditor1",
                                     "Effect": "Allow",
                                     "Action": "secretsmanager:ListSecrets",
