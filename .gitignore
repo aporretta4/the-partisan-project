@@ -6,3 +6,6 @@
 
 # Local-only configs
 django_project/local_settings.py
+
+# Cache Files
+*__pycache__*
