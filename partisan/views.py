@@ -2,5 +2,5 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def index(request):
-  return HttpResponse('<h1>Hello Wisdfasdfs</h1><strong>')
+  return HttpResponse('<h1>Hello twitter</h1><strong>')
 
