@@ -4,7 +4,7 @@ from django.db import models
 
 class tweet(models.Model):
     id = models.BigIntegerField(primary_key=True,editable=False,unique=True)
-    text = models.CharField(max_length=280, )
+    text = models.CharField(max_length=2048, )
     author_id = models.BigIntegerField(editable=False)
     created_at = models.DateTimeField(default='1970-01-01 00:00:00+00:00')
 
