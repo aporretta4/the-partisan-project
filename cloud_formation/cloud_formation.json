@@ -775,8 +775,7 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "python3 -m pip install --user virtualenv;\n",
-                                            "chmod 775 /home/ec2-user/venv/bin/activate"
+                                            "python3 -m pip install --user virtualenv;\n"
                                         ]
                                     ]
                                 },
