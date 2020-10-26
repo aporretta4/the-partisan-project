@@ -9,3 +9,4 @@ django_project/local_settings.py
 
 # Cache Files
 *__pycache__*
+*/__pycache__/*
