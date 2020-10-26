@@ -1,8 +1,8 @@
 import json
 import logging
+import requests
+from requests.exceptions import HTTPError
 from datetime import datetime
-from pip._vendor import requests
-from pip._vendor.requests.exceptions import HTTPError
 from urllib.parse import quote_plus
 from django_project.settings import TW_BEARER_TOKEN
 from partisan.models import tweet, tw_retriever_metadata
