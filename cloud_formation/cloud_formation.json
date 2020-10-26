@@ -680,6 +680,19 @@
                                 "owner": "ec2-user",
                                 "group": "ec2-user"
                             },
+                            "/etc/crontab": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "* * * * * sh /home/ec2-user/datapull-crontab.sh\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000775",
+                                "owner": "root",
+                                "group": "root"
+                            },
                             "/etc/profile.d/custom-envs.sh": {
                                 "content": {
                                     "Fn::Join": [
@@ -788,17 +801,6 @@
                                         [
                                             "rm /etc/httpd/conf/httpd.conf\n",
                                             "aws s3 cp s3://elasticbeanstalk-us-west-2-054058811484/CloudformationConfig/httpd.conf /etc/httpd/conf/httpd.conf\n"
-                                        ]
-                                    ]
-                                }
-                            },
-                            "03-set-crontab": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "#!/bin/bash\n",
-                                            "echo '* * * * * sh /home/ec2-user/datapull-crontab.sh >> /etc/crontab \n"
                                         ]
                                     ]
                                 }
