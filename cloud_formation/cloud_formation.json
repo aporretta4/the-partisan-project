@@ -798,8 +798,7 @@
                                         "",
                                         [
                                             "#!/bin/bash\n",
-                                            "echo '* * * * * sh /home/ec2-user/datapull-crontab.sh \n",
-                                            "crontab /home/ec2-user/mycrontab"
+                                            "echo '* * * * * sh /home/ec2-user/datapull-crontab.sh >> /etc/crontab \n"
                                         ]
                                     ]
                                 }
