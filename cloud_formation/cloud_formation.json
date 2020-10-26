@@ -775,6 +775,18 @@
                                         ]
                                     ]
                                 }
+                            },
+                            "03-set-crontab": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "#!/bin/bash\n",
+                                            "echo '* * * * * /home/ec2-user/venv/bin/activate /var/app/current/manage.py pull_twitter_data election' >> /home/ec2-user/mycrontab \n",
+                                            "crontab /home/ec2-user/mycrontab"
+                                        ]
+                                    ]
+                                }
                             }
                         }
                     }
