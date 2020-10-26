@@ -7,6 +7,7 @@ class tweet(models.Model):
     text = models.CharField(max_length=2048, )
     author_id = models.BigIntegerField(editable=False)
     created_at = models.DateTimeField(default='1970-01-01 00:00:00+00:00')
+    google_nlp_processed = models.BooleanField(default=False)
 
 class tw_retriever_metadata(models.Model):
     id = models.CharField(primary_key=True,editable=False,unique=True,max_length=255)
