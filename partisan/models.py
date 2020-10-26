@@ -9,5 +9,5 @@ class tweet(models.Model):
     created_at = models.DateTimeField(default='1970-01-01 00:00:00+00:00')
 
 class tw_retriever_metadata(models.Model):
-    id = models.CharField(primary_key=True,editable=False,unique=True,max_length=512)
+    id = models.CharField(primary_key=True,editable=False,unique=True,max_length=255)
     val = models.TextField(blank=False,null=False)
