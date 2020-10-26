@@ -664,6 +664,22 @@
                                 "owner": "ec2-user",
                                 "group": "ec2-user"
                             },
+                            "/home/ec2-user/datapull-crontab.sh": {
+                                "source": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "#!/bin/bash\n",
+                                            ". /home/ec2-user/venv/bin/activate\n",
+                                            "cd /var/app/current\n",
+                                            "python3 manage.py pull_twitter_data election"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000775",
+                                "owner": "root",
+                                "group": "ec2-user"
+                            },
                             "/etc/profile.d/custom-envs.sh": {
                                 "content": {
                                     "Fn::Join": [
@@ -783,7 +799,7 @@
                                         "",
                                         [
                                             "#!/bin/bash\n",
-                                            "echo '* * * * * /home/ec2-user/venv/bin/activate /var/app/current/manage.py pull_twitter_data election' >> /home/ec2-user/mycrontab \n",
+                                            "echo '* * * * * sh /home/ec2-user/datapull-crontab.sh \n",
                                             "crontab /home/ec2-user/mycrontab"
                                         ]
                                     ]
