@@ -3,8 +3,9 @@ ENVDIR="/home/ec2-user/venv/"
 pkill gunicorn
 if [ ! -d "$ENVDIR" ]; then
   python3 -m venv /home/ec2-user/venv
-  chown -R ec2-user /home/ec2-user/venv
 fi
+chown -R ec2-user /home/ec2-user/venv
+chmod 775 /home/ec2-user/venv/bin/activate
 . /home/ec2-user/venv/bin/activate
 pip3 install -r /var/app/current/requirements.txt
 cd /var/app/current

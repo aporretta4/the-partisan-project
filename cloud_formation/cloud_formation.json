@@ -665,7 +665,7 @@
                                 "group": "ec2-user"
                             },
                             "/home/ec2-user/datapull-crontab.sh": {
-                                "source": {
+                                "content": {
                                     "Fn::Join": [
                                         "",
                                         [
