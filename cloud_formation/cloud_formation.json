@@ -677,7 +677,7 @@
                                     ]
                                 },
                                 "mode": "000775",
-                                "owner": "root",
+                                "owner": "ec2-user",
                                 "group": "ec2-user"
                             },
                             "/etc/profile.d/custom-envs.sh": {
