@@ -24,13 +24,11 @@ class twitter_retriever:
         try:
             resp = requests.get(request_string + '&q=' + quote_plus(query), headers={'Authorization': 'Bearer ' + TW_BEARER_TOKEN})
             if resp.status_code == 200:
-                print(len(resp.json()['statuses']))
                 for result in resp.json()['statuses']:
                     dt = datetime.strptime(result['created_at'], '%a %b %d %H:%M:%S %z %Y')
-                    dt = datetime.strptime(dt.__str__(), '%Y-%m-%d %H:%M:%S%z')
                     last_id = result['id']
                     if 'retweeted_status' in result:
-                        tw = tweet(id=result['id'],text=result['retweeted_status']['full_text'],author_id=result['user']['id'],created_at=dt)
+                        tw = tweet(id=result['id'],text=result['retweeted_status']['full_text'],author_id=result['user']['id'],created_at=dt.__str__())
                         tw.save()
                         processed_count += 1
                 self.__iterateMetadata(last_id=last_id)
