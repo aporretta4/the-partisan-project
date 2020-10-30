@@ -680,12 +680,22 @@
                                 "owner": "ec2-user",
                                 "group": "ec2-user"
                             },
-                            "/etc/crontab": {
+                            "/etc/cron.d/datapull": {
                                 "content": {
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "* * * * * sh /home/ec2-user/datapull-crontab.sh\n"
+                                            {
+                                                "Fn::Sub": "export DJANGO_KEY_SECRET_NAME=\"${AWS::StackName}-PPSecretKey\"\n"
+                                            },
+                                            {
+                                                "Fn::Sub": "export DB_PASS_SECRET_NAME=\"${AWS::StackName}-PPDBPass\"\n"
+                                            },
+                                            {
+                                                "Fn::Sub": "export PP_ENVIRONMENT=\"${AWS::StackName}\"\n"
+                                            },
+                                            "\n",
+                                            "*/20 * * * * root sh /home/ec2-user/datapull-crontab.sh  > /var/log/datapull.cron.log 2>&1\n"
                                         ]
                                     ]
                                 },
