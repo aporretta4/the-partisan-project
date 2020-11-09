@@ -1,8 +1,10 @@
-
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# VS Code files
+.vscode/
 
 # Local-only configs
 django_project/local_settings.py
