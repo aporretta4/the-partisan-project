@@ -10,3 +10,8 @@ django_project/local_settings.py
 # Cache Files
 *__pycache__*
 **/__pycache__/
+
+# Frontend generated files.
+django_project/static/
+partisan/static/
+partisan/node_modules/
