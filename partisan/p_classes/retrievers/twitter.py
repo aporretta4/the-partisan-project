@@ -1,6 +1,7 @@
 import json
 import logging
 import requests
+import hashlib
 from requests.exceptions import HTTPError
 from datetime import datetime
 from urllib.parse import quote_plus
@@ -28,9 +29,12 @@ class twitter_retriever:
                     dt = datetime.strptime(result['created_at'], '%a %b %d %H:%M:%S %z %Y')
                     last_id = result['id']
                     if 'retweeted_status' in result:
-                        tw = tweet(id=result['id'],text=result['retweeted_status']['full_text'],author_id=result['user']['id'],created_at=dt.__str__())
-                        tw.save()
-                        processed_count += 1
+                        hash = hashlib.sha3_512(str.encode(result['retweeted_status']['full_text'])).hexdigest()
+                        hash_lookup = tweet.objects.filter(text_hash=hash)
+                        if hash_lookup.count() == 0:
+                            tw = tweet(id=result['id'],text=result['retweeted_status']['full_text'],author_id=result['user']['id'],created_at=dt.__str__(),text_hash=hash)
+                            tw.save()
+                            processed_count += 1
                 self.__iterateMetadata(last_id=last_id)
             else:
                 resp.raise_for_status()

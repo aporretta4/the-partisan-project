@@ -5,6 +5,7 @@ from django.db import models
 class tweet(models.Model):
     id = models.BigIntegerField(primary_key=True,editable=False,unique=True)
     text = models.CharField(max_length=2048, )
+    text_hash = models.CharField(max_length=128,null=True,unique=True)
     author_id = models.BigIntegerField(editable=False)
     created_at = models.DateTimeField(default='1970-01-01 00:00:00+00:00')
     nlp_processed = models.BooleanField(default=False)
