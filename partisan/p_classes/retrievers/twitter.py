@@ -6,7 +6,7 @@ from requests.exceptions import HTTPError
 from datetime import datetime
 from urllib.parse import quote_plus
 from django_project.settings import TW_BEARER_TOKEN
-from partisan.models import tweet, tw_retriever_metadata
+from partisan.models import tweet, tw_retriever_metadata, search_term
 
 class twitter_retriever:
     TWITTER_SEARCH_ENDPOINT = 'https://api.twitter.com/1.1/search/tweets.json'
@@ -16,6 +16,7 @@ class twitter_retriever:
     def searchTweets(self, query: str, count: int = 100, tag: str=''):
         resp = {}
         processed_count = 0
+        search_term = self.__processSearchTerm(query)
         request_string = self.TWITTER_SEARCH_ENDPOINT + '?count=' + str(count) + '&tweet_mode=extended'
         tw_meta = tw_retriever_metadata.objects.filter(id='tw_last_id')
         last_id = '0'
@@ -32,7 +33,14 @@ class twitter_retriever:
                         hash = hashlib.sha3_512(str.encode(result['retweeted_status']['full_text'])).hexdigest()
                         hash_lookup = tweet.objects.filter(text_hash=hash)
                         if hash_lookup.count() == 0:
-                            tw = tweet(id=result['id'],text=result['retweeted_status']['full_text'],author_id=result['user']['id'],created_at=dt.__str__(),text_hash=hash)
+                            tw = tweet(
+                                id=result['id'],
+                                text=result['retweeted_status']['full_text'],
+                                author_id=result['user']['id'],
+                                created_at=dt.__str__(),
+                                text_hash=hash,
+                                term_id=search_term
+                            )
                             tw.save()
                             processed_count += 1
                 self.__iterateMetadata(last_id=last_id)
@@ -45,6 +53,15 @@ class twitter_retriever:
         finally:
             self.__iterateMetadata(last_id=last_id)
             return 'Successfully processed ' + str(processed_count) + ' tweets.'
+
+    def __processSearchTerm(self, searched_term: str):
+        term = search_term.objects.filter(term=searched_term)
+        if term.count() == 0:
+            new_term = search_term(term=searched_term)
+            new_term.save()
+            return new_term.id
+        else:
+            return term[0].id
 
     def __iterateMetadata(self, last_id: str):
         tw_meta_last = tw_retriever_metadata(id="tw_last_id",val=last_id)
