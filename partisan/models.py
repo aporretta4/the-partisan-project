@@ -1,7 +1,7 @@
 from django.db import models
 
 class search_term(models.Model):
-    id = models.BigIntegerField(primary_key=True,editable=False,unique=True)
+    id = models.AutoField(primary_key=True,editable=False,unique=True)
     term = models.CharField(editable=False,unique=False,max_length=255)
 
 class tweet(models.Model):

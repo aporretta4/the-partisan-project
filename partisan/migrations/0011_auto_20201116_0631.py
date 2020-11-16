@@ -4,7 +4,7 @@ from django.db import migrations
 
 def add_default_search_term(apps, schema_editor):
     search_term = apps.get_model('partisan', 'search_term')
-    term = search_term(id=0, term='election')
+    term = search_term(term='election')
     term.save()
     tweets = apps.get_model('partisan', 'tweet')
     tweet_list = tweets.objects.all()

@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='search_term',
             fields=[
-                ('id', models.BigIntegerField(editable=False, primary_key=True, serialize=False, unique=True)),
+                ('id', models.AutoField(editable=False, primary_key=True, serialize=False, unique=True)),
                 ('term', models.CharField(editable=False, max_length=255)),
             ],
         ),
