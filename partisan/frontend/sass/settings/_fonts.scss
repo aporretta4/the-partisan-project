@@ -1,0 +1,61 @@
+// All fonts used within the app.
+
+// Remote fonts.
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Open+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap');
+
+// Icon fonts.
+@import url('/static/fonts/style.css');
+
+// Font styles.
+$header-font: 'Lora', serif;
+$body-font: 'Open Sans', sans-serif;
+$icon-font: 'icomoon' !important;
+
+// Mixins and functions.
+@function em($pixels, $context: $base-font-size) {
+  @return #{$pixels/$context}em;
+}
+
+// Font Sizes
+$base-font-size: 16; // Default
+$h1-size: em(42);
+$h2-size: em(36);
+$h3-size: em(26);
+$h4-size: em(20);
+$h5-size: em(20);
+$h6-size: em(20);
+
+@mixin style-h1 {
+  font-family: $header-font;
+  font-weight: 600;
+  font-style: italic;
+  font-size: $h1-size;
+}
+
+@mixin style-h2 {
+  font-family: $header-font;
+  font-weight: 600;
+  font-style: italic;
+  font-size: $h2-size;
+}
+
+@mixin style-h3 {
+  font-family: $header-font;
+  font-weight: 500;
+  font-style: italic;
+  font-size: $h3-size;
+}
+
+@mixin style-lower-header {
+  font-family: $header-font;
+  font-weight: 400;
+  font-style: italic;
+  font-size: $h4-size;
+}
+
+@mixin style-paragraph {
+  font-family: $body-font;
+  font-weight: 400;
+  font-size: em($base-font-size);
+}

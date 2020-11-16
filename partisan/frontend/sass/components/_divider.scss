@@ -1,0 +1,24 @@
+div.divider {
+  color: $white;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, .45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  @include style-h1();
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    height: 0.09em;
+    min-width: 30vw;
+  }
+  &::before {
+    background: linear-gradient(to right, rgba(240,240,240,0), $white);
+    margin-right: 4vh;
+  }
+  &::after {
+    background: linear-gradient(to left, rgba(240,240,240,0), $white);
+    margin-left: 4vh;
+  }
+}

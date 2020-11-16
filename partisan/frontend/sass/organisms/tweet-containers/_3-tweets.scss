@@ -1,0 +1,13 @@
+.tweets-3 {
+  @include breakpoint($m-break) {
+    display: flex;
+    flex-direction: row;
+    gap: em(15);
+  }
+  * {
+    flex: 1 1 0px;
+  }
+  &:first-child {
+    color: white !important;
+  }
+}

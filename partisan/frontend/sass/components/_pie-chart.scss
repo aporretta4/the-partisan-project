@@ -1,0 +1,12 @@
+.pie-container {
+  padding: em(20);
+  border-radius: em(20);
+  background-color: $white;
+  color: $black;
+  canvas {
+    max-width: em(400) !important;
+    height: auto !important;
+    display: inline-block !important;
+    margin: auto !important;
+  }
+}

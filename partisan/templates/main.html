@@ -1,0 +1,69 @@
+{% load static %}
+<html lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/
+ dc: http://purl.org/dc/terms/
+ foaf: http://xmlns.com/foaf/0.1/
+ og: http://ogp.me/ns#
+ rdfs: http://www.w3.org/2000/01/rdf-schema#
+ sioc: http://rdfs.org/sioc/ns#
+ sioct: http://rdfs.org/sioc/types#
+ skos: http://www.w3.org/2004/02/skos/core#
+ xsd: http://www.w3.org/2001/XMLSchema#
+">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Lets try to find out how divided we really are." />
+    <title>The Partisan Project</title>
+    <link rel="icon" type="image/png" href="img/ico.png">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Quicksand" />
+    <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet" />
+    <link href="{% static '/css/init.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="boxquote"><i class="fas fa-quote-left fa2"></i>
+      <div class="boxquote-text"><i class="fas fa-quote-right fa1"></i>
+        <div>
+          <img src="{% static '/img/logo-image-only-small.png' %}" alt="" />
+          <h1>The Partisan Project</h1>
+          <p>The Partisan Project sets out to measure the prevalence of divisive sentiment across a wide variety of topics such as politics, healthcare, and economics using AI to detect what people are talking about and how they feel about what people are saying.</p>
+          <p>This is a non-partisan initiative that does not have any political affiliation whatsoever.</p>
+        </div>
+      </div>
+    </div>
+    <div class="paralax-container politics-container">
+      <div class="paralax-translucency"></div>
+      <div class="paralax-content-wrapper">
+        <div class="divider">Politics</div>
+        <p>Lets try to determine what people are talking about with regards to the US 2020 election... Sentiment is an important measure of how divided people are on a particular topic. A statement that is highly negative for instance is genereally more divisive than a statement that is positive or neutral.</p>
+        <p class="h3">To start, here are examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement:</p>
+        <div class="tweets-3">
+          {% if positive_tweet %}
+            <div class="tweet-container positive-tweet">
+              <p class="h3 label">Positive</p>
+              <p>{% autoescape off %}{{ positive_tweet }}{% endautoescape %}</p>
+            </div>
+          {% endif %}
+          {% if negative_tweet %}
+            <div class="tweet-container negative-tweet">
+              <p class="h3 label">Negative</p>
+              <p>{% autoescape off %}{{ negative_tweet }}{% endautoescape %}</p>
+            </div>
+          {% endif %}
+          {% if neutral_tweet %}
+            <div class="tweet-container neutral-tweet">
+              <p class="h3 label">Neutral</p>
+              <p>{% autoescape off %}{{ neutral_tweet }}{% endautoescape %}</p>
+            </div>
+          {% endif %}
+        </div>
+        <div class="pie-container">
+          <p class="h3">Aggregated Sentiment Regarding Political Topics:</p>
+          <canvas id="politics-sentiment" width="400" height="400"></canvas>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="{% static '/js/libraries/charter.js' %}"></script>
+    <script type="module" src="{% static '/js/scripts/scripts-min.js' %}"></script>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+.tweet-container {
+  background-color: $white;
+  color: $black;
+  padding: em(15);
+  border-radius: em(20);
+  text-align: left;
+  border: em(8) solid $dark-purple;
+  margin: em(10) 0;
+  position: relative;
+  .label {
+    margin-top: 0;
+    text-align: right;
+    color: $dark-purple;
+  }
+  &::before{
+    content: "\e900";
+    color: $black;
+    font-family: $icon-font;
+    font-size: em(30);
+    position: absolute;
+    color: $dark-purple;
+    display: inline-block;
+    text-align: center;
+  }
+  &::after{
+    content: "\e901";
+    color: $black;
+    font-family: $icon-font;
+    font-size: em(30);
+    position: absolute;
+    color: $dark-purple;
+    display: inline-block;
+    text-align: center;
+    right: 13px;
+    bottom: 0;
+    opacity: .4;
+  }
+  &.negative-tweet {
+    border-color: $rep-red-dark;
+    .label {
+      color: $rep-red-dark;
+    }
+    &::before {
+      color: $rep-red-dark;
+    }
+    &::after {
+      color: $rep-red-dark;
+    }
+  }
+  &.positive-tweet {
+    border-color: $dark-green;
+    .label {
+      color: $dark-green;
+    }
+    &::before {
+      color: $dark-green;
+    }
+    &::after {
+      color: $dark-green;
+    }
+  }
+  &.neutral-tweet {
+    border-color: $dark-yellow;
+    .label {
+      color: $dark-yellow;
+    }
+    &::before {
+      color: $dark-yellow;
+    }
+    &::after {
+      color: $dark-yellow;
+    }
+  }
+}

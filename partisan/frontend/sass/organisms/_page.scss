@@ -1,0 +1,25 @@
+body {
+  background-color: $dark-purple;
+  margin: em(8) 0 0 0;
+}
+
+* {
+  @include style-paragraph();
+}
+
+h1, .h1 {
+  @include style-h1();
+}
+
+h2, .h2 {
+  @include style-h2();
+}
+
+h3, .h3 {
+  @include style-h3();
+}
+
+h4, h5, h6,
+.h4, .h5, .h6 {
+  @include style-lower-header();
+}
