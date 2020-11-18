@@ -33,7 +33,10 @@ class twitter_processor:
           tweet_list[i].nlp_mixed_sentiment = processed_sentiment_list[i]['SentimentScore']['Mixed']
           tweet_list[i].nlp_negative_sentiment = processed_sentiment_list[i]['SentimentScore']['Negative']
           tweet_list[i].nlp_positive_sentiment = processed_sentiment_list[i]['SentimentScore']['Positive']
-        tweet_list[i].save()
+        if tweet_list[i].nlp_neutral_sentiment == None or tweet_list[i].nlp_mixed_sentiment == None or tweet_list[i].nlp_negative_sentiment == None or tweet_list[i].nlp_positive_sentiment == None:
+          tweet_list[i].delete()
+        else:
+          tweet_list[i].save()
 
     def __chunk(self, text_list: list, n: int):
       for i in range(0, len(text_list), n):
