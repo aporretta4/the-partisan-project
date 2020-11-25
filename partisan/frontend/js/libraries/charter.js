@@ -57,8 +57,11 @@ export const Charter = {
     else if (sentiment.toLowerCase() == 'negative') {
       return 'rgba(138, 15, 0, 0.5)';
     }
-    else {
+    else if (sentiment.toLowerCase() == 'neutral') {
       return 'rgba(166, 162, 41, 0.5)';
+    }
+    else {
+      return 'rgba(134, 92, 189, 0.5)';
     }
   }
 };

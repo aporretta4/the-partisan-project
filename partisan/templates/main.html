@@ -38,32 +38,35 @@
         <p>Lets try to determine what people are talking about with regards to the US 2020 election... Sentiment is an important measure of how divided people are on a particular topic. A statement that is highly negative for instance is genereally more divisive than a statement that is positive or neutral.</p>
         <p class="h3">To start, here are examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement:</p>
         <div class="tweets-3">
-          {% if positive_tweet %}
+          {% if positive_election_tweet %}
             <div class="tweet-container positive-tweet">
               <p class="h3 label">Positive</p>
-              <p>{% autoescape off %}{{ positive_tweet }}{% endautoescape %}</p>
+              <p>{% autoescape off %}{{ positive_election_tweet }}{% endautoescape %}</p>
             </div>
           {% endif %}
-          {% if negative_tweet %}
+          {% if negative_election_tweet %}
             <div class="tweet-container negative-tweet">
               <p class="h3 label">Negative</p>
-              <p>{% autoescape off %}{{ negative_tweet }}{% endautoescape %}</p>
+              <p>{% autoescape off %}{{ negative_election_tweet }}{% endautoescape %}</p>
             </div>
           {% endif %}
-          {% if neutral_tweet %}
+          {% if neutral_election_tweet %}
             <div class="tweet-container neutral-tweet">
               <p class="h3 label">Neutral</p>
-              <p>{% autoescape off %}{{ neutral_tweet }}{% endautoescape %}</p>
+              <p>{% autoescape off %}{{ neutral_election_tweet }}{% endautoescape %}</p>
             </div>
           {% endif %}
         </div>
         <div class="pie-container">
-          <p class="h3">Aggregated Sentiment Regarding Political Topics:</p>
+          <p class="h3">Sentiment of Conversations Regarding the Election (as a percentage):</p>
           <canvas id="politics-sentiment" width="400" height="400"></canvas>
         </div>
       </div>
     </div>
     <script type="module" src="{% static '/js/libraries/charter.js' %}"></script>
-    <script type="module" src="{% static '/js/scripts/scripts-min.js' %}"></script>
+    <script type="module">
+      import {Charter} from "{% static '/js/libraries/charter.js' %}";
+      Charter.createSentimentPieChart('politics-sentiment', 'This is my Chart Title!', JSON.parse('{{ election_pie_stats|safe }}'));
+    </script>
   </body>
 </html>

@@ -1,5 +1,6 @@
 from django.db import models
 from random import randrange
+from django.core.exceptions import ObjectDoesNotExist
 
 class search_term(models.Model):
     id = models.AutoField(primary_key=True,editable=False,unique=True)
@@ -57,3 +58,20 @@ class pie_chart_sentiment_stat(models.Model):
     positive_sentiment_aggregate = models.DecimalField(max_digits=6,decimal_places=5,null=True)
     negative_sentiment_aggregate = models.DecimalField(max_digits=6,decimal_places=5,null=True)
     processed_records_count = models.BigIntegerField(editable=True,null=True)
+
+    @staticmethod
+    def getStat(searched_term: str, sentiment: str):
+        try:
+            term = pie_chart_sentiment_stat.objects.get(term_id__term=searched_term)
+            if sentiment == 'positive':
+                return term.positive_sentiment_aggregate
+            elif sentiment == 'negative':
+                return term.negative_sentiment_aggregate
+            elif sentiment == 'neutral':
+                return term.neutral_sentiment_aggregate
+            elif sentiment == 'mixed':
+                return term.mixed_sentiment_aggregate
+            else:
+                return -1
+        except ObjectDoesNotExist as ex:
+            return -1
