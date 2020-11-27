@@ -671,8 +671,36 @@
                                         [
                                             "#!/bin/bash\n",
                                             ". /home/ec2-user/venv/bin/activate\n",
+                                            "cd /var/app/current\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000775",
+                                "owner": "ec2-user",
+                                "group": "ec2-user"
+                            },
+                            "/home/ec2-user/datapull-spinup-cycle.sh": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "#!/bin/bash\n",
+                                            ". /home/ec2-user/venv/bin/activate\n",
                                             "cd /var/app/current\n",
-                                            "python3 manage.py pull_twitter_data election"
+                                            "for i in 1 2 3 4 5\n",
+                                            "do\n",
+                                            "python3 manage.py pull_twitter_data 'election' --batchsize=500\n",
+                                            "python3 manage.py pull_twitter_data 'us politics' --batchsize=500\n",
+                                            "python3 manage.py pull_twitter_data 'uk politics' --batchsize=500\n",
+                                            "python3 manage.py pull_twitter_data 'canadian politics' --batchsize=1500\n",
+                                            "python3 manage.py pull_twitter_data 'covid' --batchsize=100\n",
+                                            "python3 manage.py process_twitter_data --batchsize=1000\n",
+                                            "python3 manage.py process_sentiment_pie_stats 'election'\n",
+                                            "python3 manage.py process_sentiment_pie_stats 'covid'\n",
+                                            "python3 manage.py process_sentiment_pie_stats 'uk politics'\n",
+                                            "python3 manage.py process_sentiment_pie_stats 'us politics'\n",
+                                            "python3 manage.py process_sentiment_pie_stats 'canadian politics'\n",
+                                            "done\n"
                                         ]
                                     ]
                                 },
