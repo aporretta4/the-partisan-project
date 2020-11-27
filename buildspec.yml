@@ -4,10 +4,10 @@ phases:
   install:
     commands:
       # Install dependencies needed for running tests
+      - pip install -r requirements.txt
       - cd partisan/
       - npm install gulp -g
       - npm i
-      - pip install -r requirements.txt
       - echo "Install phase complete."
   pre_build:
     commands:
