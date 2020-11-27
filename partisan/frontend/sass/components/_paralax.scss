@@ -2,6 +2,7 @@
   color: $white;
   display: block;
   position: relative;
+  text-align: center;
   &::after {
     content: "";
     background: url($imgpath);
@@ -29,6 +30,9 @@
     z-index: -1;
   }
   .paralax-content-wrapper {
-    padding: em(40);
+    padding: 0 em(40) em(40) em(40);
+  }
+  .divider {
+    padding-top: em(20);
   }
 }

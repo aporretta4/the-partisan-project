@@ -1,0 +1,5 @@
+div.paralax-container {
+  &.corona-container {
+    @include paralax("/static/img/corona.jpg");
+  }
+}

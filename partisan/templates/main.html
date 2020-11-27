@@ -35,6 +35,7 @@
       <div class="paralax-translucency"></div>
       <div class="paralax-content-wrapper">
         <div class="divider">Politics</div>
+        <!-- Election -->
         <p>Lets try to determine what people are talking about with regards to the US 2020 election... Sentiment is an important measure of how divided people are on a particular topic. A statement that is highly negative for instance is genereally more divisive than a statement that is positive or neutral.</p>
         <p class="h3">To start, here are examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement:</p>
         <div class="tweets-3">
@@ -61,12 +62,101 @@
           <p class="h3">Sentiment of Conversations Regarding the Election (as a percentage):</p>
           <canvas id="politics-sentiment" width="400" height="400"></canvas>
         </div>
+        <!-- US Politics -->
+        <div class="divider">US Politics</div>
+        <p class="h3">And some are examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding US politics:</p>
+        <div class="tweets-3">
+          {% if positive_us_tweet %}
+            <div class="tweet-container positive-tweet">
+              <p class="h3 label">Positive</p>
+              <p>{% autoescape off %}{{ positive_us_tweet }}{% endautoescape %}</p>
+            </div>
+          {% endif %}
+          {% if negative_us_tweet %}
+            <div class="tweet-container negative-tweet">
+              <p class="h3 label">Negative</p>
+              <p>{% autoescape off %}{{ negative_us_tweet }}{% endautoescape %}</p>
+            </div>
+          {% endif %}
+          {% if neutral_us_tweet %}
+            <div class="tweet-container neutral-tweet">
+              <p class="h3 label">Neutral</p>
+              <p>{% autoescape off %}{{ neutral_us_tweet }}{% endautoescape %}</p>
+            </div>
+          {% endif %}
+        </div>
+        <div class="pie-container">
+          <p class="h3">Sentiment of Conversations Regarding US Politics (as a percentage):</p>
+          <canvas id="us-politics-sentiment" width="400" height="400"></canvas>
+        </div>
+        <!-- UK Politics -->
+        <div class="divider">UK Politics</div>
+        <p class="h3">Examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding UK politics:</p>
+        <div class="tweets-3">
+          {% if positive_us_tweet %}
+            <div class="tweet-container positive-tweet">
+              <p class="h3 label">Positive</p>
+              <p>{% autoescape off %}{{ positive_uk_tweet }}{% endautoescape %}</p>
+            </div>
+          {% endif %}
+          {% if negative_us_tweet %}
+            <div class="tweet-container negative-tweet">
+              <p class="h3 label">Negative</p>
+              <p>{% autoescape off %}{{ negative_uk_tweet }}{% endautoescape %}</p>
+            </div>
+          {% endif %}
+          {% if neutral_us_tweet %}
+            <div class="tweet-container neutral-tweet">
+              <p class="h3 label">Neutral</p>
+              <p>{% autoescape off %}{{ neutral_uk_tweet }}{% endautoescape %}</p>
+            </div>
+          {% endif %}
+        </div>
+        <div class="pie-container">
+          <p class="h3">Sentiment of Conversations Regarding UK Politics (as a percentage):</p>
+          <canvas id="uk-politics-sentiment" width="400" height="400"></canvas>
+        </div>
+      </div>
+    </div>
+    <!-- Coronavirus -->
+    <div class="paralax-container corona-container">
+      <div class="paralax-translucency"></div>
+      <div class="paralax-content-wrapper">
+        <div class="divider">Covid-19</div>
+        <p class="h3">Examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding UK politics:</p>
+        <div class="tweets-3">
+          {% if positive_us_tweet %}
+            <div class="tweet-container positive-tweet">
+              <p class="h3 label">Positive</p>
+              <p>{% autoescape off %}{{ positive_covid_tweet }}{% endautoescape %}</p>
+            </div>
+          {% endif %}
+          {% if negative_us_tweet %}
+            <div class="tweet-container negative-tweet">
+              <p class="h3 label">Negative</p>
+              <p>{% autoescape off %}{{ negative_covid_tweet }}{% endautoescape %}</p>
+            </div>
+          {% endif %}
+          {% if neutral_us_tweet %}
+            <div class="tweet-container neutral-tweet">
+              <p class="h3 label">Neutral</p>
+              <p>{% autoescape off %}{{ neutral_covid_tweet }}{% endautoescape %}</p>
+            </div>
+          {% endif %}
+        </div>
+        <div class="pie-container">
+          <p class="h3">Sentiment of Conversations Covid-19 (as a percentage):</p>
+          <canvas id="covid-sentiment" width="400" height="400"></canvas>
+        </div>
       </div>
     </div>
     <script type="module" src="{% static '/js/libraries/charter.js' %}"></script>
     <script type="module">
       import {Charter} from "{% static '/js/libraries/charter.js' %}";
       Charter.createSentimentPieChart('politics-sentiment', 'This is my Chart Title!', JSON.parse('{{ election_pie_stats|safe }}'));
+      Charter.createSentimentPieChart('us-politics-sentiment', 'This is my Chart Title!', JSON.parse('{{ us_politics_pie_stats|safe }}'));
+      Charter.createSentimentPieChart('uk-politics-sentiment', 'This is my Chart Title!', JSON.parse('{{ uk_politics_pie_stats|safe }}'));
+      Charter.createSentimentPieChart('covid-sentiment', 'This is my Chart Title!', JSON.parse('{{ covid_pie_stats|safe }}'));
     </script>
   </body>
 </html>

@@ -1,6 +1,5 @@
 div.paralax-container {
   &.politics-container {
     @include paralax("/static/img/germany-bg.jpg");
-    text-align: center;
   }
 }
