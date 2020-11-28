@@ -21,7 +21,7 @@ phases:
       - echo "Build phase complete."
   post_build:
     commands:
-      - rm -rf partisan/node_modules
+      - rm -rf node_modules
       - echo "Post-build phase complete."
 artifacts:
   files:
