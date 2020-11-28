@@ -34,13 +34,22 @@ class tweet(models.Model):
         if term.count() != 0:
             if sentiment == 'positive':
                 positive_tweet= tweet.objects.filter(term_id=term[0].id, nlp_positive_sentiment__gt=0.95)
-                return positive_tweet[randrange(positive_tweet.count())].text
+                if positive_tweet.count() > 0:
+                    return positive_tweet[randrange(positive_tweet.count())].text
+                else:
+                    return ''
             elif sentiment == 'negative':
                 negative_tweet = tweet.objects.filter(term_id=term[0].id, nlp_negative_sentiment__gt=0.95)
-                return negative_tweet[randrange(negative_tweet.count())].text
+                if negative_tweet.count() > 0:
+                    return negative_tweet[randrange(negative_tweet.count())].text
+                else:
+                    return ''
             elif sentiment == 'neutral':
                 neutral_tweet = tweet.objects.filter(term_id=term[0].id, nlp_neutral_sentiment__gt=0.95)
-                return neutral_tweet[randrange(neutral_tweet.count())].text
+                if neutral_tweet.count() > 0:
+                    return neutral_tweet[randrange(neutral_tweet.count())].text
+                else:
+                    return ''
             else:
                 return ''
         else:
