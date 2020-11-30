@@ -48,13 +48,11 @@ gulp.task('removeJs', (done) => {
   }
 });
 
-gulp.task('createNodePackageJs', () => {
-  return gulp.src([
-      'node_modules/**/*.js',
-      'node_modules/**/*/.min.js'
-    ])
-    .pipe(gulp.dest('static/node_modules'));
-});
+gulp.task('buildChartJs', () => {
+  return gulp.src('node_modules/chart.js/**/*.js').pipe(gulp.dest('static/node_modules/chart.js/'));
+})
+
+gulp.task('createNodePackageJs', gulp.series('buildChartJs'));
 
 gulp.task('createJsLibs', () => {
   return gulp.src('frontend/js/libraries/**/*.js')
@@ -97,7 +95,7 @@ gulp.task('buildFonts', () => {
 
 gulp.task('watch', () => {
   gulp.watch('frontend/sass/**/*.scss', gulp.series('buildSass'));
-  gulp.watch(['node_modules/**/*.js', 'node_modules/**/*/.min.js'], gulp.series('removeNodePackageJs', 'createNodePackageJs'));
+  gulp.watch(['node_modules/**/*.js'], gulp.series('removeNodePackageJs', 'createNodePackageJs'));
   gulp.watch('frontend/js/**/*.js', gulp.series('removeJs', 'buildJs'));
   gulp.watch('frontend/img/**/*', gulp.series('buildImg'));
   gulp.watch('frontend/fonts/**/*', gulp.series('buildFonts'));
