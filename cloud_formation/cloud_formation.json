@@ -610,7 +610,7 @@
                                 "http://d2xrkw20jymhuj.cloudfront.net",
                                 "https://d2xrkw20jymhuj.cloudfront.net"
                             ],
-                            "ExposedHeaders": ["*"]
+                            "ExposedHeaders": []
                         }
                     ]
                 }
