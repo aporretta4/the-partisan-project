@@ -1,4 +1,5 @@
 #!/bin/bash
+source "/etc/profile.d/custom-envs.sh"
 ENVDIR="/home/ec2-user/venv/"
 pkill gunicorn
 if [ ! -d "$ENVDIR" ]; then
