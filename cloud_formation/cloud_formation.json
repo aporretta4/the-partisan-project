@@ -13,6 +13,12 @@
             "AllowedPattern": "(^[a-zA-Z0-9]*$)",
             "ConstraintDescription": "Must be alphanumeric characters only."
         },
+        "StaticFileBucketName": {
+            "Type": "String",
+            "Description": "The name of the bucket containing static files.",
+            "AllowedPattern": "(^[a-z]*$)",
+            "ConstraintDescription": "Lowercase alpha characters only."
+        },
         "Subnets": {
             "Type": "List<AWS::EC2::Subnet::Id>",
             "Description": "The list of SubnetIds in your Virtual Private Cloud (VPC)",
@@ -581,6 +587,83 @@
                 }
             }
         },
+        "StaticFilesBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": {
+                    "Ref": "StaticFileBucketName"
+                },
+                "PublicAccessBlockConfiguration": {
+                    "BlockPublicAcls" : "true",
+                    "BlockPublicPolicy" : "true",
+                    "IgnorePublicAcls" : "true",
+                    "RestrictPublicBuckets" : "true"
+                }
+            }
+        },
+        "StaticFilesBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+                "PolicyDocument": {
+                    "Id": "StaticFilesBucketPolicy",
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "PolicyForCloudFrontPrivateContent",
+                            "Effect": "Allow",
+                            "Principal": {"AWS": ["arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E3U1A84N9SU5OL"]},
+                            "Action": "s3:GetObject",
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "arn:aws:s3:::",
+                                        {
+                                            "Ref": "StaticFilesBucket"
+                                        },
+                                        "/*"
+                                    ]
+                                ]
+                            }
+                        },
+                    ]
+                },
+                "Bucket": {
+                    "Ref": "StaticFilesBucket"
+                }
+            }
+        },
+        "StaticFileCFDistro": {
+            "Type": "AWS::CloudFront::Distribution",
+            "Properties": {
+                "DistributionConfig": {
+                    "Enabled": "true",
+                    "PriceClass" : "PriceClass_100",
+                    "Origins" : [{
+                        "DomainName": {
+                            "Fn::GetAtt": ["StaticFilesBucket", "DomainName"]
+                        },
+                        "Id": {
+                            "Fn::GetAtt": ["StaticFilesBucket", "Arn"]
+                        },
+                        "S3OriginConfig" : {
+                            "OriginAccessIdentity": "origin-access-identity/cloudfront/E3U1A84N9SU5OL"
+                        }
+                    }],
+                    "DefaultCacheBehavior": {
+                        "AllowedMethods": ["GET", "HEAD"],
+                        "CachePolicyId": "b2884449-e4de-46a7-ac36-70bc7f1ddd6d",
+                        "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
+                        "TargetOriginId": {
+                            "Fn::GetAtt": ["StaticFilesBucket", "Arn"]
+                        },
+                        "ViewerProtocolPolicy" : "allow-all",
+                        "Compress": "false",
+                        "SmoothStreaming": "false"
+                    }
+                }
+            }
+        },
         "WebServerGroup": {
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
@@ -684,16 +767,6 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            {
-                                                "Fn::Sub": "export DJANGO_KEY_SECRET_NAME=\"${AWS::StackName}-PPSecretKey\"\n"
-                                            },
-                                            {
-                                                "Fn::Sub": "export DB_PASS_SECRET_NAME=\"${AWS::StackName}-PPDBPass\"\n"
-                                            },
-                                            {
-                                                "Fn::Sub": "export PP_ENVIRONMENT=\"${AWS::StackName}\"\n"
-                                            },
-                                            "\n",
                                             "*/20 * * * * root sh /home/ec2-user/datapull-crontab.sh  > /var/log/datapull.cron.log 2>&1\n"
                                         ]
                                     ]
@@ -715,6 +788,9 @@
                                             },
                                             {
                                                 "Fn::Sub": "export PP_ENVIRONMENT=\"${AWS::StackName}\"\n"
+                                            },
+                                            {
+                                                "Fn::Sub": [ "export STATIC_FILE_BUCKET_NAME=\"${BucketName}\"\n", { "BucketName": {"Ref" : "StaticFileBucketName" }} ]
                                             }
                                         ]
                                     ]
@@ -1180,6 +1256,42 @@
                                     "Resource": [
                                         "arn:aws:s3:::elasticbeanstalk-us-west-2-054058811484",
                                         "arn:aws:s3:::elasticbeanstalk-us-west-2-054058811484/*"
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "PolicyName": "S3StaticFileBucketPerms",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Sid": "VisualEditor0",
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "s3:GetObject",
+                                        "s3:GetBucketLocation",
+                                        "s3:DeleteObject",
+                                        "s3:PutObject"
+                                    ],
+                                    "Resource": [
+                                        {
+                                            "Fn::Sub": ["${BucketArn}/*", { "BucketArn": {"Fn::GetAtt": ["StaticFilesBucket", "Arn"]}} ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Sid": "VisualEditor1",
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "s3:ListBucket",
+                                        "s3:GetBucketLocation"
+                                    ],
+                                    "Resource": [
+                                        {
+                                            "Fn::GetAtt": ["StaticFilesBucket", "Arn"]
+                                        }
                                     ]
                                 }
                             ]
