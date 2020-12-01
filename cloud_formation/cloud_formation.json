@@ -598,6 +598,21 @@
                     "BlockPublicPolicy" : "true",
                     "IgnorePublicAcls" : "true",
                     "RestrictPublicBuckets" : "true"
+                },
+                "CorsConfiguration": {
+                    "CorsRules": [
+                        {
+                            "AllowedHeaders": ["*"],
+                            "AllowedMethods": ["GET", "HEAD"],
+                            "AllowedOrigins": [
+                                "http://testi-appli-uocsqoqzres-1461370742.us-west-2.elb.amazonaws.com",
+                                "https://testi-appli-uocsqoqzres-1461370742.us-west-2.elb.amazonaws.com",
+                                "http://d2xrkw20jymhuj.cloudfront.net",
+                                "https://d2xrkw20jymhuj.cloudfront.net"
+                            ],
+                            "ExposedHeaders": ["*"]
+                        }
+                    ]
                 }
             }
         },
@@ -651,7 +666,7 @@
                         }
                     }],
                     "DefaultCacheBehavior": {
-                        "AllowedMethods": ["GET", "HEAD"],
+                        "AllowedMethods": ["GET", "HEAD", "OPTIONS"],
                         "CachePolicyId": "b2884449-e4de-46a7-ac36-70bc7f1ddd6d",
                         "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
                         "TargetOriginId": {
