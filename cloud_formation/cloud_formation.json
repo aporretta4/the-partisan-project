@@ -790,6 +790,41 @@
                                 "owner": "root",
                                 "group": "root"
                             },
+                            "/etc/httpd/conf/custom.conf": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "<VirtualHost *:80>\n",
+                                                "ServerAdmin angelocp4@gmail.com\n",
+                                                "ServerName example.com\n",
+                                                "ServerAlias www.example.com\n",
+                                                "DocumentRoot /var/app/current/partisan\n",
+                                                "ErrorLog /var/log/httpd/partisan.error.log\n",
+                                                "CustomLog /var/log/httpd/partisan.access.log combined\n",
+                                                "ProxyPreserveHost On\n",
+                                                "ProxyPass / http://127.0.0.1:8000/\n",
+                                                "ProxyPassReverse / http://127.0.0.1:8000/\n",
+                                                "RewriteEngine On\n",
+                                                {
+                                                    "Fn::Sub": [
+                                                        "RewriteRule \"/static/(.*)$\" \"http://${CFDomain}/static/$1\n",
+                                                        { "CFDomain": {"Fn::GetAtt": ["StaticFileCFDistro", "DomainName"]}}
+                                                    ]
+                                                },
+                                                "<Directory /var/app/current/partisan>\n",
+                                                    "Order deny,allow\n",
+                                                    "Allow from all\n",
+                                                    "Options -Indexes\n",
+                                                "</Directory>\n",
+                                            "</VirtualHost>\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000775",
+                                "owner": "root",
+                                "group": "root"
+                            },
                             "/etc/profile.d/custom-envs.sh": {
                                 "content": {
                                     "Fn::Join": [
@@ -900,7 +935,7 @@
                                         "",
                                         [
                                             "rm /etc/httpd/conf/httpd.conf\n",
-                                            "aws s3 cp s3://elasticbeanstalk-us-west-2-054058811484/CloudformationConfig/httpd.conf /etc/httpd/conf/httpd.conf\n"
+                                            "aws s3 cp s3://elasticbeanstalk-us-west-2-054058811484/CloudformationConfig/httpd-v2.conf /etc/httpd/conf/httpd.conf\n"
                                         ]
                                     ]
                                 }
