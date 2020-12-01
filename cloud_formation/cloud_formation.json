@@ -808,7 +808,7 @@
                                                 "RewriteEngine On\n",
                                                 {
                                                     "Fn::Sub": [
-                                                        "RewriteRule \"/static/(.*)$\" \"http://${CFDomain}/static/$1\n",
+                                                        "RewriteRule \"/static/(.*)$\" \"http://${CFDomain}/static/$1\"\n",
                                                         { "CFDomain": {"Fn::GetAtt": ["StaticFileCFDistro", "DomainName"]}}
                                                     ]
                                                 },
@@ -1009,6 +1009,7 @@
                                 {
                                     "Ref": "AWS::Region"
                                 },
+                                "# Benign change to force instance recreation\n",
                                 "\n"
                             ]
                         ]
