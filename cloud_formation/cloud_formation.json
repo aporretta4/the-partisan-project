@@ -1255,6 +1255,23 @@
                         }
                     },
                     {
+                        "PolicyName": "ComprehendPerms",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Sid": "VisualEditor0",
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "comprehend:DetectSentiment",
+                                        "comprehend:BatchDetectSentiment"
+                                    ],
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    },
+                    {
                         "PolicyName": "S3DeploymentGrab",
                         "PolicyDocument": {
                             "Version": "2012-10-17",
