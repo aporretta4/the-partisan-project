@@ -35,10 +35,12 @@ class reddit_retriever:
           new_subreddit.save()
           existing_subreddit = new_subreddit
         if not reddit_submission.getSubmission(submission_id=submission.id):
+          submission_nlp_flag = True if submission.selftext == '' else False
           new_submission = reddit_submission(
             submission_id=submission.id,
             text=submission.selftext,
-            subreddit_id=existing_subreddit.id
+            subreddit_id=existing_subreddit.id,
+            nlp_processed=submission_nlp_flag
           )
           new_submission.save()
           gathered_submissions.append(submission)
