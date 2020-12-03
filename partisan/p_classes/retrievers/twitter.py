@@ -1,7 +1,7 @@
 import json
 import logging
 import requests
-import hashlib
+from partisan.p_classes.util.text import hashText
 from requests.exceptions import HTTPError
 from datetime import datetime
 from urllib.parse import quote_plus
@@ -30,7 +30,7 @@ class twitter_retriever:
                     dt = datetime.strptime(result['created_at'], '%a %b %d %H:%M:%S %z %Y')
                     last_id = result['id']
                     if 'retweeted_status' in result:
-                        hash = hashlib.sha3_512(str.encode(result['retweeted_status']['full_text'])).hexdigest()
+                        hash = hashText(text=result['retweeted_status']['full_text'])
                         hash_lookup = tweet.objects.filter(text_hash=hash)
                         if hash_lookup.count() == 0:
                             tw = tweet(

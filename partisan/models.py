@@ -59,6 +59,60 @@ class tw_retriever_metadata(models.Model):
     id = models.CharField(primary_key=True,editable=False,unique=True,max_length=255)
     val = models.TextField(blank=False,null=False)
 
+class subreddit(models.Model):
+    subreddit_name = models.CharField(null=False, unique=True, max_length=128)
+
+    @staticmethod
+    def getSubreddit(sub_name: str):
+        try:
+            return subreddit.objects.get(subreddit_name=sub_name)
+        except subreddit.DoesNotExist:
+            return False
+
+class reddit_submission(models.Model):
+    submission_id = models.CharField(max_length=32, null=False, editable=False, unique=True)
+    subreddit = models.ForeignKey(to=subreddit, on_delete=models.RESTRICT, null=False)
+    text = models.CharField(max_length=10000, null=True)
+    nlp_processed = models.BooleanField(default=False)
+    nlp_neutral_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
+    nlp_positive_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
+    nlp_negative_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
+    nlp_mixed_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
+
+    @staticmethod
+    def getSubmission(submission_id: str):
+        try:
+            return reddit_submission.objects.get(submission_id=submission_id)
+        except reddit_submission.DoesNotExist:
+            return False
+
+    def save(self):
+        self.text = (self.text[:9997] + '..') if len(self.text) > 9997 else self.text
+        super().save()
+
+
+class reddit_comment(models.Model):
+    comment_id = models.CharField(max_length=32, null=False, editable=False)
+    submission = models.ForeignKey(to=reddit_submission, on_delete=models.RESTRICT, null=False)
+    text = models.CharField(max_length=10000, null=False)
+    text_hash = models.CharField(max_length=128,null=True,unique=True)
+    nlp_processed = models.BooleanField(default=False)
+    nlp_neutral_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
+    nlp_positive_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
+    nlp_negative_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
+    nlp_mixed_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
+
+    @staticmethod
+    def getComment(hash: str):
+        try:
+            return reddit_comment.objects.get(text_hash=hash)
+        except reddit_comment.DoesNotExist:
+            return False
+
+    def save(self):
+        self.text = (self.text[:9997] + '..') if len(self.text) > 9997 else self.text
+        super().save()
+
 class pie_chart_sentiment_stat(models.Model):
     id = models.AutoField(primary_key=True,editable=False,unique=True)
     term = models.OneToOneField(search_term,null=False,on_delete=models.RESTRICT,related_name='statistic_of')
