@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 import logging
 from django_project.settings import REDDIT_APP_SECRET
 from partisan.models import subreddit, reddit_submission, reddit_comment
-from partisan.p_classes.util.html import stripTags
 from partisan.p_classes.util.text import hashText
 
 class reddit_retriever:
