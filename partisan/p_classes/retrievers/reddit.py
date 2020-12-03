@@ -1,6 +1,7 @@
-from re import sub
 import praw
 from praw.models import Submission
+from markdown import markdown
+from bs4 import BeautifulSoup
 import logging
 from django_project.settings import REDDIT_APP_SECRET
 from partisan.models import subreddit, reddit_submission, reddit_comment
@@ -36,6 +37,8 @@ class reddit_retriever:
           existing_subreddit = new_subreddit
         if not reddit_submission.getSubmission(submission_id=submission.id):
           submission_nlp_flag = True if submission.selftext == '' else False
+          if submission.selftext != '':
+            submission.selftext = ''.join(BeautifulSoup(markdown(submission.selftext), features='html.parser').get_text())
           new_submission = reddit_submission(
             submission_id=submission.id,
             text=submission.selftext,
@@ -59,7 +62,7 @@ class reddit_retriever:
       if len(remote_comments) < comment_count:
         comment_count = len(remote_comments)
       for i in range(comment_count):
-        comment_text = stripTags(remote_comments[i].body_html)
+        comment_text = BeautifulSoup(remote_comments[i].body_html, features='html.parser').get_text()
         hashed_text = hashText(comment_text)
         existing_comment = reddit_comment.getComment(hash=hashed_text)
         if existing_comment == False and len(comment_text) > 200:
