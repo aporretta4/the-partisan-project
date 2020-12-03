@@ -36,7 +36,7 @@ try:
     ENVORNMENT = os.getenv('PP_ENVIRONMENT')
     SECRET_KEY = secrets_interactor.getSecret(os.getenv('DJANGO_KEY_SECRET_NAME'))['secret_key']
     TW_BEARER_TOKEN = secrets_interactor.getSecret('pp_twitter_api')['bearer_token']
-    REDDIT_APP_SECRET = secrets_interactor.getSecret('reddit_api_secret')['secret_key']
+    REDDIT_APP_SECRET = secrets_interactor.getSecret('pp_reddit_api_secret')['secret_key']
     db_creds = secrets_interactor.getSecret(os.getenv('DB_PASS_SECRET_NAME'))
     DATABASES['default']['NAME'] = db_creds['dbname']
     DATABASES['default']['USER'] = db_creds['username']
