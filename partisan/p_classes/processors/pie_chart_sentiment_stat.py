@@ -1,6 +1,6 @@
-from partisan.models import pie_chart_sentiment_stat, tweet, search_term
+from partisan.models import pie_chart_sentiment_stat, search_term
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Avg
+from django.db.models import Avg, Model
 from django.db import transaction
 import decimal
 import logging
@@ -8,10 +8,10 @@ import logging
 class stat_processor:
 
   @staticmethod
-  def processStats(searched_term: str, batch: int = 100):
+  def processStats(searched_term: str, sentimentable_model: Model, batch: int = 100):
     try:
       term = search_term.objects.get(term=searched_term)
-      unprocessed_stats = tweet.objects.filter(pie_stat_processed=False, nlp_processed=True, term_id=term.id)[:batch]
+      unprocessed_stats = sentimentable_model.objects.filter(pie_stat_processed=False, nlp_processed=True, term_id=term.id)[:batch]
       if unprocessed_stats.count() == 0:
         return True
       processed_weight = stat_processor.processDataWeight(
@@ -38,7 +38,7 @@ class stat_processor:
             term_id=term.id
           )
           sentiment_stat.save()
-          tweet.objects.filter(id__in=list(unprocessed_stats.values_list('id', flat=True))).update(pie_stat_processed=True)
+          sentimentable_model.objects.filter(id__in=list(unprocessed_stats.values_list('id', flat=True))).update(pie_stat_processed=True)
           return True
       else:
         try:
@@ -50,7 +50,7 @@ class stat_processor:
             old_stats.negative_sentiment_aggregate = (processed_weight * old_stats.negative_sentiment_aggregate) + (unprocessed_weight * new_negative_avg)
             old_stats.processed_records_count = old_stats.processed_records_count + unprocessed_stats.count()
             old_stats.save()
-            tweet.objects.filter(id__in=list(unprocessed_stats.values_list('id', flat=True))).update(pie_stat_processed=True)
+            sentimentable_model.objects.filter(id__in=list(unprocessed_stats.values_list('id', flat=True))).update(pie_stat_processed=True)
             return True
         except ObjectDoesNotExist as ex_stat:
           print('Error! The term ' + searched_term + ' does not exist when looking for existing aggregate stats! Exception: ' + str(ex_stat))

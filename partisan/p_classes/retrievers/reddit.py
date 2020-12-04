@@ -28,22 +28,27 @@ class reddit_retriever:
     try:
       sub_interactor = self.reddit_interactor.subreddit(display_name=subreddit_name)
       submissions = getattr(sub_interactor, submission_type)(limit=post_count)
+      existing_subreddit = search_term.getSearchTerm(term_name='r/' + subreddit_name)
+      if existing_subreddit == False:
+        new_subreddit = search_term(term='r/' + subreddit_name)
+        new_subreddit.save()
+        existing_subreddit = new_subreddit
       for submission in submissions:
-        existing_subreddit = search_term.getSearchTerm(term_name='r/' + subreddit_name)
-        if existing_subreddit == False:
-          new_subreddit = search_term(term='r/' + subreddit_name)
-          new_subreddit.save()
-          existing_subreddit = new_subreddit
         if not reddit_submission.getSubmission(submission_id=submission.id):
-          submission_nlp_flag = True if submission.selftext == '' else False
-          if submission.selftext != '':
+          if submission.selftext == '':
+            new_submission = reddit_submission(
+              submission_id=submission.id,
+              term_id=existing_subreddit.id,
+              nlp_processed=True,
+              pie_stat_processed=True
+            )
+          else:
             submission.selftext = ''.join(BeautifulSoup(markdown(submission.selftext), features='html.parser').get_text())
-          new_submission = reddit_submission(
-            submission_id=submission.id,
-            text=submission.selftext,
-            subreddit_id=existing_subreddit.id,
-            nlp_processed=submission_nlp_flag
-          )
+            new_submission = reddit_submission(
+              submission_id=submission.id,
+              text=submission.selftext,
+              term_id=existing_subreddit.id
+            )
           new_submission.save()
           gathered_submissions.append(submission)
         else:
@@ -60,6 +65,11 @@ class reddit_retriever:
       remote_comments = submission.comments
       if len(remote_comments) < comment_count:
         comment_count = len(remote_comments)
+      existing_subreddit = search_term.getSearchTerm(term_name='r/' + submission.subreddit.display_name)
+      if existing_subreddit == False:
+        new_subreddit = search_term(term='r/' + submission.subreddit.display_name)
+        new_subreddit.save()
+        existing_subreddit = new_subreddit
       for i in range(comment_count):
         comment_text = BeautifulSoup(remote_comments[i].body_html, features='html.parser').get_text()
         hashed_text = hashText(comment_text)
@@ -69,7 +79,7 @@ class reddit_retriever:
             comment_id=remote_comments[i].id,
             text=comment_text,
             text_hash=hashed_text,
-            submission_id=reddit_submission.getSubmission(submission_id=submission.id).id
+            term_id=existing_subreddit.id
           )
           new_comment.save()
           gathered_comments.append(new_comment)
