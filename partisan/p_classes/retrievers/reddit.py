@@ -4,7 +4,7 @@ from markdown import markdown
 from bs4 import BeautifulSoup
 import logging
 from django_project.settings import REDDIT_APP_SECRET
-from partisan.models import subreddit, reddit_submission, reddit_comment
+from partisan.models import reddit_submission, reddit_comment, search_term
 from partisan.p_classes.util.text import hashText
 
 class reddit_retriever:
@@ -29,9 +29,9 @@ class reddit_retriever:
       sub_interactor = self.reddit_interactor.subreddit(display_name=subreddit_name)
       submissions = getattr(sub_interactor, submission_type)(limit=post_count)
       for submission in submissions:
-        existing_subreddit = subreddit.getSubreddit(sub_name=subreddit_name)
+        existing_subreddit = search_term.getSearchTerm(term_name='r/' + subreddit_name)
         if existing_subreddit == False:
-          new_subreddit = subreddit(subreddit_name=subreddit_name)
+          new_subreddit = search_term(term='r/' + subreddit_name)
           new_subreddit.save()
           existing_subreddit = new_subreddit
         if not reddit_submission.getSubmission(submission_id=submission.id):

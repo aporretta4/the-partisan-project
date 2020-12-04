@@ -6,6 +6,13 @@ class search_term(models.Model):
     id = models.AutoField(primary_key=True,editable=False,unique=True)
     term = models.CharField(editable=False,unique=False,max_length=255)
 
+    @staticmethod
+    def getSearchTerm(term_name: str):
+        try:
+            return search_term.objects.get(term=term_name)
+        except search_term.DoesNotExist:
+            return False
+
 class tweet(models.Model):
     id = models.BigIntegerField(primary_key=True,editable=False,unique=True)
     text = models.CharField(max_length=2048, )
@@ -59,19 +66,9 @@ class tw_retriever_metadata(models.Model):
     id = models.CharField(primary_key=True,editable=False,unique=True,max_length=255)
     val = models.TextField(blank=False,null=False)
 
-class subreddit(models.Model):
-    subreddit_name = models.CharField(null=False, unique=True, max_length=128)
-
-    @staticmethod
-    def getSubreddit(sub_name: str):
-        try:
-            return subreddit.objects.get(subreddit_name=sub_name)
-        except subreddit.DoesNotExist:
-            return False
-
 class reddit_submission(models.Model):
     submission_id = models.CharField(max_length=32, null=False, editable=False, unique=True)
-    subreddit = models.ForeignKey(to=subreddit, on_delete=models.RESTRICT, null=False)
+    subreddit = models.ForeignKey(to=search_term, on_delete=models.RESTRICT, null=False)
     text = models.CharField(max_length=10000, null=True)
     nlp_processed = models.BooleanField(default=False)
     nlp_neutral_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
