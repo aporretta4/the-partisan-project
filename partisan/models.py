@@ -35,33 +35,6 @@ class tweet(models.Model):
         else:
             return []
 
-    @staticmethod
-    def getSentimentTweet(searched_term: str, sentiment: str):
-        term = search_term.objects.filter(term=searched_term)
-        if term.count() != 0:
-            if sentiment == 'positive':
-                positive_tweet= tweet.objects.filter(term_id=term[0].id, nlp_positive_sentiment__gt=0.95)
-                if positive_tweet.count() > 0:
-                    return positive_tweet[randrange(positive_tweet.count())].text
-                else:
-                    return ''
-            elif sentiment == 'negative':
-                negative_tweet = tweet.objects.filter(term_id=term[0].id, nlp_negative_sentiment__gt=0.95)
-                if negative_tweet.count() > 0:
-                    return negative_tweet[randrange(negative_tweet.count())].text
-                else:
-                    return ''
-            elif sentiment == 'neutral':
-                neutral_tweet = tweet.objects.filter(term_id=term[0].id, nlp_neutral_sentiment__gt=0.95)
-                if neutral_tweet.count() > 0:
-                    return neutral_tweet[randrange(neutral_tweet.count())].text
-                else:
-                    return ''
-            else:
-                return ''
-        else:
-            return ''
-
 class tw_retriever_metadata(models.Model):
     id = models.CharField(primary_key=True,editable=False,unique=True,max_length=255)
     val = models.TextField(blank=False,null=False)
@@ -69,7 +42,7 @@ class tw_retriever_metadata(models.Model):
 class reddit_submission(models.Model):
     submission_id = models.CharField(max_length=32, null=False, editable=False, unique=True)
     term = models.ForeignKey(to=search_term, on_delete=models.RESTRICT, null=False)
-    text = models.CharField(max_length=10000, null=True)
+    text = models.CharField(max_length=4750, null=True)
     nlp_processed = models.BooleanField(default=False)
     nlp_neutral_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
     nlp_positive_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
@@ -86,13 +59,13 @@ class reddit_submission(models.Model):
 
     def save(self):
         if self.text is not None:
-            self.text = (self.text[:9997] + '..') if len(self.text) > 9997 else self.text
+            self.text = (self.text[:4750] + '...') if len(self.text) > 4750 else self.text
         super().save()
 
 class reddit_comment(models.Model):
     comment_id = models.CharField(max_length=32, null=False, editable=False)
     term = models.ForeignKey(to=search_term, on_delete=models.RESTRICT, null=False)
-    text = models.CharField(max_length=10000, null=False)
+    text = models.CharField(max_length=4750, null=False)
     text_hash = models.CharField(max_length=128,null=True,unique=True)
     nlp_processed = models.BooleanField(default=False)
     nlp_neutral_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
@@ -110,7 +83,7 @@ class reddit_comment(models.Model):
 
     def save(self):
         if self.text is not None:
-            self.text = (self.text[:9997] + '..') if len(self.text) > 9997 else self.text
+            self.text = (self.text[:4750] + '...') if len(self.text) > 4750 else self.text
         super().save()
 
 class pie_chart_sentiment_stat(models.Model):
