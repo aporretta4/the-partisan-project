@@ -1,0 +1,9 @@
+{% load static %}
+<div class="pie-container">
+  <p class="h3">{{ title }}</p>
+  <canvas id="{{ canvas_id }}" width="400" height="400"></canvas>
+</div>
+<script type="module">
+  import {Charter} from "{% static '/js/libraries/charter.js' %}";
+  Charter.createSentimentPieChart('{{ canvas_id|safe }}', '{{ title|safe }}', JSON.parse('{{ data|safe }}'));
+</script>

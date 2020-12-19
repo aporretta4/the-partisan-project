@@ -1,0 +1,4 @@
+<div class="tweet-container {{ sentiment }}-tweet">
+  <p class="h3 label">{{ sentiment|title }}</p>
+  <p>{% autoescape off %}{{ tweet }}{% endautoescape %}</p>
+</div>

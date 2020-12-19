@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Quicksand" />
     <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet" />
     <link href="{% static '/css/init.css' %}" rel="stylesheet" />
+    <script type="module" src="{% static '/js/libraries/charter.js' %}"></script>
   </head>
   <body>
     <div class="boxquote"><i class="fas fa-quote-left fa2"></i>
@@ -41,82 +42,46 @@
         <p class="h3">To start, here are examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement:</p>
         <div class="tweets-3">
           {% if election.examples.positive %}
-            <div class="tweet-container positive-tweet">
-              <p class="h3 label">Positive</p>
-              <p>{% autoescape off %}{{ election.examples.positive }}{% endautoescape %}</p>
-            </div>
+            {% include "sm-cards/tweet.html" with sentiment='positive' tweet=election.examples.positive %}
           {% endif %}
           {% if election.examples.negative %}
-            <div class="tweet-container negative-tweet">
-              <p class="h3 label">Negative</p>
-              <p>{% autoescape off %}{{ election.examples.negative }}{% endautoescape %}</p>
-            </div>
+            {% include "sm-cards/tweet.html" with sentiment='negative' tweet=election.examples.negative %}
           {% endif %}
           {% if election.examples.neutral %}
-            <div class="tweet-container neutral-tweet">
-              <p class="h3 label">Neutral</p>
-              <p>{% autoescape off %}{{ election.examples.negative }}{% endautoescape %}</p>
-            </div>
+            {% include "sm-cards/tweet.html" with sentiment='neutral' tweet=election.examples.neutral %}
           {% endif %}
         </div>
-        <div class="pie-container">
-          <p class="h3">Sentiment of Conversations Regarding the Election (as a percentage):</p>
-          <canvas id="politics-sentiment" width="400" height="400"></canvas>
-        </div>
+        {% include "visualizations/pie-chart.html" with canvas_id='politics-sentiment' title='Sentiment of Conversations Regarding the Election (as a percentage):' data=election.sentiment_pie %}
         <!-- US Politics -->
         <div class="divider">US Politics</div>
         <p class="h3">And some are examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding US politics:</p>
         <div class="tweets-3">
           {% if us_politics.examples.positive %}
-            <div class="tweet-container positive-tweet">
-              <p class="h3 label">Positive</p>
-              <p>{% autoescape off %}{{ us_politics.examples.positive }}{% endautoescape %}</p>
-            </div>
+            {% include "sm-cards/tweet.html" with sentiment='positive' tweet=us_politics.examples.positive %}
           {% endif %}
           {% if us_politics.examples.negative %}
-            <div class="tweet-container negative-tweet">
-              <p class="h3 label">Negative</p>
-              <p>{% autoescape off %}{{ us_politics.examples.negative }}{% endautoescape %}</p>
-            </div>
+            {% include "sm-cards/tweet.html" with sentiment='negative' tweet=us_politics.examples.negative %}
           {% endif %}
           {% if us_politics.examples.neutral %}
-            <div class="tweet-container neutral-tweet">
-              <p class="h3 label">Neutral</p>
-              <p>{% autoescape off %}{{ us_politics.examples.neutral }}{% endautoescape %}</p>
-            </div>
+            {% include "sm-cards/tweet.html" with sentiment='neutral' tweet=us_politics.examples.neutral %}
           {% endif %}
         </div>
-        <div class="pie-container">
-          <p class="h3">Sentiment of Conversations Regarding US Politics (as a percentage):</p>
-          <canvas id="us-politics-sentiment" width="400" height="400"></canvas>
-        </div>
+        {% include "visualizations/pie-chart.html" with canvas_id='us-politics-sentiment' title='Sentiment of Conversations Regarding US Politics (as a percentage):' data=us_politics.sentiment_pie %}
         <!-- UK Politics -->
         <div class="divider">UK Politics</div>
         <p class="h3">Examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding UK politics:</p>
         <div class="tweets-3">
           {% if uk_politics.examples.positive %}
-            <div class="tweet-container positive-tweet">
-              <p class="h3 label">Positive</p>
-              <p>{% autoescape off %}{{ uk_politics.examples.positive }}{% endautoescape %}</p>
-            </div>
+            {% include "sm-cards/tweet.html" with sentiment='positive' tweet=uk_politics.examples.positive %}
           {% endif %}
           {% if uk_politics.examples.negative %}
-            <div class="tweet-container negative-tweet">
-              <p class="h3 label">Negative</p>
-              <p>{% autoescape off %}{{ uk_politics.examples.negative }}{% endautoescape %}</p>
-            </div>
+            {% include "sm-cards/tweet.html" with sentiment='negative' tweet=uk_politics.examples.negative %}
           {% endif %}
           {% if uk_politics.examples.neutral %}
-            <div class="tweet-container neutral-tweet">
-              <p class="h3 label">Neutral</p>
-              <p>{% autoescape off %}{{ uk_politics.examples.neutral }}{% endautoescape %}</p>
-            </div>
+            {% include "sm-cards/tweet.html" with sentiment='neutral' tweet=uk_politics.examples.neutral %}
           {% endif %}
         </div>
-        <div class="pie-container">
-          <p class="h3">Sentiment of Conversations Regarding UK Politics (as a percentage):</p>
-          <canvas id="uk-politics-sentiment" width="400" height="400"></canvas>
-        </div>
+        {% include "visualizations/pie-chart.html" with canvas_id='uk-politics-sentiment' title='Sentiment of Conversations Regarding UK Politics (as a percentage):' data=uk_politics.sentiment_pie %}
       </div>
     </div>
 
@@ -128,37 +93,17 @@
         <p class="h3">Examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding UK politics:</p>
         <div class="tweets-3">
           {% if covid.examples.positive %}
-            <div class="tweet-container positive-tweet">
-              <p class="h3 label">Positive</p>
-              <p>{% autoescape off %}{{ covid.examples.positive }}{% endautoescape %}</p>
-            </div>
+            {% include "sm-cards/tweet.html" with sentiment='positive' tweet=covid.examples.positive %}
           {% endif %}
           {% if covid.examples.negative %}
-            <div class="tweet-container negative-tweet">
-              <p class="h3 label">Negative</p>
-              <p>{% autoescape off %}{{ covid.examples.negative }}{% endautoescape %}</p>
-            </div>
+            {% include "sm-cards/tweet.html" with sentiment='negative' tweet=covid.examples.negative %}
           {% endif %}
           {% if covid.examples.neutral %}
-            <div class="tweet-container neutral-tweet">
-              <p class="h3 label">Neutral</p>
-              <p>{% autoescape off %}{{ covid.examples.neutral }}{% endautoescape %}</p>
-            </div>
+            {% include "sm-cards/tweet.html" with sentiment='neutral' tweet=covid.examples.neutral %}
           {% endif %}
         </div>
-        <div class="pie-container">
-          <p class="h3">Sentiment of Conversations Covid-19 (as a percentage):</p>
-          <canvas id="covid-sentiment" width="400" height="400"></canvas>
-        </div>
+        {% include "visualizations/pie-chart.html" with canvas_id='covid-sentiment' title='Sentiment of Conversations Covid-19 (as a percentage):' data=covid.sentiment_pie %}
       </div>
     </div>
-    <script type="module" src="{% static '/js/libraries/charter.js' %}"></script>
-    <script type="module">
-      import {Charter} from "{% static '/js/libraries/charter.js' %}";
-      Charter.createSentimentPieChart('politics-sentiment', 'This is my Chart Title!', JSON.parse('{{ election.sentiment_pie|safe }}'));
-      Charter.createSentimentPieChart('us-politics-sentiment', 'This is my Chart Title!', JSON.parse('{{ us_politics.sentiment_pie|safe }}'));
-      Charter.createSentimentPieChart('uk-politics-sentiment', 'This is my Chart Title!', JSON.parse('{{ uk_politics.sentiment_pie|safe }}'));
-      Charter.createSentimentPieChart('covid-sentiment', 'This is my Chart Title!', JSON.parse('{{ covid.sentiment_pie|safe }}'));
-    </script>
   </body>
 </html>
