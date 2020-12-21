@@ -1,0 +1,33 @@
+.more-card-content {
+  @extend %more-card-content;
+}
+
+%more-card-content {
+  @keyframes button-oscilaton {
+    0% {
+      margin-bottom: 0;
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      margin-bottom: em(0);
+      transform: scale(1);
+    }
+  }
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  animation: 1.15s button-oscilaton infinite ease-in;
+  &:before {
+    font-size: em(26);
+  }
+  &:focus {
+    outline: 0;
+  }
+  .access-text {
+    text-indent: -9999px;
+    display: inline-block;
+  }
+}

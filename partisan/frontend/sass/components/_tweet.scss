@@ -7,13 +7,37 @@
   border: em(8) solid $dark-purple;
   margin: em(10) 0;
   position: relative;
+  .more-card-content {
+    position: relative;
+    top: em(7);
+    transition: opacity .5s, visibility .5s;
+    &.hide {
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
   .label {
     margin-top: 0;
     text-align: right;
     color: $dark-purple;
   }
+  .tweets {
+    p.tweet {
+      margin-top: 0;
+      margin-bottom: em(35);
+      transition: opacity 0.5s;
+      overflow: hidden;
+      opacity: 1;
+    }
+    p.tweet.hide {
+      margin: 0;
+      padding: 0;
+      height: 0;
+      opacity: 0;
+    }
+  }
   &::before{
-    content: "\e900";
+    content: "\e901";
     color: $black;
     font-family: $icon-font;
     font-size: em(30);
@@ -23,7 +47,7 @@
     text-align: center;
   }
   &::after{
-    content: "\e901";
+    content: "\e902";
     color: $black;
     font-family: $icon-font;
     font-size: em(30);
@@ -32,41 +56,32 @@
     display: inline-block;
     text-align: center;
     right: 13px;
-    bottom: 0;
+    bottom: em(3);
     opacity: .4;
   }
   &.negative-tweet {
     border-color: $rep-red-dark;
-    .label {
-      color: $rep-red-dark;
-    }
-    &::before {
-      color: $rep-red-dark;
-    }
+    .label,
+    .more-card-content,
+    &::before,
     &::after {
       color: $rep-red-dark;
     }
   }
   &.positive-tweet {
     border-color: $dark-green;
-    .label {
-      color: $dark-green;
-    }
-    &::before {
-      color: $dark-green;
-    }
+    .label,
+    .more-card-content,
+    &::before,
     &::after {
       color: $dark-green;
     }
   }
   &.neutral-tweet {
     border-color: $dark-yellow;
-    .label {
-      color: $dark-yellow;
-    }
-    &::before {
-      color: $dark-yellow;
-    }
+    .label,
+    .more-card-content,
+    &::before,
     &::after {
       color: $dark-yellow;
     }

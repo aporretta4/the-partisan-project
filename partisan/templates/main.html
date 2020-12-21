@@ -42,13 +42,13 @@
         <p class="h3">To start, here are examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement:</p>
         <div class="tweets-3">
           {% if election.examples.positive %}
-            {% include "sm-cards/tweet.html" with sentiment='positive' tweet=election.examples.positive %}
+            {% include "sm-cards/tweet.html" with sentiment='positive' tweets=election.examples.positive %}
           {% endif %}
           {% if election.examples.negative %}
-            {% include "sm-cards/tweet.html" with sentiment='negative' tweet=election.examples.negative %}
+            {% include "sm-cards/tweet.html" with sentiment='negative' tweets=election.examples.negative %}
           {% endif %}
           {% if election.examples.neutral %}
-            {% include "sm-cards/tweet.html" with sentiment='neutral' tweet=election.examples.neutral %}
+            {% include "sm-cards/tweet.html" with sentiment='neutral' tweets=election.examples.neutral %}
           {% endif %}
         </div>
         {% include "visualizations/pie-chart.html" with canvas_id='politics-sentiment' title='Sentiment of Conversations Regarding the Election (as a percentage):' data=election.sentiment_pie %}
@@ -57,13 +57,13 @@
         <p class="h3">And some are examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding US politics:</p>
         <div class="tweets-3">
           {% if us_politics.examples.positive %}
-            {% include "sm-cards/tweet.html" with sentiment='positive' tweet=us_politics.examples.positive %}
+            {% include "sm-cards/tweet.html" with sentiment='positive' tweets=us_politics.examples.positive %}
           {% endif %}
           {% if us_politics.examples.negative %}
-            {% include "sm-cards/tweet.html" with sentiment='negative' tweet=us_politics.examples.negative %}
+            {% include "sm-cards/tweet.html" with sentiment='negative' tweets=us_politics.examples.negative %}
           {% endif %}
           {% if us_politics.examples.neutral %}
-            {% include "sm-cards/tweet.html" with sentiment='neutral' tweet=us_politics.examples.neutral %}
+            {% include "sm-cards/tweet.html" with sentiment='neutral' tweets=us_politics.examples.neutral %}
           {% endif %}
         </div>
         {% include "visualizations/pie-chart.html" with canvas_id='us-politics-sentiment' title='Sentiment of Conversations Regarding US Politics (as a percentage):' data=us_politics.sentiment_pie %}
@@ -72,13 +72,13 @@
         <p class="h3">Examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding UK politics:</p>
         <div class="tweets-3">
           {% if uk_politics.examples.positive %}
-            {% include "sm-cards/tweet.html" with sentiment='positive' tweet=uk_politics.examples.positive %}
+            {% include "sm-cards/tweet.html" with sentiment='positive' tweets=uk_politics.examples.positive %}
           {% endif %}
           {% if uk_politics.examples.negative %}
-            {% include "sm-cards/tweet.html" with sentiment='negative' tweet=uk_politics.examples.negative %}
+            {% include "sm-cards/tweet.html" with sentiment='negative' tweets=uk_politics.examples.negative %}
           {% endif %}
           {% if uk_politics.examples.neutral %}
-            {% include "sm-cards/tweet.html" with sentiment='neutral' tweet=uk_politics.examples.neutral %}
+            {% include "sm-cards/tweet.html" with sentiment='neutral' tweets=uk_politics.examples.neutral %}
           {% endif %}
         </div>
         {% include "visualizations/pie-chart.html" with canvas_id='uk-politics-sentiment' title='Sentiment of Conversations Regarding UK Politics (as a percentage):' data=uk_politics.sentiment_pie %}
@@ -93,17 +93,18 @@
         <p class="h3">Examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding UK politics:</p>
         <div class="tweets-3">
           {% if covid.examples.positive %}
-            {% include "sm-cards/tweet.html" with sentiment='positive' tweet=covid.examples.positive %}
+            {% include "sm-cards/tweet.html" with sentiment='positive' tweets=covid.examples.positive %}
           {% endif %}
           {% if covid.examples.negative %}
-            {% include "sm-cards/tweet.html" with sentiment='negative' tweet=covid.examples.negative %}
+            {% include "sm-cards/tweet.html" with sentiment='negative' tweets=covid.examples.negative %}
           {% endif %}
           {% if covid.examples.neutral %}
-            {% include "sm-cards/tweet.html" with sentiment='neutral' tweet=covid.examples.neutral %}
+            {% include "sm-cards/tweet.html" with sentiment='neutral' tweets=covid.examples.neutral %}
           {% endif %}
         </div>
         {% include "visualizations/pie-chart.html" with canvas_id='covid-sentiment' title='Sentiment of Conversations Covid-19 (as a percentage):' data=covid.sentiment_pie %}
       </div>
     </div>
+    <script type="text/javascript" src="{% static '/js/libraries/example-cards.js' %}"></script>
   </body>
 </html>

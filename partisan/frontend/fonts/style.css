@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('/static/fonts/icomoon.eot?eblubs');
-  src:  url('/static/fonts/icomoon.eot?eblubs#iefix') format('embedded-opentype'),
-    url('/static/fonts/icomoon.ttf?eblubs') format('truetype'),
-    url('/static/fonts/icomoon.woff?eblubs') format('woff'),
-    url('/static/fonts/icomoon.svg?eblubs#icomoon') format('svg');
+  src:  url('./icomoon.eot?j3spce');
+  src:  url('./icomoon.eot?j3spce#iefix') format('embedded-opentype'),
+    url('./icomoon.ttf?j3spce') format('truetype'),
+    url('./icomoon.woff?j3spce') format('woff'),
+    url('./icomoon.svg?j3spce#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,18 +25,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-quote-right:before {
-  content: "\e901";
+.icon-arrow-down:before {
+  content: "\e900";
+}
+.icon-down:before {
+  content: "\e900";
+}
+.icon-download:before {
+  content: "\e900";
+}
+.icon-bottom:before {
+  content: "\e900";
 }
 .icon-twitter:before {
-  content: "\e900";
+  content: "\e901";
 }
-.icon-brand:before {
-  content: "\e900";
-}
-.icon-tweet:before {
-  content: "\e900";
-}
-.icon-social:before {
-  content: "\e900";
+.icon-quote-right:before {
+  content: "\e902";
 }
