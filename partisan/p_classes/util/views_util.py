@@ -37,7 +37,7 @@ class sentiment_retriever:
     term = search_term.objects.filter(term=searched_term)
     if term.count() != 0:
       if sentiment == 'positive':
-        positive_example = self.sentimentable_model.objects.filter(term_id=term[0].id, nlp_positive_sentiment__gt=0.95).order_by('-created_at')
+        positive_example = self.sentimentable_model.objects.filter(term_id=term[0].id, nlp_positive_sentiment__gt=0.9).order_by('-created_at')
         if positive_example.count() > 0:
           if count != 1 and count <= positive_example.count():
             return positive_example[0:count]
@@ -46,7 +46,7 @@ class sentiment_retriever:
         else:
           return []
       elif sentiment == 'negative':
-        negative_example = self.sentimentable_model.objects.filter(term_id=term[0].id, nlp_negative_sentiment__gt=0.95).order_by('-created_at')
+        negative_example = self.sentimentable_model.objects.filter(term_id=term[0].id, nlp_negative_sentiment__gt=0.9).order_by('-created_at')
         if negative_example.count() > 0:
           if count != 1 and count <= negative_example.count():
             return negative_example[0:count]
@@ -55,7 +55,7 @@ class sentiment_retriever:
         else:
           return []
       elif sentiment == 'neutral':
-        neutral_example = self.sentimentable_model.objects.filter(term_id=term[0].id, nlp_neutral_sentiment__gt=0.95).order_by('-created_at')
+        neutral_example = self.sentimentable_model.objects.filter(term_id=term[0].id, nlp_neutral_sentiment__gt=0.9).order_by('-created_at')
         if neutral_example.count() > 0:
           if count != 1 and count <= neutral_example.count():
             return neutral_example[0:count]
