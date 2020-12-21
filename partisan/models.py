@@ -1,10 +1,14 @@
 from django.db import models
 from random import randrange
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class search_term(models.Model):
     id = models.AutoField(primary_key=True,editable=False,unique=True)
     term = models.CharField(editable=False,unique=False,max_length=255)
+
+    def __str__(self):
+        return self.term
 
     @staticmethod
     def getSearchTerm(term_name: str):
@@ -85,6 +89,48 @@ class reddit_comment(models.Model):
         if self.text is not None:
             self.text = (self.text[:4750] + '...') if len(self.text) > 4750 else self.text
         super().save()
+
+class data_sources(models.TextChoices):
+    REDDIT = 're', ('Reddit')
+    TWITTER = 'tw', ('Twitter')
+
+    @staticmethod
+    def getSource(key: str):
+        choices = {v: k for v, k in data_sources.choices}
+        if key in choices:
+            return choices[key]
+        else:
+            return ''
+
+class pull_configuration(models.Model):
+    id = models.AutoField(primary_key=True,editable=False,unique=True)
+    term_name = models.CharField(unique=True,max_length=255,editable=True,help_text='If searching a subreddit, DO NOT prefix with "r/".')
+    data_source = models.CharField(
+        max_length=2,
+        choices=data_sources.choices,
+        default=data_sources.REDDIT,
+        editable=True,
+        null=False
+    )
+    items_per_run = models.IntegerField(null=False,editable=True,validators=[MinValueValidator(1),MaxValueValidator(10000)])
+
+    def __str__(self):
+        return self.term_name + ' (from ' + data_sources.getSource(key=self.data_source) + ')'
+
+class sentiment_process_configuration(models.Model):
+    id = models.AutoField(primary_key=True,editable=False,unique=True)
+    term = models.OneToOneField(search_term,null=False,on_delete=models.CASCADE,related_name='pull_config_of',unique=True)
+    data_source = models.CharField(
+        max_length=2,
+        choices=data_sources.choices,
+        default=data_sources.REDDIT,
+        editable=True,
+        null=False
+    )
+    items_per_run = models.IntegerField(null=False,editable=True,validators=[MinValueValidator(1),MaxValueValidator(10000)])
+
+    def __str__(self):
+        return str(self.term) + ' (from ' + data_sources.getSource(key=self.data_source) + ')'
 
 class pie_chart_sentiment_stat(models.Model):
     id = models.AutoField(primary_key=True,editable=False,unique=True)
