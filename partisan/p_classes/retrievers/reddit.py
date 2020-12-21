@@ -70,6 +70,7 @@ class reddit_retriever:
         new_subreddit = search_term(term='r/' + submission.subreddit.display_name)
         new_subreddit.save()
         existing_subreddit = new_subreddit
+      remote_comments.replace_more(limit=5)
       for i in range(comment_count):
         comment_text = BeautifulSoup(remote_comments[i].body_html, features='html.parser').get_text()
         hashed_text = hashText(comment_text)
