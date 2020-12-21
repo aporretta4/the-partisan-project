@@ -63,7 +63,7 @@ class reddit_submission(models.Model):
 
     def save(self):
         if self.text is not None:
-            self.text = (self.text[:4750] + '...') if len(self.text) > 4750 else self.text
+            self.text = (self.text[:4740] + '...') if len(self.text) > 4740 else self.text
         super().save()
 
 class reddit_comment(models.Model):
@@ -87,7 +87,7 @@ class reddit_comment(models.Model):
 
     def save(self):
         if self.text is not None:
-            self.text = (self.text[:4750] + '...') if len(self.text) > 4750 else self.text
+            self.text = (self.text[:4740] + '...') if len(self.text) > 4740 else self.text
         super().save()
 
 class data_sources(models.TextChoices):
