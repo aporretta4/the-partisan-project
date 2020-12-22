@@ -140,6 +140,12 @@ class pie_chart_sentiment_stat(models.Model):
     positive_sentiment_aggregate = models.DecimalField(max_digits=6,decimal_places=5,null=True)
     negative_sentiment_aggregate = models.DecimalField(max_digits=6,decimal_places=5,null=True)
     processed_records_count = models.BigIntegerField(editable=True,null=True)
+    data_source = models.CharField(
+        max_length=2,
+        choices=data_sources.choices,
+        editable=True,
+        null=False
+    )
 
     @staticmethod
     def getStat(searched_term: str, sentiment: str):
