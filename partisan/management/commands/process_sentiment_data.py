@@ -6,14 +6,14 @@ class Command(BaseCommand):
 
   def handle(self, *args, **kwargs):
     tw_sentiment_configs = sentiment_process_configuration.objects.filter(data_source='tw')
-    for tw_sentimentiment_conf in tw_sentiment_configs:
-      tweets = tweet.objects.filter(nlp_processed=False, ).order_by('id')[:tw_sentimentiment_conf.items_per_run]
+    for tw_sentiment_conf in tw_sentiment_configs:
+      tweets = tweet.objects.filter(nlp_processed=False, term_id=tw_sentiment_conf.term_id).order_by('id')[:tw_sentiment_conf.items_per_run]
       sentimentable.saveTextSentiment(sentimentable_classes=tweets)
     self.stdout.write(self.style.SUCCESS('Processed Twitter sentiment data.'))
     re_sentiment_configs = sentiment_process_configuration.objects.filter(data_source='re')
-    for re_sentimentiment_conf in re_sentiment_configs:
-      reddit_comments = reddit_comment.objects.filter(nlp_processed=False).order_by('id')[:re_sentimentiment_conf.items_per_run]
+    for re_sentiment_conf in re_sentiment_configs:
+      reddit_comments = reddit_comment.objects.filter(nlp_processed=False, term_id=re_sentiment_conf.term_id).order_by('id')[:re_sentiment_conf.items_per_run]
       sentimentable.saveTextSentiment(sentimentable_classes=reddit_comments)
-      reddit_submissions = reddit_submission.objects.filter(nlp_processed=False).exclude(text='').order_by('id')[:re_sentimentiment_conf.items_per_run]
+      reddit_submissions = reddit_submission.objects.filter(nlp_processed=False, term_id=re_sentiment_conf.term_id).exclude(text='').order_by('id')[:re_sentiment_conf.items_per_run]
       sentimentable.saveTextSentiment(sentimentable_classes=reddit_submissions)
     self.stdout.write(self.style.SUCCESS('Processed Reddit sentiment data.'))
