@@ -5,5 +5,5 @@
 </div>
 <script type="module">
   import {Charter} from "{% static '/js/libraries/charter.js' %}";
-  Charter.createSentimentPieChart('{{ canvas_id|safe }}', '{{ title|safe }}', JSON.parse('{{ data|safe }}'));
+  Charter.createSentimentPieChart('{{ canvas_id|safe }}', JSON.parse('{{ data|safe }}'));
 </script>

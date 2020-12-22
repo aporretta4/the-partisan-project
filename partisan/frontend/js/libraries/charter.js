@@ -10,13 +10,11 @@ export const Charter = {
    *
    * @param chardId
    *   The ID attribute of the canvas tag you want to turn into a chart.
-   * @param chartTitle
-   *   The title of the chart.
    * @param dataSet
    *   An array of data with elements of {label: value}.
    *   All values must sum to 100%.
    */
-  'createSentimentPieChart': (chartId, chartTitle, dataSet) => {
+  'createSentimentPieChart': (chartId, dataSet) => {
     let labels = [];
     let values = [];
     let colors = [];
@@ -28,10 +26,6 @@ export const Charter = {
     });
     new Chart(ctx, {
       'type': 'pie',
-      'title': {
-        'display': true,
-        'text': chartTitle
-      },
       'data': {
         'datasets': [{
           'data': values,
@@ -39,8 +33,7 @@ export const Charter = {
         }],
         'labels': labels
       },
-      'options': {
-      }
+      'options': {}
     })
   },
 
