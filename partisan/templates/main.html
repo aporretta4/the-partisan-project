@@ -32,7 +32,6 @@
         </div>
       </div>
     </div>
-
     <div class="paralax-container politics-container">
       <div class="paralax-translucency"></div>
       <div class="paralax-content-wrapper">
@@ -40,7 +39,7 @@
         <!-- Election -->
         <p>Lets try to determine what people are talking about with regards to the US 2020 election... Sentiment is an important measure of how divided people are on a particular topic. A statement that is highly negative for instance is genereally more divisive than a statement that is positive or neutral.</p>
         <p class="h3">To start, here are examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement:</p>
-        <div class="tweets-3">
+        <div class="tweets-3 flex-rows">
           {% if election.examples.positive %}
             {% include "sm-cards/tweet.html" with sentiment='positive' tweets=election.examples.positive %}
           {% endif %}
@@ -51,11 +50,13 @@
             {% include "sm-cards/tweet.html" with sentiment='neutral' tweets=election.examples.neutral %}
           {% endif %}
         </div>
-        {% include "visualizations/pie-chart.html" with canvas_id='politics-sentiment' title='Sentiment of Conversations Regarding the Election (as a percentage):' data=election.sentiment_pie %}
+        <div class="flex-rows row-1">
+          {% include "visualizations/pie-chart.html" with canvas_id='politics-sentiment' title='Sentiment of Conversations Regarding the Election (as a percentage):' data=election.sentiment_pie %}
+        </div>
         <!-- US Politics -->
         <div class="divider">US Politics</div>
         <p class="h3">And some are examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding US politics:</p>
-        <div class="tweets-3">
+        <div class="tweets-3 flex-rows row-3">
           {% if us_politics.examples.positive %}
             {% include "sm-cards/tweet.html" with sentiment='positive' tweets=us_politics.examples.positive %}
           {% endif %}
@@ -66,11 +67,14 @@
             {% include "sm-cards/tweet.html" with sentiment='neutral' tweets=us_politics.examples.neutral %}
           {% endif %}
         </div>
-        {% include "visualizations/pie-chart.html" with canvas_id='us-politics-sentiment' title='Sentiment of Conversations Regarding US Politics (as a percentage):' data=us_politics.sentiment_pie %}
+        <div class="flex-rows row-2">
+          {% include "visualizations/pie-chart.html" with canvas_id='us-politics-sentiment' title='Sentiment of Conversations Regarding US Politics (as a percentage):' data=us_politics.sentiment_pie %}
+          {% include "visualizations/vertical-bar-chart.html" with canvas_id="us-politics-social-media-sentiment-comparison" title="Sentiment of Conversations Between Social Media Platforms for US Politics:" data=us_politics.sm_comparison %}
+        </div>
         <!-- UK Politics -->
         <div class="divider">UK Politics</div>
         <p class="h3">Examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding UK politics:</p>
-        <div class="tweets-3">
+        <div class="tweets-3 flex-rows">
           {% if uk_politics.examples.positive %}
             {% include "sm-cards/tweet.html" with sentiment='positive' tweets=uk_politics.examples.positive %}
           {% endif %}
@@ -81,7 +85,9 @@
             {% include "sm-cards/tweet.html" with sentiment='neutral' tweets=uk_politics.examples.neutral %}
           {% endif %}
         </div>
-        {% include "visualizations/pie-chart.html" with canvas_id='uk-politics-sentiment' title='Sentiment of Conversations Regarding UK Politics (as a percentage):' data=uk_politics.sentiment_pie %}
+        <div class="flex-rows row-1">
+          {% include "visualizations/pie-chart.html" with canvas_id='uk-politics-sentiment' title='Sentiment of Conversations Regarding UK Politics (as a percentage):' data=uk_politics.sentiment_pie %}
+        </div>
       </div>
     </div>
 
@@ -91,7 +97,7 @@
       <div class="paralax-content-wrapper">
         <div class="divider">Covid-19</div>
         <p class="h3">Examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding UK politics:</p>
-        <div class="tweets-3">
+        <div class="tweets-3 flex-rows">
           {% if covid.examples.positive %}
             {% include "sm-cards/tweet.html" with sentiment='positive' tweets=covid.examples.positive %}
           {% endif %}
@@ -102,7 +108,9 @@
             {% include "sm-cards/tweet.html" with sentiment='neutral' tweets=covid.examples.neutral %}
           {% endif %}
         </div>
-        {% include "visualizations/pie-chart.html" with canvas_id='covid-sentiment' title='Sentiment of Conversations Covid-19 (as a percentage):' data=covid.sentiment_pie %}
+        <div class="flex-rows row-1">
+          {% include "visualizations/pie-chart.html" with canvas_id='covid-sentiment' title='Sentiment of Conversations Covid-19 (as a percentage):' data=covid.sentiment_pie %}
+        </div>
       </div>
     </div>
     <script type="text/javascript" src="{% static '/js/libraries/example-cards.js' %}"></script>

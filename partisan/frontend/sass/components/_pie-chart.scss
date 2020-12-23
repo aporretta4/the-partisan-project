@@ -1,12 +1,40 @@
-.pie-container {
-  padding: em(20);
-  border-radius: em(20);
-  background-color: $white;
-  color: $black;
-  canvas {
-    max-width: em(400) !important;
-    height: auto !important;
-    display: inline-block !important;
-    margin: auto !important;
+.flex-rows.row-2 {
+  @extend %row-2;
+}
+.flex-rows.row-1 {
+  @extend %row-1;
+}
+
+%row-2 {
+  .chart-container.pie-container {
+    canvas {
+      max-width: 85% !important;
+      @include breakpoint($s-break) {
+        max-width: 80% !important;
+      }
+      @include breakpoint($m-break) {
+        max-width: 75% !important;
+      }
+      @include breakpoint($l-break) {
+        max-width: 60% !important;
+      }
+    }
+  }
+}
+
+%row-1 {
+  .chart-container.pie-container {
+    canvas {
+      max-width: 85% !important;
+      @include breakpoint($s-break) {
+        max-width: 80% !important;
+      }
+      @include breakpoint($m-break) {
+        max-width: 50% !important;
+      }
+      @include breakpoint($l-break) {
+        max-width: 35% !important;
+      }
+    }
   }
 }

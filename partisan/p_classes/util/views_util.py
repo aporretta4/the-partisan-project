@@ -1,6 +1,5 @@
 from django.db import models
-from partisan.models import pie_chart_sentiment_stat
-from partisan.models import search_term
+from partisan.models import pie_chart_sentiment_stat, data_sources, search_term
 from random import randrange
 import json
 
@@ -88,3 +87,26 @@ class sentiment_retriever:
         'value': str(pie_chart_sentiment_stat.getStat(searched_term=term_name, sentiment='mixed') * 100)
       }
     ])
+
+  @staticmethod
+  def getSentimentSocialMediaComparisonDict(*sentiment_stat_collection: pie_chart_sentiment_stat):
+    data_sets = {}
+    data_set_list = []
+    for stat_collection in sentiment_stat_collection:
+      if data_sources.getSource(stat_collection.data_source) != '':
+        data_source = data_sources.getSource(stat_collection.data_source)
+        data_sets[stat_collection.data_source] = {
+          'label': data_source + ' Sentiment',
+          'social_media_source': data_source,
+          'data': [
+            str(stat_collection.positive_sentiment_aggregate * 100),
+            str(stat_collection.negative_sentiment_aggregate * 100),
+            str(stat_collection.neutral_sentiment_aggregate * 100),
+          ]
+        }
+    for data_set in data_sets.items():
+      data_set_list.append(data_set[1])
+    return json.dumps({
+      'labels': ['Positive', 'Negative', 'Neutral'],
+      'datasets': data_set_list
+    })

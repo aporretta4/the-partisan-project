@@ -1,0 +1,11 @@
+.flex-rows {
+  @include breakpoint($m-break) {
+    display: flex;
+    flex-direction: row;
+    gap: em(15);
+  }
+  * {
+    flex: 1 1 0px;
+    margin: em(10) 0;
+  }
+}

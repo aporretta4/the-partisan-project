@@ -1,0 +1,25 @@
+.chart-container {
+  @extend %chart-container;
+}
+
+%chart-container {
+  padding: em(20);
+  border-radius: em(20);
+  background-color: $white;
+  color: $black;
+  canvas {
+    max-width: 85% !important;
+    height: auto !important;
+    display: inline-block !important;
+    margin: auto !important;
+    @include breakpoint($s-break) {
+      max-width: 80% !important;
+    }
+    @include breakpoint($m-break) {
+      max-width: 75% !important;
+    }
+    @include breakpoint($l-break) {
+      max-width: 60% !important;
+    }
+  }
+}
