@@ -163,3 +163,21 @@ class pie_chart_sentiment_stat(models.Model):
                 return -1
         except ObjectDoesNotExist as ex:
             return -1
+
+    @staticmethod
+    def mergePieStats(*pie_stats):
+        total_records = 0
+        merged_pie_stats = {
+        'positive': 0,
+        'negative': 0,
+        'neutral': 0,
+        'mixed': 0,
+        }
+        for pie_stat in pie_stats:
+            total_records = total_records + pie_stat.processed_records_count
+        for pie_stat in pie_stats:
+            merged_pie_stats['positive'] = merged_pie_stats['positive'] + float(pie_stat.positive_sentiment_aggregate) * (pie_stat.processed_records_count / total_records)
+            merged_pie_stats['negative'] = merged_pie_stats['negative'] + float(pie_stat.negative_sentiment_aggregate) * (pie_stat.processed_records_count / total_records)
+            merged_pie_stats['neutral'] = merged_pie_stats['neutral'] + float(pie_stat.neutral_sentiment_aggregate) * (pie_stat.processed_records_count / total_records)
+            merged_pie_stats['mixed'] = merged_pie_stats['mixed'] + float(pie_stat.mixed_sentiment_aggregate) * (pie_stat.processed_records_count / total_records)
+        return merged_pie_stats

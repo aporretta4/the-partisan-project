@@ -85,8 +85,9 @@
             {% include "sm-cards/tweet.html" with sentiment='neutral' tweets=uk_politics.examples.neutral %}
           {% endif %}
         </div>
-        <div class="flex-rows row-1">
+        <div class="flex-rows row-2">
           {% include "visualizations/pie-chart.html" with canvas_id='uk-politics-sentiment' title='Sentiment of Conversations Regarding UK Politics (as a percentage):' data=uk_politics.sentiment_pie %}
+          {% include "visualizations/vertical-bar-chart.html" with canvas_id="uk-politics-social-media-sentiment-comparison" title="Sentiment of Conversations Between Social Media Platforms for UK Politics:" data=uk_politics.sm_comparison %}
         </div>
       </div>
     </div>
@@ -108,8 +109,9 @@
             {% include "sm-cards/tweet.html" with sentiment='neutral' tweets=covid.examples.neutral %}
           {% endif %}
         </div>
-        <div class="flex-rows row-1">
+        <div class="flex-rows row-2">
           {% include "visualizations/pie-chart.html" with canvas_id='covid-sentiment' title='Sentiment of Conversations Covid-19 (as a percentage):' data=covid.sentiment_pie %}
+          {% include "visualizations/vertical-bar-chart.html" with canvas_id="covid-social-media-sentiment-comparison" title="Sentiment of Conversations Between Social Media Platforms for Coronavirus:" data=covid.sm_comparison %}
         </div>
       </div>
     </div>

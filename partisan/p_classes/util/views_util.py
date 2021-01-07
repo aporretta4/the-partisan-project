@@ -68,23 +68,27 @@ class sentiment_retriever:
       return []
 
   @staticmethod
-  def getSentimentPieChartDict(term_name: str):
+  def getSentimentPieChartDict(*term_names: str):
+    stats = []
+    for term_name in term_names:
+      stats.append(pie_chart_sentiment_stat.objects.get(term__term=term_name))
+    merged_stats = pie_chart_sentiment_stat.mergePieStats(*stats)
     return json.dumps([
       {
         'label': 'Positive',
-        'value': str(pie_chart_sentiment_stat.getStat(searched_term=term_name, sentiment='positive') * 100)
+        'value': str(merged_stats['positive'] * 100)
       },
       {
         'label': 'Negative',
-        'value': str(pie_chart_sentiment_stat.getStat(searched_term=term_name, sentiment='negative') * 100)
+        'value': str(merged_stats['negative'] * 100)
       },
             {
         'label': 'Neutral',
-        'value': str(pie_chart_sentiment_stat.getStat(searched_term=term_name, sentiment='neutral') * 100)
+        'value': str(merged_stats['neutral'] * 100)
       },
       {
         'label': 'Mixed',
-        'value': str(pie_chart_sentiment_stat.getStat(searched_term=term_name, sentiment='mixed') * 100)
+        'value': str(merged_stats['mixed'] * 100)
       }
     ])
 
