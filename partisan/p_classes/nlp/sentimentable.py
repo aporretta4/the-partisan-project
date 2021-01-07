@@ -21,11 +21,10 @@ class sentimentable():
     for i in range(sentimentable_classes.count()):
       try:
         sentimentable_classes[i].nlp_processed = True
-        if processed_sentiment_list[i]['SentimentScore']['Mixed'] < 0.25:
-          sentimentable_list[i].nlp_neutral_sentiment = processed_sentiment_list[i]['SentimentScore']['Neutral']
-          sentimentable_list[i].nlp_mixed_sentiment = processed_sentiment_list[i]['SentimentScore']['Mixed']
-          sentimentable_list[i].nlp_negative_sentiment = processed_sentiment_list[i]['SentimentScore']['Negative']
-          sentimentable_list[i].nlp_positive_sentiment = processed_sentiment_list[i]['SentimentScore']['Positive']
+        sentimentable_list[i].nlp_neutral_sentiment = processed_sentiment_list[i]['SentimentScore']['Neutral']
+        sentimentable_list[i].nlp_mixed_sentiment = processed_sentiment_list[i]['SentimentScore']['Mixed']
+        sentimentable_list[i].nlp_negative_sentiment = processed_sentiment_list[i]['SentimentScore']['Negative']
+        sentimentable_list[i].nlp_positive_sentiment = processed_sentiment_list[i]['SentimentScore']['Positive']
         if sentimentable_list[i].nlp_neutral_sentiment == None or sentimentable_list[i].nlp_mixed_sentiment == None or sentimentable_list[i].nlp_negative_sentiment == None or sentimentable_list[i].nlp_positive_sentiment == None:
           sentimentable_list[i].delete()
         else:
