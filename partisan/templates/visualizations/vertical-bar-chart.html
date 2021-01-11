@@ -1,9 +1,9 @@
-{% load static %}
+{% load pp_extras %}
 <div class="chart-container vertical-bar-container">
   <p class="h3">{{ title }}</p>
   <canvas id="{{ canvas_id }}" width="400" height="200"></canvas>
 </div>
 <script type="module">
-  import {Charter} from "{% static '/js/libraries/charter.js' %}";
+  import {Charter} from "{{ '/js/libraries/charter.js'|cachebust_url }}";
   Charter.createVerticalBarChart('{{ canvas_id|safe }}', JSON.parse('{{ data|safe }}'));
 </script>

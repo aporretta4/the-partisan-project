@@ -1,4 +1,5 @@
 {% load static %}
+{% load pp_extras %}
 <html lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/
  dc: http://purl.org/dc/terms/
  foaf: http://xmlns.com/foaf/0.1/
@@ -18,14 +19,14 @@
     <link rel="icon" type="image/png" href="img/ico.png">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Quicksand" />
     <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet" />
-    <link href="{% static '/css/init.css' %}" rel="stylesheet" />
-    <script type="module" src="{% static '/js/libraries/charter.js' %}"></script>
+    <link href="{{ '/css/init.css'|cachebust_url }}" rel="stylesheet" />
+    <script type="module" src="{{ '/js/libraries/charter.js'|cachebust_url }}"></script>
   </head>
   <body>
     <div class="boxquote"><i class="fas fa-quote-left fa2"></i>
       <div class="boxquote-text"><i class="fas fa-quote-right fa1"></i>
         <div>
-          <img src="{% static '/img/logo-image-only-small.png' %}" alt="" />
+          <img src="{{ '/img/logo-image-only-small.png'|cachebust_url }}" alt="" />
           <h1>The Partisan Project</h1>
           <p>The Partisan Project sets out to measure the prevalence of divisive sentiment across a wide variety of topics such as politics, healthcare, and economics using AI to detect what people are talking about and how they feel about what people are saying.</p>
           <p>This is a non-partisan initiative that does not have any political affiliation whatsoever.</p>
@@ -115,6 +116,6 @@
         </div>
       </div>
     </div>
-    <script type="text/javascript" src="{% static '/js/libraries/example-cards.js' %}"></script>
+    <script type="text/javascript" src="{{ '/js/libraries/example-cards.js'|cachebust_url }}"></script>
   </body>
 </html>
