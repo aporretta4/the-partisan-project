@@ -15,5 +15,3 @@ hooks:
   AfterInstall:
     - location: appspec/after_install.sh
       runas: ec2-user
-    - location: appspec/pull_test_data.sh
-      runas: ec2-user
