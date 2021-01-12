@@ -15,7 +15,7 @@ def get_directory_files(dir):
 
 def cachebust_url(resource_path):
   cached_path = resource_path
-  static_files = get_directory_files(str(BASE_DIR) + '/partisan/static')
+  static_files = get_directory_files(str(BASE_DIR) + '/partisan/static/' + '/'.join(Path(resource_path[1:]).parts[:-1]))
   for static_file in static_files:
     if os.path.isfile(static_file):
       if static_file.find('___') != -1:
