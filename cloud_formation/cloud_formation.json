@@ -1019,6 +1019,7 @@
                                 "yum update -y aws-cli\n",
                                 "yum update -y\n",
                                 "/opt/aws/bin/cfn-init -v ",
+                                "aws configure set region us-west-2",
                                 "         --stack ",
                                 {
                                     "Ref": "AWS::StackName"
@@ -1445,7 +1446,7 @@
             "Type": "AWS::RDS::DBClusterParameterGroup",
             "Properties": {
                 "Description": "Tweak of Aurora 5.6",
-                "Family": "aurora5.6",
+                "Family": "aurora-mysql5.7",
                 "Parameters": {
                     "time_zone": "US/Pacific",
                     "character_set_database": "utf8mb4",
