@@ -808,7 +808,7 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "<IfFile /var/app/current/partisan/manage.py>\n",
+                                            "<IfFile /var/app/current/manage.py>\n",
                                                 "<VirtualHost *:80>\n",
                                                     "ServerAdmin angelocp4@gmail.com\n",
                                                     "ServerName example.com\n",
