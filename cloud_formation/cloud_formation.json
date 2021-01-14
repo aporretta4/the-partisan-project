@@ -965,8 +965,7 @@
                                 }
                             },
                             "03-set-aws-cli-region": {
-                                "command": "aws configure set region us-west-2",
-                                "cwd": "/home/ec2-user/"
+                                "command": "aws configure set region us-west-2"
                             }
                         }
                     }
@@ -1464,6 +1463,9 @@
                 "VPCSecurityGroups": [{
                     "Ref": "DBSecurityGroup"
                 }],
+                "DBName": {
+                    "Fn::Sub": "PPDb${AWS::StackName}"
+                },
                 "PubliclyAccessible": false,
                 "DeleteAutomatedBackups": false,
                 "Engine": "mysql",
