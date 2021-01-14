@@ -19,7 +19,7 @@ hooks:
       runas: ec2-user
     - location: appspec/db_data_reload.sh
       runas: ec2-user
-    - location: appspec/gunicorn.sh
+    - location: appspec/gunicorn_start.sh
       runas: ec2-user
     - location: appspec/apache.sh
       runas: root
