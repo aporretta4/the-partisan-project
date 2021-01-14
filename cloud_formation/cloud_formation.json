@@ -919,6 +919,20 @@
                                 "mode": "000400",
                                 "owner": "root",
                                 "group": "root"
+                            },
+                            "/home/ec2-user/.aws/config": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "[default]\n",
+                                            "region = us-west-2\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000600",
+                                "owner": "ec2-user",
+                                "group": "ec2-user"
                             }
                         },
                         "services": {
@@ -963,9 +977,6 @@
                                         ]
                                     ]
                                 }
-                            },
-                            "03-set-aws-cli-region": {
-                                "command": "aws configure set region us-west-2"
                             }
                         }
                     }
@@ -1011,7 +1022,7 @@
                         "Fn::Join": [
                             "",
                             [
-                                "#!/bin/bash -xe\n",
+                                "#!/bin/bash\n",
                                 "yum update -y aws-cfn-bootstrap\n",
                                 "yum update -y aws-cli\n",
                                 "yum update -y\n",
