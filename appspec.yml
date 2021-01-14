@@ -13,7 +13,11 @@ permissions:
 
 hooks:
   AfterInstall:
-    - location: appspec/after_install.sh
+    - location: appspec/set_up_venv.sh
       runas: ec2-user
-    - location: appspec/after_install_super.sh
+    - location: appspec/db_data_reload.sh
+      runas: ec2-user
+    - location: appspec/load_code_and_files.sh
+      runas: ec2-user
+    - location: appspec/apache.sh
       runas: root
