@@ -15,9 +15,9 @@ hooks:
   AfterInstall:
     - location: appspec/set_up_venv.sh
       runas: ec2-user
-    - location: appspec/db_data_reload.sh
-      runas: ec2-user
     - location: appspec/load_code_and_files.sh
       runas: ec2-user
-    - location: appspec/apache.sh
+    - location: appspec/db_data_reload.sh
+      runas: ec2-user
+    - location: appspec/webserver.sh
       runas: root
