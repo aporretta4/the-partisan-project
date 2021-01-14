@@ -12,4 +12,5 @@ then
   mysql -u "$dbuser" -p"$dbpass" -h "$dbhost" "$dbname" < db.sql
   rm db.sql
 fi
+cd /var/app/current
 python3 manage.py migrate
