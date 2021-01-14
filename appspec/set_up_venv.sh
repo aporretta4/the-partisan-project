@@ -1,5 +1,6 @@
 #!/bin/bash
 source "/etc/profile.d/custom-envs.sh"
+ENVDIR="/home/ec2-user/venv/"
 if [ ! -d "$ENVDIR" ]; then
   python3 -m venv /home/ec2-user/venv
 fi
