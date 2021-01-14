@@ -15,3 +15,5 @@ hooks:
   AfterInstall:
     - location: appspec/after_install.sh
       runas: ec2-user
+    - location: appspec/after_install_super.sh
+      runas: root
