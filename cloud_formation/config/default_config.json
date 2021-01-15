@@ -4,7 +4,6 @@
     "OperatorEMail": "angelocp4@gmail.com",
     "Subnets": "subnet-0cb27dfe2645114ca,subnet-0164ec1ed3ae19614,subnet-0cb329b3da6b7f98c,subnet-0cc437d8e49cdc038",
     "VpcId": "vpc-088ec5134c64c5591",
-    "StaticFileBucketName": "partisanprojectstaticfiles",
     "EnvironmentType": "Test"
   }
 }
