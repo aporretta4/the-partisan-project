@@ -16,12 +16,6 @@
             "Description": "VpcId of your existing Virtual Private Cloud (VPC)",
             "ConstraintDescription": "must be the VPC Id of an existing Virtual Private Cloud."
         },
-        "StaticFileBucketName": {
-            "Type": "String",
-            "Description": "The name of the bucket containing static files.",
-            "AllowedPattern": "(^[a-z]*$)",
-            "ConstraintDescription": "Lowercase alpha characters only."
-        },
         "Subnets": {
             "Type": "List<AWS::EC2::Subnet::Id>",
             "Description": "The list of SubnetIds in your Virtual Private Cloud (VPC)",
@@ -594,7 +588,14 @@
             "Type": "AWS::S3::Bucket",
             "Properties": {
                 "BucketName": {
-                    "Ref": "StaticFileBucketName"
+                    "Fn::Transform": {
+                        "Name": "cleanseS3BucketName",
+                        "Parameters": {
+                            "String": {
+                                "Fn::Sub": "PPStaticFiles${AWS::StackName}"
+                            }
+                        }
+                    }
                 },
                 "PublicAccessBlockConfiguration": {
                     "BlockPublicAcls" : "true",
@@ -864,7 +865,21 @@
                                                 "Fn::Sub": ["export PP_ENVIRONMENT=\"${CF_ENV}\"\n", {"CF_ENV": {"Ref": "EnvironmentType"}} ]
                                             },
                                             {
-                                                "Fn::Sub": [ "export STATIC_FILE_BUCKET_NAME=\"${BucketName}\"\n", { "BucketName": {"Ref" : "StaticFileBucketName" }} ]
+                                                "Fn::Sub": [
+                                                    "export STATIC_FILE_BUCKET_NAME=\"${BucketName}\"\n",
+                                                    {
+                                                        "BucketName": {
+                                                            "Fn::Transform": {
+                                                                "Name": "cleanseS3BucketName",
+                                                                "Parameters": {
+                                                                    "String": {
+                                                                        "Fn::Sub": "PPStaticFiles${AWS::StackName}"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ]
                                             }
                                         ]
                                     ]
@@ -1475,7 +1490,14 @@
                     "Ref": "DBSecurityGroup"
                 }],
                 "DBName": {
-                    "Fn::Sub": "PPDb${AWS::StackName}"
+                    "Fn::Transform": {
+                        "Name": "cleanseMySQLDBBucketName",
+                        "Parameters": {
+                            "String": {
+                                "Fn::Sub": "PPDb${AWS::StackName}"
+                            }
+                        }
+                    }
                 },
                 "PubliclyAccessible": false,
                 "DeleteAutomatedBackups": false,
