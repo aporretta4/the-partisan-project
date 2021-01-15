@@ -668,7 +668,7 @@
                     "PriceClass" : "PriceClass_100",
                     "Origins" : [{
                         "DomainName": {
-                            "Fn::GetAtt": ["StaticFilesBucket", "S3Bucket.RegionalDomainName"]
+                            "Fn::GetAtt": ["StaticFilesBucket", "DomainName"]
                         },
                         "Id": {
                             "Fn::GetAtt": ["StaticFilesBucket", "Arn"]
