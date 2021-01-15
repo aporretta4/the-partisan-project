@@ -609,10 +609,18 @@
                             "AllowedHeaders": ["*"],
                             "AllowedMethods": ["GET", "HEAD"],
                             "AllowedOrigins": [
-                                "http://testi-appli-uocsqoqzres-1461370742.us-west-2.elb.amazonaws.com",
-                                "https://testi-appli-uocsqoqzres-1461370742.us-west-2.elb.amazonaws.com",
-                                "http://d2xrkw20jymhuj.cloudfront.net",
-                                "https://d2xrkw20jymhuj.cloudfront.net"
+                                {
+                                    "Fn::Sub": [
+                                        "http://${elb_domain}",
+                                        {"elb_domain": {"Fn::GetAtt": ["ApplicationLoadBalancer", "DNSName"]}}
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "https://${elb_domain}",
+                                        {"elb_domain": {"Fn::GetAtt": ["ApplicationLoadBalancer", "DNSName"]}}
+                                    ]
+                                }
                             ],
                             "ExposedHeaders": []
                         }
