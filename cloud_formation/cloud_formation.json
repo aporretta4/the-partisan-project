@@ -610,16 +610,30 @@
                             "AllowedMethods": ["GET", "HEAD"],
                             "AllowedOrigins": [
                                 {
-                                    "Fn::Sub": [
-                                        "http://${elb_domain}",
-                                        {"elb_domain": {"Fn::GetAtt": ["ApplicationLoadBalancer", "DNSName"]}}
-                                    ]
+                                    "Fn::Transform": {
+                                        "Name": "toLower",
+                                        "Parameters": {
+                                            "String": {
+                                                "Fn::Sub": [
+                                                    "http://${elb_domain}",
+                                                    {"elb_domain": {"Fn::GetAtt": ["ApplicationLoadBalancer", "DNSName"]}}
+                                                ]
+                                            }
+                                        }
+                                    }
                                 },
                                 {
-                                    "Fn::Sub": [
-                                        "https://${elb_domain}",
-                                        {"elb_domain": {"Fn::GetAtt": ["ApplicationLoadBalancer", "DNSName"]}}
-                                    ]
+                                    "Fn::Transform": {
+                                        "Name": "toLower",
+                                        "Parameters": {
+                                            "String": {
+                                                "Fn::Sub": [
+                                                    "https://${elb_domain}",
+                                                    {"elb_domain": {"Fn::GetAtt": ["ApplicationLoadBalancer", "DNSName"]}}
+                                                ]
+                                            }
+                                        }
+                                    }
                                 }
                             ],
                             "ExposedHeaders": []

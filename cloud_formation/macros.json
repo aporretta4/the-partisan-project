@@ -3,19 +3,27 @@
   "Description": "Defining macros to be used in other CF templates.",
   "Resources": {
     "CleanseS3BucketName": {
-      "Type" : "AWS::CloudFormation::Macro",
-      "Properties" : {
+      "Type": "AWS::CloudFormation::Macro",
+      "Properties": {
         "Description": "Cleanses a string to create a bucket name that conforms to naming restrictions.",
         "FunctionName": "arn:aws:lambda:us-west-2:054058811484:function:formatS3BucketName",
         "Name": "cleanseS3BucketName"
       }
     },
     "CleanseMySQLDBName": {
-      "Type" : "AWS::CloudFormation::Macro",
-      "Properties" : {
+      "Type": "AWS::CloudFormation::Macro",
+      "Properties": {
         "Description": "Cleanses a string to create a mysql database name that conforms to naming restrictions.",
         "FunctionName": "arn:aws:lambda:us-west-2:054058811484:function:formatMySQLDBName",
         "Name": "cleanseMySQLDBBucketName"
+      }
+    },
+    "ToLower": {
+      "Type": "AWS::CloudFormation::Macro",
+      "Properties": {
+        "Description": "Converts a string to lowercase.",
+        "FunctionName": "arn:aws:lambda:us-west-2:054058811484:function:toLower",
+        "Name": "toLower"
       }
     }
   }
