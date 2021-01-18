@@ -569,26 +569,13 @@
         "DomainRecordSet": {
             "Type" : "AWS::Route53::RecordSet",
             "Properties": {
-                "HostedZoneId": "Z06580471H4JGSZTR0WEW",
-                "Name": {
-                    "Fn::Transform": {
-                        "Name": "toLower",
-                        "Parameters": {
-                            "String": {
-                                "Fn::Sub": "${AWS::StackName}.thepartisanproject.org"
-                            }
-                        }
+                "Fn::Transform": {
+                    "Name": "getDomainRecordSetProperties",
+                    "Parameters": {
+                        "Env": {"Ref": "EnvironmentType"},
+                        "StackName": {"Fn::Sub": "${AWS::StackName}"}
                     }
-                },
-                "AliasTarget": {
-                    "DNSName": {
-                        "Fn::GetAtt": ["ApplicationLoadBalancer", "DNSName"]
-                    },
-                    "HostedZoneId": {
-                        "Fn::GetAtt": ["ApplicationLoadBalancer", "CanonicalHostedZoneID"]
-                    }
-                },
-                "Type": "A"
+                }
             }
         },
         "NotificationTopic": {

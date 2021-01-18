@@ -25,6 +25,14 @@
         "FunctionName": "arn:aws:lambda:us-west-2:054058811484:function:toLower",
         "Name": "toLower"
       }
+    },
+    "GetDomainRecordSetProperties": {
+      "Type": "AWS::CloudFormation::Macro",
+      "Properties": {
+        "Description": "Gets a domain record set property to associate the proper domain of the environment.",
+        "FunctionName": "arn:aws:lambda:us-west-2:054058811484:function:getDomainRecordSetProperties",
+        "Name": "getDomainRecordSetProperties"
+      }
     }
   }
 }
