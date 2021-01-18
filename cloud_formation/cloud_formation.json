@@ -566,6 +566,31 @@
         }
     },
     "Resources": {
+        "DomainRecordSet": {
+            "Type" : "AWS::Route53::RecordSet",
+            "Properties": {
+                "HostedZoneId": "Z06580471H4JGSZTR0WEW",
+                "Name": {
+                    "Fn::Transform": {
+                        "Name": "toLower",
+                        "Parameters": {
+                            "String": {
+                                "Fn::Sub": "${AWS::StackName}.thepartisanproject.org"
+                            }
+                        }
+                    }
+                },
+                "AliasTarget": {
+                    "DNSName": {
+                        "Fn::GetAtt": ["ApplicationLoadBalancer", "DNSName"]
+                    },
+                    "HostedZoneId": {
+                        "Fn::GetAtt": ["ApplicationLoadBalancer", "CanonicalHostedZoneID"]
+                    }
+                },
+                "Type": "A"
+            }
+        },
         "NotificationTopic": {
             "Type": "AWS::SNS::Topic",
             "Properties": {
@@ -614,10 +639,7 @@
                                         "Name": "toLower",
                                         "Parameters": {
                                             "String": {
-                                                "Fn::Sub": [
-                                                    "http://${elb_domain}",
-                                                    {"elb_domain": {"Fn::GetAtt": ["ApplicationLoadBalancer", "DNSName"]}}
-                                                ]
+                                                "Fn::Sub": "http://${AWS::StackName}.thepartisanproject.org"
                                             }
                                         }
                                     }
@@ -627,10 +649,7 @@
                                         "Name": "toLower",
                                         "Parameters": {
                                             "String": {
-                                                "Fn::Sub": [
-                                                    "https://${elb_domain}",
-                                                    {"elb_domain": {"Fn::GetAtt": ["ApplicationLoadBalancer", "DNSName"]}}
-                                                ]
+                                                "Fn::Sub": "https://${AWS::StackName}.thepartisanproject.org"
                                             }
                                         }
                                     }
