@@ -17,6 +17,20 @@ class search_term(models.Model):
         except search_term.DoesNotExist:
             return False
 
+class news(models.Model):
+    id = models.BigIntegerField(primary_key=True,editable=False,unique=True)
+    source = models.CharField(max_length=256,null=True,unique=True)
+    outlet = models.CharField(max_length=256,null=True,unique=True)
+    text = models.TextField(blank=False,null=False)
+    created_at = models.DateTimeField(default='1970-01-01 00:00:00+00:00')
+    pie_stat_processed = models.BooleanField(default=False)
+    nlp_processed = models.BooleanField(default=False)
+    nlp_neutral_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
+    nlp_positive_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
+    nlp_negative_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
+    nlp_mixed_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
+    term = models.ForeignKey(search_term,null=False,on_delete=models.RESTRICT)
+
 class tweet(models.Model):
     id = models.BigIntegerField(primary_key=True,editable=False,unique=True)
     text = models.CharField(max_length=2048, )
