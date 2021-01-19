@@ -53,6 +53,7 @@ class reddit_submission(models.Model):
     nlp_negative_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
     nlp_mixed_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
     pie_stat_processed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default='1970-01-01 00:00:00+00:00')
 
     @staticmethod
     def getSubmission(submission_id: str):
@@ -77,6 +78,7 @@ class reddit_comment(models.Model):
     nlp_negative_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
     nlp_mixed_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
     pie_stat_processed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default='1970-01-01 00:00:00+00:00')
 
     @staticmethod
     def getComment(hash: str):
