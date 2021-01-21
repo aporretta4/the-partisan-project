@@ -173,7 +173,7 @@ class pull_configuration(models.Model):
 
 class sentiment_process_configuration(models.Model):
     id = models.AutoField(primary_key=True,editable=False,unique=True)
-    term = models.OneToOneField(search_term,null=False,on_delete=models.CASCADE,related_name='pull_config_of',unique=True)
+    term = models.ForeignKey(search_term,null=False,on_delete=models.CASCADE,related_name='pull_config_of',unique=False)
     data_source = models.CharField(
         max_length=2,
         choices=data_sources.choices,
