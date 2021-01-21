@@ -37,6 +37,7 @@ try:
     SECRET_KEY = secrets_interactor.getSecret(os.getenv('DJANGO_KEY_SECRET_NAME'))['secret_key']
     TW_BEARER_TOKEN = secrets_interactor.getSecret('pp_twitter_api')['bearer_token']
     REDDIT_APP_SECRET = secrets_interactor.getSecret('pp_reddit_api_secret')['secret_key']
+    NYT_API_SECRET = secrets_interactor.getSecret('pp_nyt_news_api')['KEY']
     db_creds = secrets_interactor.getSecret(os.getenv('DB_PASS_SECRET_NAME'))
     DATABASES['default']['NAME'] = db_creds['dbname']
     DATABASES['default']['USER'] = db_creds['username']
@@ -47,10 +48,12 @@ except:
     from django_project.local_settings import LOCAL_TW_BEARER_TOKEN
     from django_project.local_settings import LOCAL_ENVIRONMENT
     from django_project.local_settings import LOCAL_REDDIT_APP_SECRET
+    from django_project.local_settings import LOCAL_NYT_API_KEY
     ENVORNMENT = LOCAL_ENVIRONMENT
     SECRET_KEY = LOCAL_SECRET_KEY
     TW_BEARER_TOKEN = LOCAL_TW_BEARER_TOKEN
     REDDIT_APP_SECRET = LOCAL_REDDIT_APP_SECRET
+    NYT_API_SECRET = LOCAL_NYT_API_KEY
     from django_project.local_settings import LOCAL_DB_NAME
     from django_project.local_settings import LOCAL_DB_USER
     from django_project.local_settings import LOCAL_DB_PASS

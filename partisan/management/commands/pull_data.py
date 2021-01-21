@@ -1,13 +1,15 @@
 from django.core.management.base import BaseCommand, CommandError
 from partisan.p_classes.retrievers.twitter import twitter_retriever
 from partisan.p_classes.retrievers.reddit import reddit_retriever
+from partisan.p_classes.retrievers.nyt import nyt_retriever
 from partisan.models import pull_configuration
 
 class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
-        self.__pullTwitterData(twitter_pull_configs=pull_configuration.objects.filter(data_source='tw'))
-        self.__pullRedditData(pull_configuration.objects.filter(data_source='re'))
+        #self.__pullTwitterData(twitter_pull_configs=pull_configuration.objects.filter(data_source='tw'))
+        #self.__pullRedditData(pull_configuration.objects.filter(data_source='re'))
+        self.__pullNYTNewsData(pull_configuration.objects.filter(data_source='nt'))
 
     def __pullTwitterData(self, twitter_pull_configs: pull_configuration):
         counter = 0
@@ -33,3 +35,9 @@ class Command(BaseCommand):
                 reddit_comments.append(reddit_comment_batch)
         self.stdout.write(self.style.SUCCESS('ATTEMPTED to pull in ' + str(len(reddit_submissions)) + ' reddit submissions and ATTEMPTED to pull in ' + str(len(reddit_comments)) + ' comments per reddit submission.'))
         return counter
+
+    def __pullNYTNewsData(self, nyt_pull_configs: pull_configuration):
+        for pull_conf in nyt_pull_configs:
+            retriever = nyt_retriever()
+            count = retriever.initiatePull(term=pull_conf.term_name, count=pull_conf.items_per_run)
+            self.stdout.write(self.style.SUCCESS('Successully pulled ' + str(count) + ' NYT articles.'))

@@ -1,7 +1,9 @@
 from django.db import models
 from random import randrange
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse
 
 class search_term(models.Model):
     id = models.AutoField(primary_key=True,editable=False,unique=True)
@@ -17,10 +19,21 @@ class search_term(models.Model):
         except search_term.DoesNotExist:
             return False
 
+class news_outlet(models.Model):
+    id = models.AutoField(primary_key=True,editable=False,unique=True)
+    outlet_name = models.CharField(max_length=256,null=True,unique=True)
+
+    @staticmethod
+    def getOutlet(outlet_name: str):
+        try:
+            return news_outlet.objects.get(outlet_name=outlet_name)
+        except news_outlet.DoesNotExist:
+            return False
+
 class news(models.Model):
-    id = models.BigIntegerField(primary_key=True,editable=False,unique=True)
+    id = models.AutoField(primary_key=True,editable=False,unique=True)
     source = models.CharField(max_length=256,null=True,unique=True)
-    outlet = models.CharField(max_length=256,null=True,unique=True)
+    news_outlet = models.ForeignKey(news_outlet,null=True,on_delete=models.RESTRICT)
     text = models.TextField(blank=False,null=False)
     created_at = models.DateTimeField(default='1970-01-01 00:00:00+00:00')
     pie_stat_processed = models.BooleanField(default=False)
@@ -30,6 +43,27 @@ class news(models.Model):
     nlp_negative_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
     nlp_mixed_sentiment = models.DecimalField(max_digits=30,decimal_places=20,null=True)
     term = models.ForeignKey(search_term,null=False,on_delete=models.RESTRICT)
+
+    def save(self, *args, **kwargs):
+        self.text = BeautifulSoup(self.text, features='html.parser').get_text()
+        if self.news_outlet == None:
+            path_parts = urlparse(url=self.source)
+            try:
+                port_index = path_parts[1].index(':')
+            except ValueError:
+                port_index = len(path_parts[1])
+            existing_outlet = news_outlet.objects.filter(outlet_name=path_parts[1][:port_index])
+            if len(existing_outlet) == 0:
+                new_outlet = news_outlet(outlet_name=path_parts[1][:port_index])
+                new_outlet.save()
+                self.news_outlet_id = new_outlet.id
+            else:
+                self.news_outlet_id = existing_outlet[0].id
+        super(news, self).save(*args, **kwargs)
+
+class nyt_retriever_metadata(models.Model):
+    id = models.CharField(primary_key=True,editable=False,unique=True,max_length=255)
+    val = models.TextField(blank=False,null=False)
 
 class tweet(models.Model):
     id = models.BigIntegerField(primary_key=True,editable=False,unique=True)
@@ -107,6 +141,7 @@ class reddit_comment(models.Model):
 class data_sources(models.TextChoices):
     REDDIT = 're', ('Reddit')
     TWITTER = 'tw', ('Twitter')
+    NYT = 'nt', ('New York Times')
 
     @staticmethod
     def getSource(key: str):
@@ -118,7 +153,7 @@ class data_sources(models.TextChoices):
 
 class pull_configuration(models.Model):
     id = models.AutoField(primary_key=True,editable=False,unique=True)
-    term_name = models.CharField(unique=True,max_length=255,editable=True,help_text='If searching a subreddit, DO NOT prefix with "r/".')
+    term_name = models.CharField(unique=False,max_length=255,editable=True,help_text='If searching a subreddit, DO NOT prefix with "r/".')
     data_source = models.CharField(
         max_length=2,
         choices=data_sources.choices,
@@ -130,6 +165,11 @@ class pull_configuration(models.Model):
 
     def __str__(self):
         return self.term_name + ' (from ' + data_sources.getSource(key=self.data_source) + ')'
+
+    def validate_unique(self, exclude):
+        if len(pull_configuration.objects.filter(term_name=self.term_name, data_source=self.data_source)) > 0:
+            raise ValidationError(message='Sorry, couldn\'t save! A pull config with the term "' + self.term_name + '" and the source "' + data_sources.getSource(key=self.data_source) + '" already exists!')
+        return super().validate_unique(exclude=exclude)
 
 class sentiment_process_configuration(models.Model):
     id = models.AutoField(primary_key=True,editable=False,unique=True)
