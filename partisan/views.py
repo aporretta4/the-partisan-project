@@ -18,18 +18,18 @@ def index(request):
   context['us_politics']['sentiment_pie'] = sentiment_retriever.getSentimentPieChartDict('r/politics', 'us politics')
   context['us_politics']['sm_comparison'] = sentiment_retriever.getSentimentSocialMediaComparisonDict(
     pie_chart_sentiment_stat.objects.get(term__term='r/politics'),
-    pie_chart_sentiment_stat.objects.get(term__term='us politics')
+    pie_chart_sentiment_stat.objects.filter(term__term='us politics', data_source='tw')[0]
   )
   context['uk_politics']['examples'] = sentiment_retriever(sentimentable_model=tweet).getFullExampleDict(search_term='uk politics', example_count=10)
   context['uk_politics']['sentiment_pie'] = sentiment_retriever.getSentimentPieChartDict('r/ukpolitics', 'uk politics')
   context['uk_politics']['sm_comparison'] = sentiment_retriever.getSentimentSocialMediaComparisonDict(
     pie_chart_sentiment_stat.objects.get(term__term='r/ukpolitics'),
-    pie_chart_sentiment_stat.objects.get(term__term='uk politics')
+    pie_chart_sentiment_stat.objects.filter(term__term='uk politics', data_source='tw')[0]
   )
   context['covid']['examples'] = sentiment_retriever(sentimentable_model=tweet).getFullExampleDict(search_term='covid', example_count=10)
   context['covid']['sentiment_pie'] = sentiment_retriever.getSentimentPieChartDict('r/Coronavirus', 'covid')
   context['covid']['sm_comparison'] = sentiment_retriever.getSentimentSocialMediaComparisonDict(
     pie_chart_sentiment_stat.objects.get(term__term='r/Coronavirus'),
-    pie_chart_sentiment_stat.objects.get(term__term='covid')
+    pie_chart_sentiment_stat.objects.filter(term__term='covid', data_source='tw')[0]
   )
   return HttpResponse(tpl.render(context, request))

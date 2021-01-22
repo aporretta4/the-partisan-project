@@ -71,7 +71,8 @@ class sentiment_retriever:
   def getSentimentPieChartDict(*term_names: str):
     stats = []
     for term_name in term_names:
-      stats.append(pie_chart_sentiment_stat.objects.get(term__term=term_name))
+      for stat in pie_chart_sentiment_stat.objects.filter(term__term=term_name):
+        stats.append(stat)
     merged_stats = pie_chart_sentiment_stat.mergePieStats(*stats)
     return json.dumps([
       {
