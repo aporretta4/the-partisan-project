@@ -6,6 +6,7 @@ import logging
 from django_project.settings import REDDIT_APP_SECRET
 from partisan.models import reddit_submission, reddit_comment, search_term
 from partisan.p_classes.util.text import hashText
+from datetime import datetime, timezone
 
 class reddit_retriever:
 
@@ -36,18 +37,22 @@ class reddit_retriever:
       for submission in submissions:
         if not reddit_submission.getSubmission(submission_id=submission.id):
           if submission.selftext == '':
+            dt = datetime.fromtimestamp(submission.created_utc)
             new_submission = reddit_submission(
               submission_id=submission.id,
               term_id=existing_subreddit.id,
               nlp_processed=True,
-              pie_stat_processed=True
+              pie_stat_processed=True,
+              created_at=str(dt.replace(tzinfo=timezone.utc))
             )
           else:
             submission.selftext = ''.join(BeautifulSoup(markdown(submission.selftext), features='html.parser').get_text())
+            dt = datetime.fromtimestamp(submission.created_utc)
             new_submission = reddit_submission(
               submission_id=submission.id,
               text=submission.selftext,
-              term_id=existing_subreddit.id
+              term_id=existing_subreddit.id,
+              created_at=str(dt.replace(tzinfo=timezone.utc))
             )
           new_submission.save()
           gathered_submissions.append(submission)
@@ -76,11 +81,13 @@ class reddit_retriever:
         hashed_text = hashText(comment_text)
         existing_comment = reddit_comment.getComment(hash=hashed_text)
         if existing_comment == False and len(comment_text) > 200:
+          dt = datetime.fromtimestamp(remote_comments[i].created_utc)
           new_comment = reddit_comment(
             comment_id=remote_comments[i].id,
             text=comment_text,
             text_hash=hashed_text,
-            term_id=existing_subreddit.id
+            term_id=existing_subreddit.id,
+            created_at=str(dt.replace(tzinfo=timezone.utc))
           )
           new_comment.save()
           gathered_comments.append(new_comment)
