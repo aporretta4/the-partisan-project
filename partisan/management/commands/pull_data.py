@@ -7,8 +7,8 @@ from partisan.models import pull_configuration
 class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
-        #self.__pullTwitterData(twitter_pull_configs=pull_configuration.objects.filter(data_source='tw'))
-        #self.__pullRedditData(pull_configuration.objects.filter(data_source='re'))
+        self.__pullTwitterData(twitter_pull_configs=pull_configuration.objects.filter(data_source='tw'))
+        self.__pullRedditData(pull_configuration.objects.filter(data_source='re'))
         self.__pullNYTNewsData(pull_configuration.objects.filter(data_source='nt'))
 
     def __pullTwitterData(self, twitter_pull_configs: pull_configuration):

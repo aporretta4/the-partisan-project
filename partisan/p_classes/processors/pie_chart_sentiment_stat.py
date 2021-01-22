@@ -1,4 +1,5 @@
-from partisan.models import data_sources, pie_chart_sentiment_stat, search_term
+from django.db.models.query import QuerySet
+from partisan.models import pie_chart_sentiment_stat, search_term, news
 from partisan.p_classes.exceptions.DataExceptions import DataSourceNotFoundException
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg, Model
@@ -9,13 +10,64 @@ import logging
 class stat_processor:
 
   @staticmethod
-  def processStats(searched_term: str, sentimentable_model: Model, batch: int = 100):
+  def processModelStats(searched_term: str, sentimentable_model: Model, batch: int):
+    success = False
+    unprocessed_stats = sentimentable_model.objects.filter(pie_stat_processed=False, nlp_processed=True)[:batch]
+    if unprocessed_stats.count() > 0:
+      success = stat_processor.calculateStats(
+        searched_term=searched_term,
+        unprocessed_stats=unprocessed_stats,
+        source=stat_processor.getSentimentableDataSource(sentimentable_model=sentimentable_model),
+        sentimentable_model=sentimentable_model
+      )
+      if success == False:
+        return success
+    else:
+      success = True
+    return success
+
+  @staticmethod
+  def processNewsStats(searched_term: str, batch: int):
+    success = False
+    unprocessed_news_outlets = news.objects.filter(pie_stat_processed=False, nlp_processed=True).values('news_outlet__outlet_name').distinct()
+    if unprocessed_news_outlets.count() == 0:
+      success = True
+    for unprocessed_news_outlet in unprocessed_news_outlets:
+      outlet_name = unprocessed_news_outlet['news_outlet__outlet_name']
+      unprocessed_news = news.objects.filter(pie_stat_processed=False, nlp_processed=True, news_outlet__outlet_name=outlet_name)[:batch]
+      if len(unprocessed_news) > 0:
+        success = stat_processor.calculateStats(
+          searched_term=searched_term,
+          unprocessed_stats=unprocessed_news,
+          source=stat_processor.getNewsSourceKey(news_source=outlet_name),
+          sentimentable_model=news
+        )
+        if success == False:
+          return success
+      else:
+        success = True
+    return success
+
+  @staticmethod
+  def getSentimentableDataSource(sentimentable_model: Model):
+    if sentimentable_model.__name__ == 'tweet':
+      return 'tw'
+    elif sentimentable_model.__name__ == 'reddit_submission' or sentimentable_model.__name__ == 'reddit_comment':
+      return 're'
+    else:
+      DataSourceNotFoundException('A news source could not be determined when processing pie chart stats. The name of the model is is: ' + sentimentable_model.__name__)
+
+  @staticmethod
+  def getNewsSourceKey(news_source: str):
+    if news_source == 'www.nytimes.com':
+      return 'nt'
+    else:
+      DataSourceNotFoundException('A news source could not be determined when processing pie chart stats. The news source full name is: ' + news_source)
+
+  @staticmethod
+  def calculateStats(searched_term: str, unprocessed_stats: QuerySet, source: str, sentimentable_model: Model):
     try:
       term = search_term.objects.get(term=searched_term)
-      unprocessed_stats = sentimentable_model.objects.filter(pie_stat_processed=False, nlp_processed=True, term_id=term.id)[:batch]
-      source = stat_processor.determineDataSource(sentimentable_model)
-      if source == '':
-        raise DataSourceNotFoundException('A data source could not be determined when processing pie chart stats. The problematic sentimentable class is: ' + sentimentable_model.__name__)
       if unprocessed_stats.count() == 0:
         return True
       processed_weight = stat_processor.processDataWeight(
@@ -50,7 +102,7 @@ class stat_processor:
       else:
         try:
           with transaction.atomic():
-            old_stats = pie_chart_sentiment_stat.objects.get(term_id=term.id)
+            old_stats = pie_chart_sentiment_stat.objects.get(term_id=term.id, data_source=source)
             old_stats.neutral_sentiment_aggregate = (processed_weight * old_stats.neutral_sentiment_aggregate) + (unprocessed_weight * new_neutral_avg)
             old_stats.mixed_sentiment_aggregate = (processed_weight * old_stats.mixed_sentiment_aggregate) + (unprocessed_weight * new_mixed_avg)
             old_stats.positive_sentiment_aggregate = (processed_weight * old_stats.positive_sentiment_aggregate) + (unprocessed_weight * new_positive_avg)
@@ -81,12 +133,3 @@ class stat_processor:
         return decimal.Decimal(1.0)
       else:
         return decimal.Decimal(0.0)
-
-  @staticmethod
-  def determineDataSource(sentimentable_model: Model):
-    data_source = ''
-    if sentimentable_model.__name__ == 'tweet':
-      data_source = 'tw'
-    elif sentimentable_model.__name__ == 'reddit_submission' or sentimentable_model.__name__ == 'reddit_comment':
-      data_source = 're'
-    return data_source

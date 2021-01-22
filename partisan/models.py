@@ -188,7 +188,7 @@ class sentiment_process_configuration(models.Model):
 
 class pie_chart_sentiment_stat(models.Model):
     id = models.AutoField(primary_key=True,editable=False,unique=True)
-    term = models.OneToOneField(search_term,null=False,on_delete=models.RESTRICT,related_name='statistic_of')
+    term = models.ForeignKey(search_term,null=False,on_delete=models.RESTRICT,related_name='statistic_of')
     neutral_sentiment_aggregate = models.DecimalField(max_digits=6,decimal_places=5,null=True)
     mixed_sentiment_aggregate = models.DecimalField(max_digits=6,decimal_places=5,null=True)
     positive_sentiment_aggregate = models.DecimalField(max_digits=6,decimal_places=5,null=True)
