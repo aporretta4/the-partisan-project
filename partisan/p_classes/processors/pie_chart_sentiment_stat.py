@@ -12,7 +12,7 @@ class stat_processor:
   @staticmethod
   def processModelStats(searched_term: str, sentimentable_model: Model, batch: int):
     success = False
-    unprocessed_stats = sentimentable_model.objects.filter(pie_stat_processed=False, nlp_processed=True)[:batch]
+    unprocessed_stats = sentimentable_model.objects.filter(pie_stat_processed=False, nlp_processed=True, term__term=searched_term)[:batch]
     if unprocessed_stats.count() > 0:
       success = stat_processor.calculateStats(
         searched_term=searched_term,
@@ -29,12 +29,12 @@ class stat_processor:
   @staticmethod
   def processNewsStats(searched_term: str, batch: int):
     success = False
-    unprocessed_news_outlets = news.objects.filter(pie_stat_processed=False, nlp_processed=True).values('news_outlet__outlet_name').distinct()
+    unprocessed_news_outlets = news.objects.filter(pie_stat_processed=False, nlp_processed=True, term__term=searched_term).values('news_outlet__outlet_name').distinct()
     if unprocessed_news_outlets.count() == 0:
       success = True
     for unprocessed_news_outlet in unprocessed_news_outlets:
       outlet_name = unprocessed_news_outlet['news_outlet__outlet_name']
-      unprocessed_news = news.objects.filter(pie_stat_processed=False, nlp_processed=True, news_outlet__outlet_name=outlet_name)[:batch]
+      unprocessed_news = news.objects.filter(pie_stat_processed=False, nlp_processed=True, news_outlet__outlet_name=outlet_name, term__term=searched_term)[:batch]
       if len(unprocessed_news) > 0:
         success = stat_processor.calculateStats(
           searched_term=searched_term,
