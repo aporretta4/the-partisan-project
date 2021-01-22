@@ -37,7 +37,10 @@ class Command(BaseCommand):
         return counter
 
     def __pullNYTNewsData(self, nyt_pull_configs: pull_configuration):
-        for pull_conf in nyt_pull_configs:
-            retriever = nyt_retriever()
-            count = retriever.initiatePull(term=pull_conf.term_name, count=pull_conf.items_per_run)
-            self.stdout.write(self.style.SUCCESS('Successully pulled ' + str(count) + ' NYT articles.'))
+        try:
+            for pull_conf in nyt_pull_configs:
+                retriever = nyt_retriever()
+                count = retriever.initiatePull(term=pull_conf.term_name, count=pull_conf.items_per_run)
+                self.stdout.write(self.style.SUCCESS('Successully pulled ' + str(count) + ' NYT articles.'))
+        except SystemError as ex:
+            self.stdout.write(self.style.ERROR(str(ex)))
