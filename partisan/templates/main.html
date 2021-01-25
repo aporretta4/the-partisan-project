@@ -40,15 +40,15 @@
         <!-- Election -->
         <p>Lets try to determine what people are talking about with regards to the US 2020 election... Sentiment is an important measure of how divided people are on a particular topic. A statement that is highly negative for instance is genereally more divisive than a statement that is positive or neutral.</p>
         <p class="h3">To start, here are examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement:</p>
-        <div class="tweets-3 flex-rows">
-          {% if election.examples.positive %}
-            {% include "sm-cards/sentiment-example-card.html" with sentiment='positive' examples=election.examples.positive %}
+        <div class="examples-3 flex-rows">
+          {% if election.tw_examples.positive %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='positive' examples=election.tw_examples.positive type='tweet' %}
           {% endif %}
-          {% if election.examples.negative %}
-            {% include "sm-cards/sentiment-example-card.html" with sentiment='negative' examples=election.examples.negative %}
+          {% if election.tw_examples.negative %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='negative' examples=election.tw_examples.negative type='tweet' %}
           {% endif %}
-          {% if election.examples.neutral %}
-            {% include "sm-cards/sentiment-example-card.html" with sentiment='neutral' examples=election.examples.neutral %}
+          {% if election.tw_examples.neutral %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='neutral' examples=election.tw_examples.neutral type='tweet' %}
           {% endif %}
         </div>
         <div class="flex-rows row-1">
@@ -57,15 +57,26 @@
         <!-- US Politics -->
         <div class="divider">US Politics</div>
         <p class="h3">And some are examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding US politics:</p>
-        <div class="tweets-3 flex-rows row-3">
-          {% if us_politics.examples.positive %}
-            {% include "sm-cards/sentiment-example-card.html" with sentiment='positive' examples=us_politics.examples.positive %}
+        <div class="examples-3 flex-rows">
+          {% if us_politics.tw_examples.positive %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='positive' examples=us_politics.tw_examples.positive type='tweet' %}
           {% endif %}
-          {% if us_politics.examples.negative %}
-            {% include "sm-cards/sentiment-example-card.html" with sentiment='negative' examples=us_politics.examples.negative %}
+          {% if us_politics.tw_examples.negative %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='negative' examples=us_politics.tw_examples.negative type='tweet' %}
           {% endif %}
-          {% if us_politics.examples.neutral %}
-            {% include "sm-cards/sentiment-example-card.html" with sentiment='neutral' examples=us_politics.examples.neutral %}
+          {% if us_politics.tw_examples.neutral %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='neutral' examples=us_politics.tw_examples.neutral type='tweet' %}
+          {% endif %}
+        </div>
+        <div class="examples-3 flex-rows">
+          {% if us_politics.tw_examples.positive %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='positive' examples=us_politics.re_examples.positive type='reddit' %}
+          {% endif %}
+          {% if us_politics.tw_examples.negative %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='negative' examples=us_politics.re_examples.negative type='reddit' %}
+          {% endif %}
+          {% if us_politics.tw_examples.neutral %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='neutral' examples=us_politics.re_examples.neutral type='reddit' %}
           {% endif %}
         </div>
         <div class="flex-rows row-2">
@@ -75,15 +86,26 @@
         <!-- UK Politics -->
         <div class="divider">UK Politics</div>
         <p class="h3">Examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding UK politics:</p>
-        <div class="tweets-3 flex-rows">
-          {% if uk_politics.examples.positive %}
-            {% include "sm-cards/sentiment-example-card.html" with sentiment='positive' examples=uk_politics.examples.positive %}
+        <div class="examples-3 flex-rows">
+          {% if uk_politics.tw_examples.positive %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='positive' examples=uk_politics.tw_examples.positive type='tweet' %}
           {% endif %}
-          {% if uk_politics.examples.negative %}
-            {% include "sm-cards/sentiment-example-card.html" with sentiment='negative' examples=uk_politics.examples.negative %}
+          {% if uk_politics.tw_examples.negative %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='negative' examples=uk_politics.tw_examples.negative type='tweet' %}
           {% endif %}
-          {% if uk_politics.examples.neutral %}
-            {% include "sm-cards/sentiment-example-card.html" with sentiment='neutral' examples=uk_politics.examples.neutral %}
+          {% if uk_politics.tw_examples.neutral %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='neutral' examples=uk_politics.tw_examples.neutral type='tweet' %}
+          {% endif %}
+        </div>
+        <div class="examples-3 flex-rows">
+          {% if uk_politics.tw_examples.positive %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='positive' examples=uk_politics.re_examples.positive type='reddit' %}
+          {% endif %}
+          {% if uk_politics.tw_examples.negative %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='negative' examples=uk_politics.re_examples.negative type='reddit' %}
+          {% endif %}
+          {% if uk_politics.tw_examples.neutral %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='neutral' examples=uk_politics.re_examples.neutral type='reddit' %}
           {% endif %}
         </div>
         <div class="flex-rows row-2">
@@ -99,15 +121,26 @@
       <div class="paralax-content-wrapper">
         <div class="divider">Covid-19</div>
         <p class="h3">Examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding UK politics:</p>
-        <div class="tweets-3 flex-rows">
-          {% if covid.examples.positive %}
-            {% include "sm-cards/sentiment-example-card.html" with sentiment='positive' examples=covid.examples.positive %}
+        <div class="examples-3 flex-rows">
+          {% if covid.tw_examples.positive %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='positive' examples=covid.tw_examples.positive type='tweet' %}
           {% endif %}
-          {% if covid.examples.negative %}
-            {% include "sm-cards/sentiment-example-card.html" with sentiment='negative' examples=covid.examples.negative %}
+          {% if covid.tw_examples.negative %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='negative' examples=covid.tw_examples.negative type='tweet' %}
           {% endif %}
-          {% if covid.examples.neutral %}
-            {% include "sm-cards/sentiment-example-card.html" with sentiment='neutral' examples=covid.examples.neutral %}
+          {% if covid.tw_examples.neutral %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='neutral' examples=covid.tw_examples.neutral type='tweet' %}
+          {% endif %}
+        </div>
+        <div class="examples-3 flex-rows">
+          {% if covid.re_examples.positive %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='positive' examples=covid.re_examples.positive type='reddit' %}
+          {% endif %}
+          {% if covid.re_examples.negative %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='negative' examples=covid.re_examples.negative type='reddit' %}
+          {% endif %}
+          {% if covid.re_examples.neutral %}
+            {% include "sm-cards/sentiment-example-card.html" with sentiment='neutral' examples=covid.re_examples.neutral type='reddit' %}
           {% endif %}
         </div>
         <div class="flex-rows row-2">

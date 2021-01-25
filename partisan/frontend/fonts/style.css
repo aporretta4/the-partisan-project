@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('./icomoon.eot?j3spce');
-  src:  url('./icomoon.eot?j3spce#iefix') format('embedded-opentype'),
-    url('./icomoon.ttf?j3spce') format('truetype'),
-    url('./icomoon.woff?j3spce') format('woff'),
-    url('./icomoon.svg?j3spce#icomoon') format('svg');
+  src:  url('./icomoon.eot?lr07bt');
+  src:  url('./icomoon.eot?lr07bt#iefix') format('embedded-opentype'),
+    url('./icomoon.ttf?lr07bt') format('truetype'),
+    url('./icomoon.woff?lr07bt') format('woff'),
+    url('./icomoon.svg?lr07bt#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-reddit:before {
+  content: "\e903";
+}
+.icon-brand:before {
+  content: "\e903";
+}
+.icon-social:before {
+  content: "\e903";
+}
 .icon-arrow-down:before {
   content: "\e900";
 }

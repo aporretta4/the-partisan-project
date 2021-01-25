@@ -1,0 +1,12 @@
+.reddit-card {
+  &::before{
+    content: "\e903";
+    color: $black;
+    font-family: $icon-font;
+    font-size: em(30);
+    position: absolute;
+    color: $dark-purple;
+    display: inline-block;
+    text-align: center;
+  }
+}
