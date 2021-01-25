@@ -1,4 +1,4 @@
-.tweet-container {
+.sentiment-example-card {
   background-color: $white;
   color: $black;
   padding: em(15);
@@ -20,30 +20,20 @@
     text-align: right;
     color: $dark-purple;
   }
-  .tweets {
-    p.tweet {
+  .examples {
+    p.example {
       margin-top: 0;
       margin-bottom: em(35);
       transition: opacity 0.5s;
       overflow: hidden;
       opacity: 1;
     }
-    p.tweet.hide {
+    p.example.hide {
       margin: 0;
       padding: 0;
       height: 0;
       opacity: 0;
     }
-  }
-  &::before{
-    content: "\e901";
-    color: $black;
-    font-family: $icon-font;
-    font-size: em(30);
-    position: absolute;
-    color: $dark-purple;
-    display: inline-block;
-    text-align: center;
   }
   &::after{
     content: "\e902";
@@ -58,7 +48,7 @@
     bottom: em(3);
     opacity: .4;
   }
-  &.negative-tweet {
+  &.negative-example-card {
     border-color: $rep-red-dark;
     .label,
     .more-card-content,
@@ -67,7 +57,7 @@
       color: $rep-red-dark;
     }
   }
-  &.positive-tweet {
+  &.positive-example-card {
     border-color: $dark-green;
     .label,
     .more-card-content,
@@ -76,7 +66,7 @@
       color: $dark-green;
     }
   }
-  &.neutral-tweet {
+  &.neutral-example-card {
     border-color: $dark-yellow;
     .label,
     .more-card-content,

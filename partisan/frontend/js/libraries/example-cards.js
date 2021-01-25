@@ -3,7 +3,7 @@
   cards.forEach(card => {
     let card_button = card.querySelector('button[data-purpose="example-card-flipper"]');
     card_button.addEventListener('click', (event) => {
-      let hidden_card = card.querySelector('.tweet.hide');
+      let hidden_card = card.querySelector('.example.hide');
       if (hidden_card != null) {
         hidden_card.classList.add('show');
         hidden_card.classList.remove('hide');

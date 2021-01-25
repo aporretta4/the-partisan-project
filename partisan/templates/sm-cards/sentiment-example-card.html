@@ -1,0 +1,15 @@
+<div data-purpose="example-card" class="sentiment-example-card {{ sentiment }}-example-card tweet-card">
+  <p class="h3 label">{{ sentiment|title }}</p>
+  <div class="examples">
+    {% for example in examples %}
+      {% if forloop.counter == 1 %}
+        <p class="example show">{% autoescape off %}{{ example }}{% endautoescape %}</p>
+      {% else %}
+        <p class="example hide">{% autoescape off %}{{ example }}{% endautoescape %}</p>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% if examples|length > 1 %}
+    <button data-purpose="example-card-flipper" class="more-card-content icon-arrow-down"><span class="access-text">See More</span></button>
+  {% endif %}
+</div>
