@@ -809,7 +809,7 @@
                                         ]
                                     ]
                                 },
-                                "mode": "000775",
+                                "mode": "000644",
                                 "owner": "root",
                                 "group": "root"
                             },
