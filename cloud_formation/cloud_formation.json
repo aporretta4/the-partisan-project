@@ -620,28 +620,15 @@
                         {
                             "AllowedHeaders": ["*"],
                             "AllowedMethods": ["GET", "HEAD"],
-                            "AllowedOrigins": [
-                                {
-                                    "Fn::Transform": {
-                                        "Name": "toLower",
-                                        "Parameters": {
-                                            "String": {
-                                                "Fn::Sub": "http://${AWS::StackName}.thepartisanproject.org"
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "Fn::Transform": {
-                                        "Name": "toLower",
-                                        "Parameters": {
-                                            "String": {
-                                                "Fn::Sub": "https://${AWS::StackName}.thepartisanproject.org"
-                                            }
-                                        }
+                            "AllowedOrigins": {
+                                "Fn::Transform": {
+                                    "Name": "getPPAllowedCorsOrigins",
+                                    "Parameters": {
+                                        "StackName": {"Fn::Sub": "${AWS::StackName}"},
+                                        "Env": {"Ref": "EnvironmentType"}
                                     }
                                 }
-                            ],
+                            },
                             "ExposedHeaders": []
                         }
                     ]
