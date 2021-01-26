@@ -805,7 +805,7 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "*/20 * * * * root sh /home/ec2-user/datapull-crontab.sh  > /var/log/datapull.cron.log 2>&1\n"
+                                            "0 * * * * root sh /home/ec2-user/datapull-crontab.sh  > /var/log/datapull.cron.log 2>&1\n"
                                         ]
                                     ]
                                 },
