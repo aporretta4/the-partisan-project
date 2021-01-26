@@ -1502,6 +1502,18 @@
                 }
             }
         },
+        "DBSubnetGroup": {
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "Properties": {
+                "DBSubnetGroupName": {
+                    "Fn::Sub": "${AWS::StackName}-db-subnet-group"
+                },
+                "SubnetIds": {
+                    "Ref": "Subnets"
+                },
+                "DBSubnetGroupDescription": "A subnet group of a Partisan Project environment."
+            }
+        },
         "DBParameterGroup": {
             "Type": "AWS::RDS::DBParameterGroup",
             "Properties": {
@@ -1527,6 +1539,9 @@
                 "VPCSecurityGroups": [{
                     "Ref": "DBSecurityGroup"
                 }],
+                "DBSubnetGroupName": {
+                    "Ref": "DBSubnetGroup"
+                },
                 "DBName": {
                     "Fn::Transform": {
                         "Name": "cleanseMySQLDBBucketName",

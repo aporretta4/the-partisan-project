@@ -1,0 +1,9 @@
+{
+  "Parameters": {
+    "KeyName": "EC2CAN",
+    "OperatorEMail": "angelocp4@gmail.com",
+    "Subnets": "subnet-0f152b041cb28cfe4,subnet-0ab62f8190421d737,subnet-069cff4677a68a68f,subnet-0d1190b6eb0183c71",
+    "VpcId": "vpc-0ba7b8b5dce71290d",
+    "EnvironmentType": "Production"
+  }
+}
