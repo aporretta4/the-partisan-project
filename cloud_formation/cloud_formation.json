@@ -1510,7 +1510,8 @@
                 "Parameters": {
                     "time_zone": "US/Pacific",
                     "character_set_database": "utf8mb4",
-                    "character_set_results": "utf8mb4"
+                    "character_set_results": "utf8mb4",
+                    "log_bin_trust_function_creators": "1"
                 }
             }
         },
