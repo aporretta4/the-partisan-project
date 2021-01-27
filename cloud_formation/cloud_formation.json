@@ -788,6 +788,7 @@
                                         "",
                                         [
                                             "#!/bin/bash\n",
+                                            "source \"/etc/profile.d/custom-envs.sh\"\n",
                                             ". /home/ec2-user/venv/bin/activate\n",
                                             "cd /var/app/current\n",
                                             "python manage.py pull_data\n",
