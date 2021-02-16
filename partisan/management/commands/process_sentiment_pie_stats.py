@@ -1,6 +1,6 @@
 import logging
 from django.core.management.base import BaseCommand, CommandError
-from partisan.p_classes.processors.pie_chart_sentiment_stat import stat_processor
+from partisan.p_classes.processors.sentiment_processor import stat_processor
 from partisan.models import tweet, reddit_comment, reddit_submission, search_term, news
 from partisan.p_classes.exceptions.DataExceptions import DataSourceNotFoundException
 

@@ -793,7 +793,8 @@
                                             "cd /var/app/current\n",
                                             "python manage.py pull_data\n",
                                             "python manage.py process_sentiment_data\n",
-                                            "python manage.py process_sentiment_pie_stats\n"
+                                            "python manage.py process_sentiment_pie_stats\n",
+                                            "python manage.py process_historical_sentiment_data\n"
                                         ]
                                     ]
                                 },

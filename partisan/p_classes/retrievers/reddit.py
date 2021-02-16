@@ -43,6 +43,7 @@ class reddit_retriever:
               term_id=existing_subreddit.id,
               nlp_processed=True,
               pie_stat_processed=True,
+              historical_stat_processed=True,
               created_at=str(dt.replace(tzinfo=timezone.utc))
             )
           else:
