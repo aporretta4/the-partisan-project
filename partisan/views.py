@@ -35,4 +35,7 @@ def index(request):
     pie_chart_sentiment_stat.objects.get(term__term='r/Coronavirus'),
     pie_chart_sentiment_stat.objects.filter(term__term='covid', data_source='tw')[0]
   )
+  blue = sentiment_retriever.getHistoricalSMComparisonLineChartDict('r/politics', 'us politics', sentiment_type='neutral_sentiment_aggregate')
+  print(blue)
+  exit()
   return HttpResponse(tpl.render(context, request))

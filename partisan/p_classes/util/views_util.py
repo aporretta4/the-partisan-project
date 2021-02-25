@@ -1,6 +1,7 @@
 from django.db import models
-from partisan.models import pie_chart_sentiment_stat, data_sources, search_term
+from partisan.models import pie_chart_sentiment_stat, data_sources, search_term, historical_sentiment_stat
 from random import randrange
+from datetime import datetime
 import json
 
 class sentiment_retriever:
@@ -66,6 +67,50 @@ class sentiment_retriever:
         return []
     else:
       return []
+
+  @staticmethod
+  def getAggregateSentimentStatsByMonth(searched_term: str, sentiment_type: str, source: str):
+    aggregate_stats = {}
+    term = search_term.objects.filter(term=searched_term)
+    if term.count() != 0:
+      stats = historical_sentiment_stat.objects.filter(term_id=term[0].id, data_source=source).order_by('month_dt')
+      if stats.count() != 0:
+        for stat in stats:
+          aggregate_stats[stat.month_dt.strftime('%b %Y')] = {
+            'stat': getattr(stat, sentiment_type),
+            'source': stat.data_source
+          }
+    return aggregate_stats
+
+  @staticmethod
+  def getHistoricalSMComparisonLineChartDict(sentiment_type: str, *term_names: str):
+    stats = []
+    datasets = []
+    labels = []
+    for term_name in term_names:
+      stat_datapoints = sentiment_retriever.getAggregateSentimentStatsByMonth(
+        term_name,
+        sentiment_type
+      )
+      if stat_datapoints != False:
+        stats.append(
+          stat_datapoints
+        )
+        datasets.append({
+          'label': data_sources.getSource(list(stat_datapoints)[0].source),
+          'data': [data_point.stat for data_point in stat_datapoints]
+        })
+    biggest_len_index = 0
+    for stat in stats:
+      if len(stat) > biggest_len_index:
+        biggest_len_index = len(stat)
+    for month, stat in stats[biggest_len_index]:
+      labels.append(month)
+    return {
+      'labels': labels,
+      'datasets': datasets
+    }
+
 
   @staticmethod
   def getSentimentPieChartDict(*term_names: str):

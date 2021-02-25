@@ -59,6 +59,41 @@ export const Charter = {
     });
   },
 
+  'createSocialMediaSentimentComparisonLineChart': (chartId, data) => {
+    data.datasets.forEach((v, i) => {
+      let sm_color = Charter.getSocialMediaColor(data.datasets[i].social_media_source);
+      data.datasets[i].backgroundColor = 'rgba(' + sm_color + ', 0.5)';
+      data.datasets[i].borderColor = 'rgba(' + sm_color + ', 1)';
+      data.datasets[i].borderWidth = 1;
+    });
+    new Chart(document.getElementById(chartId), {
+      'type': 'line',
+      'data': data,
+      'options': {
+        'hover': {
+          'mode': 'nearest',
+          'intersect': true
+        },
+        'scales': {
+          'xAxes': [{
+            'display': true,
+            'scaleLabel': {
+              'display': true,
+              'labelString': 'Year and Month'
+            }
+          }],
+          'yAxes': [{
+            'display': true,
+            'scaleLabel': {
+              'display': true,
+              'labelString': 'Sentiment'
+            }
+          }]
+        }
+      }
+    });
+  },
+
   /**
    * Gets a color for a sentiment.
    *
