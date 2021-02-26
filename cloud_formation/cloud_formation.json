@@ -686,7 +686,7 @@
                     }],
                     "DefaultCacheBehavior": {
                         "AllowedMethods": ["GET", "HEAD", "OPTIONS"],
-                        "CachePolicyId": "b2884449-e4de-46a7-ac36-70bc7f1ddd6d",
+                        "CachePolicyId": "6d7abc03-0977-4a8a-b263-4f24d1829909",
                         "OriginRequestPolicyId": "89d9e2b9-42f4-46c2-8568-33d54253d9f3",
                         "TargetOriginId": {
                             "Fn::GetAtt": ["StaticFilesBucket", "Arn"]
