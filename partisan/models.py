@@ -173,8 +173,9 @@ class pull_configuration(models.Model):
         return self.term_name + ' (from ' + data_sources.getSource(key=self.data_source) + ')'
 
     def validate_unique(self, exclude):
-        if len(pull_configuration.objects.filter(term_name=self.term_name, data_source=self.data_source)) > 0:
-            raise ValidationError(message='Sorry, couldn\'t save! A pull config with the term "' + self.term_name + '" and the source "' + data_sources.getSource(key=self.data_source) + '" already exists!')
+        if self.id == None:
+            if len(pull_configuration.objects.filter(term_name=self.term_name, data_source=self.data_source)) > 0:
+                raise ValidationError(message='Sorry, couldn\'t save! A pull config with the term "' + self.term_name + '" and the source "' + data_sources.getSource(key=self.data_source) + '" already exists!')
         return super().validate_unique(exclude=exclude)
 
 class sentiment_process_configuration(models.Model):
