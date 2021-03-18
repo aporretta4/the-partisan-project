@@ -59,16 +59,27 @@ export const Charter = {
     });
   },
 
+  /**
+   * Builds a historical sentiment chart
+   *
+   * @param chardId
+   *   The ID attribute of the canvas tag you want to turn into a chart.
+   * @param data
+   *   An object containing graph labels and datasets.
+   */
   'createSocialMediaSentimentComparisonLineChart': (chartId, data) => {
-    data.datasets.forEach((v, i) => {
-      let sm_color = Charter.getSocialMediaColor(data.datasets[i].social_media_source);
+    let i = 0;
+    for (i = 0; i < data.datasets.length; i++) {
+      let sm_color = Charter.getSocialMediaColor(data.datasets[i].label);
       data.datasets[i].backgroundColor = 'rgba(' + sm_color + ', 0.5)';
       data.datasets[i].borderColor = 'rgba(' + sm_color + ', 1)';
-      data.datasets[i].borderWidth = 1;
-    });
+    }
     new Chart(document.getElementById(chartId), {
       'type': 'line',
-      'data': data,
+      'data': {
+        'labels': data.labels,
+        'datasets': data.datasets,
+      },
       'options': {
         'hover': {
           'mode': 'nearest',

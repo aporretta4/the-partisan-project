@@ -83,6 +83,10 @@
           {% include "visualizations/pie-chart.html" with canvas_id='us-politics-sentiment' title='Sentiment of Conversations Regarding US Politics (as a percentage):' data=us_politics.sentiment_pie %}
           {% include "visualizations/vertical-bar-chart.html" with canvas_id="us-politics-social-media-sentiment-comparison" title="Sentiment of Conversations Between Social Media Platforms for US Politics:" data=us_politics.sm_comparison %}
         </div>
+        <div class="flex-rows row-2">
+          {% include "visualizations/sm-sentiment-comparison-chart.html" with canvas_id="us-politics-pos-historical-sentiment" title="Historical Positive Sentiment around US Politics (as a percentage):" data=us_politics.historical_positive_comparison %}
+          {% include "visualizations/sm-sentiment-comparison-chart.html" with canvas_id="us-politics-neg-historical-sentiment" title="Historical Negative Sentiment around US Politics (as a percentage):" data=us_politics.historical_negative_comparison %}
+        </div>
         <!-- UK Politics -->
         <div class="divider">UK Politics</div>
         <p class="h3">Examples of what counts as a "Positive", "Negative", and "Neutral" opinion/statement regarding UK politics:</p>
@@ -111,6 +115,10 @@
         <div class="flex-rows row-2">
           {% include "visualizations/pie-chart.html" with canvas_id='uk-politics-sentiment' title='Sentiment of Conversations Regarding UK Politics (as a percentage):' data=uk_politics.sentiment_pie %}
           {% include "visualizations/vertical-bar-chart.html" with canvas_id="uk-politics-social-media-sentiment-comparison" title="Sentiment of Conversations Between Social Media Platforms for UK Politics:" data=uk_politics.sm_comparison %}
+        </div>
+        <div class="flex-rows row-2">
+          {% include "visualizations/sm-sentiment-comparison-chart.html" with canvas_id="uk-politics-pos-historical-sentiment" title="Historical Positive Sentiment around UK Politics (as a percentage):" data=uk_politics.historical_positive_comparison %}
+          {% include "visualizations/sm-sentiment-comparison-chart.html" with canvas_id="uk-politics-neg-historical-sentiment" title="Historical Negative Sentiment around UK Politics (as a percentage):" data=uk_politics.historical_negative_comparison %}
         </div>
       </div>
     </div>
@@ -146,6 +154,10 @@
         <div class="flex-rows row-2">
           {% include "visualizations/pie-chart.html" with canvas_id='covid-sentiment' title='Sentiment of Conversations Covid-19 (as a percentage):' data=covid.sentiment_pie %}
           {% include "visualizations/vertical-bar-chart.html" with canvas_id="covid-social-media-sentiment-comparison" title="Sentiment of Conversations Between Social Media Platforms for Coronavirus:" data=covid.sm_comparison %}
+        </div>
+        <div class="flex-rows row-2">
+          {% include "visualizations/sm-sentiment-comparison-chart.html" with canvas_id="covid-pos-historical-sentiment" title="Historical Positive Sentiment around Covid-19 (as a percentage):" data=covid.historical_positive_comparison %}
+          {% include "visualizations/sm-sentiment-comparison-chart.html" with canvas_id="covid-neg-historical-sentiment" title="Historical Negative Sentiment around Covid-19 (as a percentage):" data=covid.historical_negative_comparison %}
         </div>
       </div>
     </div>

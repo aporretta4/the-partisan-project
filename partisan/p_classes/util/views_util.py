@@ -69,47 +69,46 @@ class sentiment_retriever:
       return []
 
   @staticmethod
-  def getAggregateSentimentStatsByMonth(searched_term: str, sentiment_type: str, source: str):
-    aggregate_stats = {}
+  def getAggregateSentimentStatsByMonth(searched_term: str, source: str, sentiment_type: str,):
+    aggregate_stats = []
     term = search_term.objects.filter(term=searched_term)
     if term.count() != 0:
       stats = historical_sentiment_stat.objects.filter(term_id=term[0].id, data_source=source).order_by('month_dt')
       if stats.count() != 0:
         for stat in stats:
-          aggregate_stats[stat.month_dt.strftime('%b %Y')] = {
+          aggregate_stats.append({
             'stat': getattr(stat, sentiment_type),
-            'source': stat.data_source
-          }
+            'source': stat.data_source,
+            'datetime': stat.month_dt
+          })
     return aggregate_stats
 
   @staticmethod
-  def getHistoricalSMComparisonLineChartDict(sentiment_type: str, *term_names: str):
-    stats = []
+  def getHistoricalSentimentComparisonLineChartDict(term_tuples: list, sentiment_type: str):
     datasets = []
     labels = []
-    for term_name in term_names:
+    formatted_labels = []
+    for term_tuple in term_tuples:
       stat_datapoints = sentiment_retriever.getAggregateSentimentStatsByMonth(
-        term_name,
+        term_tuple[0],
+        term_tuple[1],
         sentiment_type
       )
       if stat_datapoints != False:
-        stats.append(
-          stat_datapoints
-        )
         datasets.append({
-          'label': data_sources.getSource(list(stat_datapoints)[0].source),
-          'data': [data_point.stat for data_point in stat_datapoints]
+          'label': data_sources.getSource(list(stat_datapoints)[0]['source']),
+          'data': [str(data_point['stat'] * 100) for data_point in stat_datapoints]
         })
-    biggest_len_index = 0
-    for stat in stats:
-      if len(stat) > biggest_len_index:
-        biggest_len_index = len(stat)
-    for month, stat in stats[biggest_len_index]:
-      labels.append(month)
-    return {
-      'labels': labels,
+        for datapoint in stat_datapoints:
+          labels.append(datapoint['datetime'])
+    labels = sorted(labels)
+    labels = list(dict.fromkeys(labels))
+    for label in labels:
+      formatted_labels.append(label.strftime('%b %Y'))
+    return json.dumps({
+      'labels': formatted_labels,
       'datasets': datasets
-    }
+    })
 
 
   @staticmethod
