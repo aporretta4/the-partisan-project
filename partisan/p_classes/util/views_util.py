@@ -94,7 +94,7 @@ class sentiment_retriever:
         term_tuple[1],
         sentiment_type
       )
-      if stat_datapoints != False:
+      if len(stat_datapoints) != 0:
         datasets.append({
           'label': data_sources.getSource(list(stat_datapoints)[0]['source']),
           'data': [str(data_point['stat'] * 100) for data_point in stat_datapoints]
